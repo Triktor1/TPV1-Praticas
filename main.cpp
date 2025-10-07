@@ -5,6 +5,7 @@
 
 #include <SDL3/SDL.h>
 #include <SDL3_image/SDL_image.h>
+#include "Vector2D.h"
 
 using namespace std;
 
@@ -16,13 +17,14 @@ constexpr uint WIN_HEIGHT = 600;
 
 void firstTest()
 {
+	
 	SDL_Window* window = nullptr;
 	SDL_Renderer* renderer = nullptr;
 
 	SDL_Init(SDL_INIT_VIDEO); // activa SDL (añadir SDL_INIT_AUDIO, etc. si procede)
 
 	// Crea la ventana y el renderizador
-	if (!SDL_CreateWindowAndRenderer("First test with SDL",
+	if (!SDL_CreateWindowAndRenderer("Frogger",
 		WIN_WIDTH, WIN_HEIGHT, 0,
 		&window, &renderer))
 		cout << "Error cargando SDL: " << SDL_GetError() << endl;

@@ -14,6 +14,26 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Frog.cpp" />
+    <ClCompile Include="HomedFrog.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Log.cpp" />
+    <ClCompile Include="src\game.cpp" />
+    <ClCompile Include="src\texture.cpp" />
+    <ClCompile Include="Vehicle.cpp" />
+    <ClCompile Include="Wasp.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Frog.h" />
+    <ClInclude Include="HomedFrog.h" />
+    <ClInclude Include="Log.h" />
+    <ClInclude Include="src\game.h" />
+    <ClInclude Include="src\texture.h" />
+    <ClInclude Include="Vector2D.h" />
+    <ClInclude Include="Vehicle.h" />
+    <ClInclude Include="Wasp.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -93,9 +113,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="src\main.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
