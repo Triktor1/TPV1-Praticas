@@ -7,7 +7,7 @@ enum Type {
 };
 
 struct Collision {
-	Vector2D<int> speed;
-	Type tipo;
+	Vector2D<int> speed = {0, 0};
+	Type tipo = NONE;
 };
 

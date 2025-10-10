@@ -6,17 +6,16 @@ Vehicle::Vehicle(Vector2D<int> sentido, Point2D<int> posicion, Texture* textura,
 	Vehicle::position = posicion;
 	Vehicle::texture = textura;
 	Vehicle::game = game;
+	Vehicle::hitbox = { (float)position.GetX(), (float)position.GetY(),
+						(float)texture->getFrameWidth(), (float)texture->getFrameHeight() };
 }
 
-
-Vector2D<int> GetVehicleSpeed() {
-
-}
-
-Texture* GetVehicleTexture() {
-
-}
 Collision CheckCollision(const SDL_FRect& FRect) {
-	SDL_FRect vehicleRect;
-	SDL_HasRectIntersectionFloat(&FRect, &vehicleRect);
+	Collision collision;
+
+	if (SDL_HasRectIntersectionFloat(&FRect, &vehicleRect))
+		collision.tipo = ENEMY;
+	else collision.tipo = NONE;
+	
+	return collision;
 }

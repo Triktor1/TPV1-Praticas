@@ -12,6 +12,7 @@ private:
 	Texture* texture;
 	Point2D<int> position;
 	Vector2D<int> speed;
+	SDL_FRect hitbox;
 
 public:
 	Vehicle(Vector2D<int> sentido, Point2D<int> posicion, Texture* textura, Game* game);
