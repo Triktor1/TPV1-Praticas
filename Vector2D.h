@@ -1,6 +1,6 @@
 #pragma once
 
-template <typename T>
+template <typename T = float>
 class Vector2D
 {
 private:
@@ -66,6 +66,9 @@ public:
 	T GetY() {
 		return this->y;
 	}
+	using Point2D = Vector2D<T>;
 };
 
-using Point2D = Vector2D<int>;
+template <typename T = float>
+using Point2D = Vector2D<T>;
+

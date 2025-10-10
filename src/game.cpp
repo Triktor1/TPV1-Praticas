@@ -106,3 +106,18 @@ Game::checkCollision(const SDL_FRect& rect) const
 	// TODO:
 	return false;
 }
+
+/*
+
+#include "game.h"
+
+int main(int argc, char* argv[])
+{
+	Game().run();
+
+	// TODO: manejar excepciones
+
+	return 0;
+}
+
+*/
