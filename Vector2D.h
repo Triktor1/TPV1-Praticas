@@ -66,11 +66,11 @@ public:
 		return out << '{' << v.x << ", " << v.y << '}';
 	}
 
-	T GetX() {
+	T GetX() const{
 		return this->x;
 	}
 
-	T GetY() {
+	T GetY() const{
 		return this->y;
 	}
 	using Point2D = Vector2D<T>;

@@ -25,6 +25,7 @@
     <ClCompile Include="Wasp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Collision.h" />
     <ClInclude Include="Frog.h" />
     <ClInclude Include="HomedFrog.h" />
     <ClInclude Include="Log.h" />

@@ -5,6 +5,7 @@
 #include <SDL3_image/SDL_image.h>
 
 #include "texture.h"
+#include "../Vehicle.h"
 
 using namespace std;
 
@@ -21,7 +22,7 @@ struct TextureSpec
 	int ncols = 1;
 };
 
-constexpr const char* imgBase = "../assets/images/";
+constexpr const char* imgBase = "assets/images/";
 
 constexpr array<TextureSpec, Game::NUM_TEXTURES> textureList{
 	TextureSpec{"frog.png", 1, 2},
@@ -59,6 +60,9 @@ Game::Game()
 
 Game::~Game()
 {
+	for (size_t i = 0; i < textures.size(); i++) {
+		delete Game::textures[i];
+	}
 	// TODO: liberar memoria reservada por la clase
 }
 
@@ -68,7 +72,8 @@ Game::render() const
 	SDL_RenderClear(renderer);
 
 	// TODO
-
+	getTexture(BACKGROUND)->render();
+	
 	SDL_RenderPresent(renderer);
 }
 
@@ -82,7 +87,9 @@ void
 Game::run()
 {
 	while (!exit) {
-		// TODO
+		update();
+		//checkCollision();
+		render();
 	}
 }
 
