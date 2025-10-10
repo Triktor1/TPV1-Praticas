@@ -1,4 +1,7 @@
-#pragma once
+#ifndef VECTOR2D_H
+#define VECTOR2D_H
+
+#include <iostream>
 
 template <typename T = float>
 class Vector2D
@@ -59,6 +62,10 @@ public:
 		return r;
 	}
 
+	friend std::ostream& operator<<(std::ostream& out, const Vector2D& v) {
+		return out << '{' << v.x << ", " << v.y << '}';
+	}
+
 	T GetX() {
 		return this->x;
 	}
@@ -72,3 +79,4 @@ public:
 template <typename T = float>
 using Point2D = Vector2D<T>;
 
+#endif

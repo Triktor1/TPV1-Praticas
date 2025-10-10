@@ -6,6 +6,7 @@
 #include <SDL3/SDL.h>
 #include <SDL3_image/SDL_image.h>
 #include "Vector2D.h"
+#include "src/game.h"
 
 using namespace std;
 
@@ -45,6 +46,6 @@ void firstTest()
 
 int main(int argc, char* argv[])
 {
-	firstTest();
+	Game().run();
 	return 0;
 }
