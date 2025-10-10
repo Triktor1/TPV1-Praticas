@@ -9,12 +9,15 @@ Vehicle::Vehicle(Vector2D<int> sentido, Point2D<int> posicion, Texture* textura,
 	hitbox = { (float)position.GetX(), (float)position.GetY(),
 						(float)texture->getFrameWidth(), (float)texture->getFrameHeight() };
 }
+
 void Vehicle::Render() const {
 	
 }
+
 void Vehicle::Update() {
-	
+	position = {position.GetX() + speed.GetX(), position.GetY() + speed.GetY()};
 }
+
 Collision Vehicle::CheckCollision(const SDL_FRect& FRect) {
 	Collision collision;
 	SDL_FRect col{ position.GetX(), position.GetY(), texture->getFrameWidth(), texture->getFrameHeight() };
