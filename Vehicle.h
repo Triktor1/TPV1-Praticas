@@ -3,8 +3,11 @@
 #include "src/texture.h"
 #include "Vector2D.h"
 #include "Collision.h"
+#include "src/game.h"
 
 class Game;
+class Collision;
+
 class Vehicle
 {
 private:
@@ -12,10 +15,9 @@ private:
 	Texture* texture;
 	Point2D<int> position;
 	Vector2D<int> speed;
-	SDL_FRect hitbox;
 
 public:
-	Vehicle(Vector2D<int> sentido, Point2D<int> posicion, Texture* textura, Game* game);
+	Vehicle(Vector2D<int>, Point2D<int>, Texture*, Game*);
 
 	void Render() const;
 	void Update();

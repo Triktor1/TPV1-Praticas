@@ -5,9 +5,11 @@
 #include <array>
 #include <istream>
 #include <vector>
+#include "../Vehicle.h"
 
 // Declaraciones anticipadas
 class Texture;
+class Vehicle;
 
 /**
  * Clase principal del juego.
@@ -22,11 +24,18 @@ public:
 	static constexpr int WINDOW_HEIGHT = 484;
 	// Extremo inferior del río
 	static constexpr int RIVER_LOW = 210;
+	
+	Vehicle *car1, *car2, *car3;
 
 	enum TextureName
 	{
 		FROG = 0,
 		BACKGROUND,
+		CAR1, CAR2, CAR3, CAR4, CAR5,
+		GOAL,
+		LOG1, LOG2,
+		TURTLE,
+		WASP,
 		NUM_TEXTURES
 	};
 

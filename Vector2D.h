@@ -20,12 +20,12 @@ public:
 		y = 0;
 	}
 
-	Vector2D operator=(const Vector2D& vector) const {
-		Vector2D r;
-		r.x = vector.x;
-		r.y = vector.y;
-		return r;
-	}
+	//Vector2D operator=(const Vector2D& vector) const {
+	//	Vector2D r;
+	//	r.x = vector.x;
+	//	r.y = vector.y;
+	//	return r;
+	//}
 
 	Vector2D operator+(const Vector2D& vector) const{
 		Vector2D r;

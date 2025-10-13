@@ -1,21 +1,25 @@
 #include "Vehicle.h"
 #include "src/texture.h"
 
-Vehicle::Vehicle(Vector2D<int> sentido, Point2D<int> posicion, Texture* textura, Game* juego) {
-	speed = sentido;
-	position = posicion;
-	texture = textura;
-	game = juego;
-	hitbox = { (float)position.GetX(), (float)position.GetY(),
-						(float)texture->getFrameWidth(), (float)texture->getFrameHeight() };
+
+Vehicle::Vehicle(Vector2D<int> sentido, Point2D<int> posicion, Texture* textura, Game* juego) :
+	speed(sentido),
+	position(posicion),
+	texture(textura),
+	game(juego)
+{
+
 }
 
 void Vehicle::Render() const {
-	
+	SDL_FRect hitbox = { (float)position.GetX(), (float)position.GetY(),
+				(float)texture->getFrameWidth(), (float)texture->getFrameHeight() };
+	texture->renderFrame(hitbox, 0, 0);
 }
 
 void Vehicle::Update() {
-	position = {position.GetX() + speed.GetX(), position.GetY() + speed.GetY()};
+	position = position + speed * (game->FRAME_RATE/1000.0);
+	if (position.GetX() < -150) position = {position.GetX() + 150 + game->WINDOW_WIDTH , position.GetY()};
 }
 
 Collision Vehicle::CheckCollision(const SDL_FRect& FRect) {
