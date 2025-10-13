@@ -1,5 +1,5 @@
 #include "Vehicle.h"
-#include "src/texture.h"
+#include "texture.h"
 
 
 Vehicle::Vehicle(Vector2D<int> sentido, Point2D<int> posicion, Texture* textura, Game* juego) :

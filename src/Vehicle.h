@@ -1,9 +1,9 @@
 #pragma once
 //#include "src/game.h"
-#include "src/texture.h"
+#include "texture.h"
 #include "Vector2D.h"
 #include "Collision.h"
-#include "src/game.h"
+#include "game.h"
 
 class Game;
 class Collision;

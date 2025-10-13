@@ -6,7 +6,7 @@
 #include <SDL3/SDL.h>
 #include <SDL3_image/SDL_image.h>
 #include "Vector2D.h"
-#include "src/game.h"
+#include "game.h"
 #include "Vehicle.h"
 
 using namespace std;

@@ -15,25 +15,25 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Frog.cpp" />
-    <ClCompile Include="HomedFrog.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Log.cpp" />
+    <ClCompile Include="src\Frog.cpp" />
     <ClCompile Include="src\game.cpp" />
+    <ClCompile Include="src\HomedFrog.cpp" />
+    <ClCompile Include="src\Log.cpp" />
+    <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\texture.cpp" />
-    <ClCompile Include="Vehicle.cpp" />
-    <ClCompile Include="Wasp.cpp" />
+    <ClCompile Include="src\Vehicle.cpp" />
+    <ClCompile Include="src\Wasp.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Collision.h" />
-    <ClInclude Include="Frog.h" />
-    <ClInclude Include="HomedFrog.h" />
-    <ClInclude Include="Log.h" />
+    <ClInclude Include="src\Collision.h" />
+    <ClInclude Include="src\Frog.h" />
     <ClInclude Include="src\game.h" />
+    <ClInclude Include="src\HomedFrog.h" />
+    <ClInclude Include="src\Log.h" />
     <ClInclude Include="src\texture.h" />
-    <ClInclude Include="Vector2D.h" />
-    <ClInclude Include="Vehicle.h" />
-    <ClInclude Include="Wasp.h" />
+    <ClInclude Include="src\Vector2D.h" />
+    <ClInclude Include="src\Vehicle.h" />
+    <ClInclude Include="src\Wasp.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

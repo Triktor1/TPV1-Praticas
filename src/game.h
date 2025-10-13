@@ -5,7 +5,7 @@
 #include <array>
 #include <istream>
 #include <vector>
-#include "../Vehicle.h"
+#include "Vehicle.h"
 
 // Declaraciones anticipadas
 class Texture;

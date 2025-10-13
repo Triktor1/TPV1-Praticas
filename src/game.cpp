@@ -6,11 +6,13 @@
 
 #include "texture.h"
 
+#include <iostream>
+#include <fstream>
 using namespace std;
 
 // Constantes
 constexpr const char* const WINDOW_TITLE = "Frogger 1.0";
-constexpr const char* const MAP_FILE = "../assets/maps/default.txt";
+constexpr const char* const MAP_FILE = "assets/maps/default.txt";
 
 // Estructura para especificar las texturas que hay que
 // cargar y el tamaño de su matriz de frames
@@ -39,15 +41,15 @@ constexpr array<TextureSpec, Game::NUM_TEXTURES> textureList{
 };
 
 Game::Game()
-  : exit(false)
+	: exit(false)
 {
 	// Carga SDL y sus bibliotecas auxiliares
 	SDL_Init(SDL_INIT_VIDEO);
 
 	window = SDL_CreateWindow(WINDOW_TITLE,
-	                          WINDOW_WIDTH,
-	                          WINDOW_HEIGHT,
-	                          0);
+		WINDOW_WIDTH,
+		WINDOW_HEIGHT,
+		0);
 
 	if (window == nullptr)
 		throw "window: "s + SDL_GetError();
@@ -63,31 +65,70 @@ Game::Game()
 		textures[i] = new Texture(renderer, (string(imgBase) + name).c_str(), nrows, ncols);
 	}
 
-	vehicles.push_back(new Vehicle{ Vector2D<int>{-48, 0}, Point2D<int>{50, 372},   getTexture(CAR1), this });
-	vehicles.push_back(new Vehicle{ Vector2D<int>{-48, 0}, Point2D<int>{200, 372},  getTexture(CAR1), this});
-	vehicles.push_back(new Vehicle{ Vector2D<int>{-48, 0}, Point2D<int>{350, 372},  getTexture(CAR1), this});
-	vehicles.push_back(new Vehicle{ Vector2D<int>{48, 0},  Point2D<int>{25, 342},   getTexture(CAR2), this});
-	vehicles.push_back(new Vehicle{ Vector2D<int>{48, 0},  Point2D<int>{175, 342},  getTexture(CAR2), this});
-	vehicles.push_back(new Vehicle{ Vector2D<int>{48, 0},  Point2D<int>{325, 342},  getTexture(CAR2), this});
-	vehicles.push_back(new Vehicle{ Vector2D<int>{-72, 0}, Point2D<int>{175, 312},  getTexture(CAR3), this});
-	vehicles.push_back(new Vehicle{ Vector2D<int>{-72, 0}, Point2D<int>{325, 312},  getTexture(CAR3), this});
-	vehicles.push_back(new Vehicle{ Vector2D<int>{-72, 0}, Point2D<int>{475, 312},  getTexture(CAR3), this});
-	vehicles.push_back(new Vehicle{ Vector2D<int>{48, 0},  Point2D<int>{150, 280},  getTexture(CAR4), this});
-	vehicles.push_back(new Vehicle{ Vector2D<int>{48, 0},  Point2D<int>{0, 280},    getTexture(CAR4), this});
-	vehicles.push_back(new Vehicle{ Vector2D<int>{48, 0},  Point2D<int>{-150, 280}, getTexture(CAR4), this});
-	vehicles.push_back(new Vehicle{ Vector2D<int>{-72, 0}, Point2D<int>{165, 252},  getTexture(CAR5), this});
-	vehicles.push_back(new Vehicle{ Vector2D<int>{-72, 0}, Point2D<int>{365, 252},  getTexture(CAR5), this});
+	//Variables para leer el archivo
+	fstream file(MAP_FILE);
+	char objType, c_sprType;
+	TextureName sprType;
+	int pointX, pointY, directionX;
+	bool validType;
+	if (!file) {
+		cout << "No se ha encontrado el archivo." << endl;
+	}
+	else {
+		while (file >> objType) { //Asumo que el archivo tendrá el formato correcto
+			if (objType == 'V' || objType == 'L' || objType == 'F') {
+
+				file >> pointX;
+				file >> pointY;
+				file >> directionX;
+				file >> c_sprType;
+
+				switch (objType) {
+				case 'V':
+					switch (c_sprType) {
+					case '1': sprType = CAR1; break;
+					case '2': sprType = CAR2; break;
+					case '3': sprType = CAR3; break;
+					case '4': sprType = CAR4; break;
+					case '5': sprType = CAR5; break;
+					default:  sprType = CAR1; break;
+					}
+					vehicles.push_back(new Vehicle{ Vector2D<int>(directionX, 0), Point2D<int>(pointX, pointY), getTexture(sprType), this });
+					break;
+				case 'L':
+					switch (c_sprType) {
+					case '0': sprType = LOG1; break;
+					case '1': sprType = LOG2; break;
+					}
+					//logs.push_back(new Log{to el tinglao});
+					break;
+				case 'F':
+					break;
+				default:
+					break;
+				}
+			}
+			else {
+				string a;
+				std::getline(file, a);
+			}
+		}
+	}
+	file.close();
+
 	// Configura que se pueden utilizar capas translúcidas
 	// SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 }
 
 Game::~Game()
 {
-	for (size_t i = 0; i < textures.size(); i++) {
-		delete Game::textures[i];
+	for (Texture* t : textures) {
+		delete t;
+		t = nullptr;
 	}
-	for (int i = 0; i < vehicles.size(); i++) {
-		delete vehicles[i];
+	for (Vehicle* e : vehicles) {
+		delete e;
+		e = nullptr;
 	}
 	// TODO: liberar memoria reservada por la clase
 }
@@ -102,8 +143,8 @@ Game::render() const
 	for (int i = 0; i < vehicles.size(); i++) {
 		vehicles[i]->Render();
 	}
-	
-	
+
+
 	SDL_RenderPresent(renderer);
 }
 
