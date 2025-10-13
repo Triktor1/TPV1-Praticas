@@ -67,7 +67,17 @@ Game::Game()
 	car1 = new Vehicle( Vector2D<int>{-48, 0}, Point2D<int>{50, 372},  getTexture(CAR1), this);
 	car2 = new Vehicle{ Vector2D<int>{-48, 0}, Point2D<int>{200, 372},  getTexture(CAR1), this};
 	car3 = new Vehicle{ Vector2D<int>{-48, 0}, Point2D<int>{350, 372},  getTexture(CAR1), this};
-
+	car4 = new Vehicle{ Vector2D<int>{48, 0}, Point2D<int>{25, 342},  getTexture(CAR2), this};
+	car5 = new Vehicle{ Vector2D<int>{48, 0}, Point2D<int>{175, 342},  getTexture(CAR2), this};
+	car6 = new Vehicle{ Vector2D<int>{48, 0}, Point2D<int>{325, 342},  getTexture(CAR2), this};
+	car7 = new Vehicle{ Vector2D<int>{-72, 0}, Point2D<int>{175, 312},  getTexture(CAR3), this};
+	car8 = new Vehicle{ Vector2D<int>{-72, 0}, Point2D<int>{325, 312},  getTexture(CAR3), this};
+	car9 = new Vehicle{ Vector2D<int>{-72, 0}, Point2D<int>{475, 312},  getTexture(CAR3), this};
+	car10 = new Vehicle{ Vector2D<int>{48, 0}, Point2D<int>{150, 280},  getTexture(CAR4), this};
+	car11 = new Vehicle{ Vector2D<int>{48, 0}, Point2D<int>{0, 280},  getTexture(CAR4), this};
+	car12 = new Vehicle{ Vector2D<int>{48, 0}, Point2D<int>{-150, 280},  getTexture(CAR4), this};
+	car13 = new Vehicle{ Vector2D<int>{-72, 0}, Point2D<int>{165, 252},  getTexture(CAR5), this};
+	car14 = new Vehicle{ Vector2D<int>{-72, 0}, Point2D<int>{365, 252},  getTexture(CAR5), this};
 	// Configura que se pueden utilizar capas translúcidas
 	// SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 }
@@ -80,6 +90,17 @@ Game::~Game()
 	delete car1;
 	delete car2;
 	delete car3;
+	delete car4;
+	delete car5;
+	delete car6;
+	delete car7;
+	delete car8;
+	delete car9;
+	delete car10;
+	delete car11;
+	delete car12;
+	delete car13;
+	delete car14;
 	// TODO: liberar memoria reservada por la clase
 }
 
@@ -93,6 +114,17 @@ Game::render() const
 	car1->Render();
 	car2->Render();
 	car3->Render();
+	car4->Render();
+	car5->Render();
+	car6->Render();
+	car7->Render();
+	car8->Render();
+	car9->Render();
+	car10->Render();
+	car11->Render();
+	car12->Render();
+	car13->Render();
+	car14->Render();
 	
 	
 	SDL_RenderPresent(renderer);
@@ -104,6 +136,17 @@ Game::update()
 	car1->Update();
 	car2->Update();
 	car3->Update();
+	car4->Update();
+	car5->Update();
+	car6->Update();
+	car7->Update();
+	car8->Update();
+	car9->Update();
+	car10->Update();
+	car11->Update();
+	car12->Update();
+	car13->Update();
+	car14->Update();
 	// TODO
 }
 

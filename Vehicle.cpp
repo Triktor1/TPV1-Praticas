@@ -19,7 +19,8 @@ void Vehicle::Render() const {
 
 void Vehicle::Update() {
 	position = position + speed * (game->FRAME_RATE/1000.0);
-	if (position.GetX() < -150) position = {position.GetX() + 150 + game->WINDOW_WIDTH , position.GetY()};
+	if (position.GetX() < -150) position = { position.GetX() + 150 + game->WINDOW_WIDTH , position.GetY() };
+	else if (position.GetX() > game->WINDOW_WIDTH) position = { position.GetX() - 150 - game->WINDOW_WIDTH, position.GetY()};
 }
 
 Collision Vehicle::CheckCollision(const SDL_FRect& FRect) {

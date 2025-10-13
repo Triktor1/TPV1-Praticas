@@ -25,7 +25,7 @@ public:
 	// Extremo inferior del río
 	static constexpr int RIVER_LOW = 210;
 	
-	Vehicle *car1, *car2, *car3;
+	Vehicle *car1, *car2, *car3, *car4, *car5, *car6, *car7, *car8, *car9, *car10, *car11, *car12, *car13, *car14;
 
 	enum TextureName
 	{
