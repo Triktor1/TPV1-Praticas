@@ -1,5 +1,4 @@
 #pragma once
-//#include "src/game.h"
 #include "texture.h"
 #include "Vector2D.h"
 #include "Collision.h"
@@ -13,11 +12,11 @@ class Vehicle
 private:
 	Game* game;
 	Texture* texture;
-	Point2D<int> position;
-	Vector2D<int> speed;
+	Point2D<float> position;
+	Vector2D<float> speed;
 
 public:
-	Vehicle(Vector2D<int>, Point2D<int>, Texture*, Game*);
+	Vehicle(Vector2D<float>, Point2D<float>, Texture*, Game*);
 
 	void Render() const;
 	void Update();

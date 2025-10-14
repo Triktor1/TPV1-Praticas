@@ -70,13 +70,12 @@ Game::Game()
 	char objType, c_sprType;
 	TextureName sprType;
 	int pointX, pointY, directionX;
-	bool validType;
 	if (!file) {
 		cout << "No se ha encontrado el archivo." << endl;
 	}
 	else {
 		while (file >> objType) { //Asumo que el archivo tendrá el formato correcto
-			if (objType == 'V' || objType == 'L' || objType == 'F') {
+			if (objType == 'V' || objType == 'L') {
 
 				file >> pointX;
 				file >> pointY;
@@ -93,20 +92,24 @@ Game::Game()
 					case '5': sprType = CAR5; break;
 					default:  sprType = CAR1; break;
 					}
-					vehicles.push_back(new Vehicle{ Vector2D<int>(directionX, 0), Point2D<int>(pointX, pointY), getTexture(sprType), this });
+					vehicles.push_back(new Vehicle{ Vector2D<float>(directionX, 0), Point2D<float>(pointX, pointY), getTexture(sprType), this });
 					break;
 				case 'L':
 					switch (c_sprType) {
 					case '0': sprType = LOG1; break;
 					case '1': sprType = LOG2; break;
+					default:  sprType = LOG1; break;
 					}
-					//logs.push_back(new Log{to el tinglao});
-					break;
-				case 'F':
+					logs.push_back(new Log{ Vector2D<float>(directionX, 0), Point2D<float>(pointX, pointY), getTexture(sprType), this });
 					break;
 				default:
 					break;
 				}
+			}
+			else if (objType == 'F') {
+				file >> pointX;
+				file >> pointY;
+				frog = new Frog{ Vector2D<float>(0, 0), Point2D<float>(pointX, pointY), 3, getTexture(sprType), this };
 			}
 			else {
 				string a;
@@ -130,6 +133,11 @@ Game::~Game()
 		delete e;
 		e = nullptr;
 	}
+	for (Log* e : logs) {
+		delete e;
+		e = nullptr;
+	}
+	delete frog;
 	// TODO: liberar memoria reservada por la clase
 }
 
@@ -143,7 +151,9 @@ Game::render() const
 	for (int i = 0; i < vehicles.size(); i++) {
 		vehicles[i]->Render();
 	}
-
+	for (int i = 0; i < logs.size(); i++) {
+		logs[i]->Render();
+	}
 
 	SDL_RenderPresent(renderer);
 }
@@ -154,6 +164,10 @@ Game::update()
 	for (int i = 0; i < vehicles.size(); i++) {
 		vehicles[i]->Update();
 	}
+	for (int i = 0; i < logs.size(); i++) {
+		logs[i]->Update();
+	}
+	frog->Update();
 	// TODO
 }
 
