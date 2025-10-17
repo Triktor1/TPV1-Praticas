@@ -17,6 +17,8 @@ class Texture
 	float frameWidth;
 	float frameHeight;
 
+	SDL_FRect getFrameRect(int row, int col) const;
+
 public:
 	Texture(SDL_Renderer* renderer, const char* filename, int rows = 1, int columns = 1);
 	Texture(SDL_Renderer* renderer, SDL_Texture* texture, int rows = 1, int columns = 1);
@@ -24,8 +26,8 @@ public:
 
 	Texture(const Texture&) = delete;
 	Texture& operator=(const Texture&) = delete;
-	Texture(Texture&&);
-	Texture& operator=(Texture&&);
+	Texture(Texture&&) noexcept;
+	Texture& operator=(Texture&&) noexcept;
 
 	/// Width of a frame in pixels
 	int getFrameWidth() const;

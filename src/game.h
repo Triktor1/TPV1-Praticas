@@ -35,7 +35,6 @@ public:
 		FROG = 0,
 		BACKGROUND,
 		CAR1, CAR2, CAR3, CAR4, CAR5,
-		GOAL,
 		LOG1, LOG2,
 		TURTLE,
 		WASP,

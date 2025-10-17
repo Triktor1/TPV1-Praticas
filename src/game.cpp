@@ -33,7 +33,6 @@ constexpr array<TextureSpec, Game::NUM_TEXTURES> textureList{
 	{"car3.png"},
 	{"car4.png"},
 	{"car5.png"},
-	{"goal.png"},
 	{"log1.png"},
 	{"log2.png"},
 	{"turtle.png", 1, 7},

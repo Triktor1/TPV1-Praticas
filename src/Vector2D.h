@@ -59,6 +59,8 @@ public:
 		return out << '{' << v.x << ", " << v.y << '}';
 	}
 
+	const T& getX() const { return x; }
+
 	T GetX() const{
 		return this->x;
 	}
