@@ -15,6 +15,8 @@ private:
 	Point2D<float> position;
 	Vector2D<float> lastDir;
 	int health = 3;
+	int anim;
+	double angle;
 
 public:
 	Frog(Vector2D<float>, Point2D<float>, int, Texture*, Game*);

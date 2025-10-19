@@ -125,7 +125,7 @@ Texture::renderFrame(const SDL_FRect& rect,
                      SDL_FlipMode flip) const
 {
 	SDL_FRect origin = getFrameRect(row, col);
-	SDL_RenderTexture(renderer, texture, &origin, &rect);
+	SDL_RenderTextureRotated(renderer, texture, &origin, &rect, angle, center, flip);
 }
 
 void
