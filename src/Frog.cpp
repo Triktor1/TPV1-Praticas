@@ -23,6 +23,7 @@ void Frog::Render() const {
 
 void Frog::Update() {
 	const float step = 1070.50f;
+	static int jumpFrames = 0;
 	float maxX = Game::WINDOW_WIDTH - (float)texture->getFrameWidth();
 	float maxY = Game::WINDOW_HEIGHT - (float)texture->getFrameHeight();
 	if (lastDir.GetX() != 0 || lastDir.GetY() != 0) {
@@ -33,13 +34,16 @@ void Frog::Update() {
 		{
 			anim = 1; 
 			position = position + lastDir * step * (game->FRAME_RATE / 1000.0);
+			jumpFrames = 3;
 		}
 		
 		lastDir = Vector2D<float>(0, 0);
 		 
 	}
 	else {
-		anim = 0;		
+		jumpFrames--;
+		if (jumpFrames == 0) anim = 0;
+	
 	}
 	std::cout << position.GetX() << " " << position.GetY() << std::endl;
 }
