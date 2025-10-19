@@ -108,6 +108,7 @@ Game::Game()
 			else if (objType == 'F') {
 				file >> pointX;
 				file >> pointY;
+				sprType = FROG;
 				frog = new Frog{ Vector2D<float>(0, 0), Point2D<float>(pointX, pointY), 3, getTexture(sprType), this };
 			}
 			else {
@@ -153,6 +154,7 @@ Game::render() const
 	for (int i = 0; i < logs.size(); i++) {
 		logs[i]->Render();
 	}
+	frog->Frog::Render();
 
 	SDL_RenderPresent(renderer);
 }
@@ -192,6 +194,7 @@ Game::handleEvents()
 		if (event.type == SDL_EVENT_QUIT)
 			exit = true;
 
+		frog->HandleEvent(event);
 		// TODO
 	}
 }
