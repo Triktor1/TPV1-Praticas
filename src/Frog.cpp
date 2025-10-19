@@ -1,5 +1,5 @@
 #include "Frog.h"
-
+#include "game.h"
 
 using namespace std; 
 
@@ -19,9 +19,18 @@ void Frog::Render() const {
 }
 
 void Frog::Update() {
-	const float step = 700.0f;
+	const float step = 1070.50f;
+	float maxX = Game::WINDOW_WIDTH - (float)texture->getFrameWidth();
+	float maxY = Game::WINDOW_HEIGHT - (float)texture->getFrameHeight();
 	if (lastDir.GetX() != 0 || lastDir.GetY() != 0) {
-		position = position + lastDir * step * (game->FRAME_RATE / 1000.0);
+		float newX = position.GetX() + lastDir.GetX() * step * (game->FRAME_RATE / 1000.0);
+		float newY = position.GetY() + lastDir.GetY() * step * (game->FRAME_RATE / 1000.0);
+		if (newX >= 0 && newX <= maxX &&
+			newY >= 0 && newY <= maxY)
+		{
+			position = position + lastDir * step * (game->FRAME_RATE / 1000.0);
+
+		}
 		lastDir = Vector2D<float>(0, 0);
 	}
 	std::cout << position.GetX() << " " << position.GetY() << std::endl;

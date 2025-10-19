@@ -3,7 +3,8 @@
 enum Type {
 	NONE,
 	ENEMY,
-	PLATFORM
+	PLATFORM,
+	HOME
 };
 
 struct Collision {
