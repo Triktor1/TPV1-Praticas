@@ -202,9 +202,60 @@ Game::handleEvents()
 bool
 Game::checkCollision(const SDL_FRect& rect) const
 {
+	
+	/*
+	Este fallaba por lo de la condiciion (no era tipo bool) 
+	for (Log* l : logs) {
+		if  (l-> CheckCollision(rect)) {
+			return true;
+		}
+	}
+	*Al saber la respuesta ya hice esta version utilizando otra forma de recorrido
+	*/
+	for (Log* l : logs) {
+		Collision col = l->CheckCollision(rect);
+		if (col.tipo != NONE) {
+			return true;
+		}
+	}
+
+	for (auto* v : vehicles) {
+		Collision col = v->CheckCollision(rect);
+		if (col.tipo != NONE) {
+			return true;
+			}
+		}	
+			/*for (int i = 0; i < logs.size(); i++) {
+				Collision log = logs[i]->CheckCollision(rect);
+				if (log.tipo != NONE) {
+					return true;
+				}
+
+			}
+			*/
+
+			/*for (int i = 0; i < logs.size(); i++) {
+				Collision col = vehicles[i]->CheckCollision(rect); {
+					if (col.tipo != NONE) {
+						return true;
+					}
+				}
+
+			}
+			*/
+
+			/*for (auto* v : vehicles) {
+				if (v->CheckCollision(rect)) {
+					return true;
+				}
+			}
+			*/
+
+
 	// Si no hay colisión
-	return false;
+   return false;
 }
+
 
 /*
 
@@ -220,3 +271,4 @@ int main(int argc, char* argv[])
 }
 
 */
+

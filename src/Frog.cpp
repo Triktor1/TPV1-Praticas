@@ -10,7 +10,8 @@ Frog::Frog(Vector2D<float> lastDir, Point2D<float> position, int health, Texture
 	texture(texture),
 	game(game),
 	anim(0),
-	angle(0.0)
+	angle(0.0),
+	hitbox()
 {
 }
 
@@ -35,8 +36,9 @@ void Frog::Update() {
 			anim = 1; 
 			position = position + lastDir * step * (game->FRAME_RATE / 1000.0);
 			jumpFrames = 7;
+
+			bool gotHit = game->checkCollision(hitbox);
 		}
-		
 		lastDir = Vector2D<float>(0, 0);
 	}
 	else {
@@ -73,3 +75,4 @@ void Frog::HandleEvent(const SDL_Event& event) {
 		lastDir = Vector2D<float>(0, 0);
 	}
 }
+

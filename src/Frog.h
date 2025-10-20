@@ -17,6 +17,7 @@ private:
 	int health = 3;
 	int anim;
 	double angle;
+	SDL_FRect hitbox; 
 
 public:
 	Frog(Vector2D<float>, Point2D<float>, int, Texture*, Game*);
