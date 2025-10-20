@@ -202,7 +202,7 @@ Game::handleEvents()
 bool
 Game::checkCollision(const SDL_FRect& rect) const
 {
-	// TODO:
+	// Si no hay colisión
 	return false;
 }
 

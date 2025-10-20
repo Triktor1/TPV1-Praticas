@@ -20,3 +20,15 @@ void Log::Update() {
 	if (position.GetX() < -150) position = { position.GetX() + 150 + game->WINDOW_WIDTH , position.GetY() };
 	else if (position.GetX() > game->WINDOW_WIDTH) position = { position.GetX() - 150 - game->WINDOW_WIDTH, position.GetY() };
 }
+
+Collision Log::CheckCollision(const SDL_FRect& FRect) {
+	Collision collision;
+	SDL_FRect col{ position.GetX(), position.GetY(), (float)texture->getFrameWidth(), (float)texture->getFrameHeight() };
+	if (SDL_HasRectIntersectionFloat(&FRect, &col)) {
+		collision.tipo = PLATFORM;
+		collision.speed = speed;
+	}
+	else collision.tipo = NONE;
+
+	return collision;
+}

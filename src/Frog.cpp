@@ -34,16 +34,14 @@ void Frog::Update() {
 		{
 			anim = 1; 
 			position = position + lastDir * step * (game->FRAME_RATE / 1000.0);
-			jumpFrames = 3;
+			jumpFrames = 7;
 		}
 		
 		lastDir = Vector2D<float>(0, 0);
-		 
 	}
 	else {
 		jumpFrames--;
 		if (jumpFrames == 0) anim = 0;
-	
 	}
 	std::cout << position.GetX() << " " << position.GetY() << std::endl;
 }
