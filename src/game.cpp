@@ -76,7 +76,18 @@ Game::Game()
 	}
 	else {
 		while (file >> objType) { //Asumo que el archivo tendrá el formato correcto
-			if (objType == 'V' || objType == 'L') {
+			
+			if (objType == '#') {
+				file.ignore(numeric_limits<streamsize>::max(), '\n');
+			}
+			else if (objType == 'F') {
+				file >> pointX;
+				file >> pointY;
+				frogSpawn = Point2D(pointX, pointY);
+				sprType = FROG;
+				frog = new Frog{ Vector2D<float>(0, 0), Point2D<float>(pointX, pointY), 3, getTexture(sprType), this };
+			}
+			else if (objType == 'V' || objType == 'L') {
 
 				file >> pointX;
 				file >> pointY;
@@ -106,17 +117,6 @@ Game::Game()
 				default:
 					break;
 				}
-			}
-			else if (objType == 'F') {
-				file >> pointX;
-				file >> pointY;
-				frogSpawn = Point2D(pointX, pointY);
-				sprType = FROG;
-				frog = new Frog{ Vector2D<float>(0, 0), Point2D<float>(pointX, pointY), 3, getTexture(sprType), this };
-			}
-			else {
-				string a;
-				std::getline(file, a);
 			}
 		}
 	}
@@ -194,7 +194,7 @@ Game::handleEvents()
 	while (SDL_PollEvent(&event)) {
 		if (frog->GetHealth() == 0)
 			event.type = SDL_EVENT_QUIT;
-		
+
 		if (event.type == SDL_EVENT_QUIT)
 			exit = true;
 
@@ -233,6 +233,10 @@ Game::checkCollision(const SDL_FRect& rect) const
 	i = 0;
 
 	return collision;
+}
+
+Point2D<int> Game::getFrogSpawn() const {
+	return frogSpawn;
 }
 
 

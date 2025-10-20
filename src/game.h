@@ -70,6 +70,9 @@ public:
 
 	// Comprueba si hay algún objeto colocado en ese rectángulo
 	Collision checkCollision(const SDL_FRect& rect) const;
+
+	//Devuelve la posición de spawn de la rana
+	Point2D<int> getFrogSpawn() const;
 };
 
 inline Texture*
