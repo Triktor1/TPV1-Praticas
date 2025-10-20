@@ -27,11 +27,12 @@ public:
 		return r;
 	}
 
-	Vector2D operator+=(const Vector2D& vector) const {
+	Vector2D operator+=(const Vector2D& vector) {
 		Vector2D r;
-		r.x += this->x + vector.x;
-		r.y += this->y + vector.y;
-		return r;
+		x += vector.x;
+		y += vector.y;
+
+		return *this;
 	}
 
 	Vector2D operator-(const Vector2D& vector) const {

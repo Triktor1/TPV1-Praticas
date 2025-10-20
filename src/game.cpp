@@ -39,6 +39,8 @@ constexpr array<TextureSpec, Game::NUM_TEXTURES> textureList{
 	{"wasp.png"},
 };
 
+Point2D<int> frogSpawn;
+
 Game::Game()
 	: exit(false)
 {
@@ -108,6 +110,7 @@ Game::Game()
 			else if (objType == 'F') {
 				file >> pointX;
 				file >> pointY;
+				frogSpawn = Point2D(pointX, pointY);
 				sprType = FROG;
 				frog = new Frog{ Vector2D<float>(0, 0), Point2D<float>(pointX, pointY), 3, getTexture(sprType), this };
 			}
@@ -177,7 +180,6 @@ Game::run()
 {
 	while (!exit) {
 		update();
-		//checkCollision();
 		render();
 		handleEvents();
 		SDL_Delay(FRAME_RATE);
@@ -199,61 +201,35 @@ Game::handleEvents()
 	}
 }
 
-bool
+Collision
 Game::checkCollision(const SDL_FRect& rect) const
 {
-	
-	/*
-	Este fallaba por lo de la condiciion (no era tipo bool) 
-	for (Log* l : logs) {
-		if  (l-> CheckCollision(rect)) {
-			return true;
-		}
-	}
-	*Al saber la respuesta ya hice esta version utilizando otra forma de recorrido
-	*/
-	for (Log* l : logs) {
-		Collision col = l->CheckCollision(rect);
+	Collision collision;
+	collision.tipo = NONE; //Inicializamos en tipo NONE (sin colisión)
+	bool hasCollisioned = false;
+	int i = 0;
+	while(!hasCollisioned && i < logs.size()) {
+		Collision col = logs[i]->CheckCollision(rect);
 		if (col.tipo != NONE) {
-			return true;
+			collision.tipo = col.tipo;
+			collision.speed = col.speed;
+			hasCollisioned = true;
 		}
+		i++;
 	}
+	i = 0;
 
-	for (auto* v : vehicles) {
-		Collision col = v->CheckCollision(rect);
+	while(!hasCollisioned && i < vehicles.size()) {
+		Collision col = vehicles[i]->CheckCollision(rect);
 		if (col.tipo != NONE) {
-			return true;
-			}
-		}	
-			/*for (int i = 0; i < logs.size(); i++) {
-				Collision log = logs[i]->CheckCollision(rect);
-				if (log.tipo != NONE) {
-					return true;
-				}
+			collision.tipo = col.tipo;
+			hasCollisioned = true;
+		}
+		i++;
+	}
+	i = 0;
 
-			}
-			*/
-
-			/*for (int i = 0; i < logs.size(); i++) {
-				Collision col = vehicles[i]->CheckCollision(rect); {
-					if (col.tipo != NONE) {
-						return true;
-					}
-				}
-
-			}
-			*/
-
-			/*for (auto* v : vehicles) {
-				if (v->CheckCollision(rect)) {
-					return true;
-				}
-			}
-			*/
-
-
-	// Si no hay colisión
-   return false;
+   return collision;
 }
 
 

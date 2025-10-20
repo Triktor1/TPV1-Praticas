@@ -69,7 +69,7 @@ public:
 	void run();
 
 	// Comprueba si hay algún objeto colocado en ese rectángulo
-	bool checkCollision(const SDL_FRect& rect) const;
+	Collision checkCollision(const SDL_FRect& rect) const;
 };
 
 inline Texture*
