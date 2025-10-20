@@ -23,30 +23,37 @@ void Frog::Render() const {
 
 void Frog::Update() {
 	//Movimiento
-	const float step = 1070.50f;
+	const float step = 32; // 448/14, osea 14 pasos (y además la altura de un tile en píxeles)
 	static int jumpFrames = 0;
 	float maxX = Game::WINDOW_WIDTH - (float)texture->getFrameHeight();
 	float maxY = Game::WINDOW_HEIGHT - (float)texture->getFrameHeight();
 	if (lastDir.GetX() != 0 || lastDir.GetY() != 0) {
-		float newX = position.GetX() + lastDir.GetX() * step * (game->FRAME_RATE / 1000.0);
-		float newY = position.GetY() + lastDir.GetY() * step * (game->FRAME_RATE / 1000.0);
-		if (newX >= 0 && newX <= maxX &&
-			newY >= 0 && newY <= maxY)
-		{
-			anim = 1;
-			position = position + lastDir * step * (game->FRAME_RATE / 1000.0);
-			jumpFrames = 7;
+		float newX = position.GetX() + lastDir.GetX() * step;
+		float newY = position.GetY() + lastDir.GetY() * step;
+		if (newX < 0) {
+			position = Point2D<float>(0, position.GetY());
 		}
+		else if (newX > game->WINDOW_WIDTH - texture->getFrameWidth()) {
+			position = Point2D<float>(game->WINDOW_WIDTH - texture->getFrameWidth(), position.GetY());
+		}
+		else if (newY > game->getFrogSpawn().GetY() + step) {
+			position = Point2D<float>(position.GetX(), game->getFrogSpawn().GetY() + step);
+		}
+		else {
+			position = position + lastDir * step;
+		}
+
+		anim = 1;
+		jumpFrames = 7;
 		lastDir = Vector2D<float>(0, 0);
 	}
 	else {
 		jumpFrames--;
 		if (jumpFrames == 0) anim = 0;
 	}
-	//std::cout << position.GetX() << " " << position.GetY() << std::endl;
 
 	//Colisiones
-	SDL_FRect hitbox = { position.GetX() + 5.5, position.GetY() + 8.5, 25, 19 };
+	SDL_FRect hitbox = { position.GetX() + 5.5, position.GetY() + 8.5, 25, 19 }; //Calculado con los espacios de píxeles entre límite de textura y de rana
 	Collision col = game->checkCollision(hitbox);
 	if (col.tipo == PLATFORM) {
 		position = position + col.speed * (game->FRAME_RATE / 1000.0);
@@ -54,7 +61,7 @@ void Frog::Update() {
 	else if (col.tipo == HOME) {
 
 	}
-	else if (col.tipo == ENEMY || position.GetY() < game->RIVER_LOW - 10 || position.GetX() > game->WINDOW_WIDTH) {
+	else if (col.tipo == ENEMY || position.GetY() < game->RIVER_LOW - 10 || position.GetX() > game->WINDOW_WIDTH - texture->getFrameWidth()) {
 		health--;
 		position = Point2D<float>(205, 402);
 		angle = 0;
