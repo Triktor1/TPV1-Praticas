@@ -39,7 +39,7 @@ constexpr array<TextureSpec, Game::NUM_TEXTURES> textureList{
 	{"wasp.png"},
 };
 
-Point2D<int> frogSpawn;
+Point2D<float> frogSpawn;
 
 Game::Game()
 	: exit(false)
@@ -83,7 +83,7 @@ Game::Game()
 			else if (objType == 'F') {
 				file >> pointX;
 				file >> pointY;
-				frogSpawn = Point2D(pointX, pointY);
+				frogSpawn = Point2D<float>(pointX, pointY);
 				sprType = FROG;
 				frog = new Frog{ Vector2D<float>(0, 0), Point2D<float>(pointX, pointY), 3, getTexture(sprType), this };
 			}
@@ -235,7 +235,7 @@ Game::checkCollision(const SDL_FRect& rect) const
 	return collision;
 }
 
-Point2D<int> Game::getFrogSpawn() const {
+Point2D<float> Game::getFrogSpawn() const {
 	return frogSpawn;
 }
 

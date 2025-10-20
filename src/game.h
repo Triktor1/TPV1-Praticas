@@ -72,7 +72,7 @@ public:
 	Collision checkCollision(const SDL_FRect& rect) const;
 
 	//Devuelve la posición de spawn de la rana
-	Point2D<int> getFrogSpawn() const;
+	Point2D<float> getFrogSpawn() const;
 };
 
 inline Texture*

@@ -61,9 +61,9 @@ void Frog::Update() {
 	else if (col.tipo == HOME) {
 
 	}
-	else if (col.tipo == ENEMY || position.GetY() < game->RIVER_LOW - 10 || position.GetX() > game->WINDOW_WIDTH - texture->getFrameWidth()) {
+	else if (col.tipo == ENEMY || position.GetY() < game->RIVER_LOW || position.GetX() > game->WINDOW_WIDTH - texture->getFrameWidth()) {
 		health--;
-		position = Point2D<float>(205, 402);
+		position = game->getFrogSpawn();
 		angle = 0;
 	}
 
