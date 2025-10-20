@@ -48,19 +48,18 @@ void Frog::Update() {
 	//Colisiones
 	SDL_FRect hitbox = { position.GetX() + 5.5, position.GetY() + 8.5, 25, 19 };
 	Collision col = game->checkCollision(hitbox);
-	switch (col.tipo) {
-	case ENEMY:
-		health--;
-		position = Point2D<float>(0, 0);
-		break;
-	case PLATFORM:
+	if (col.tipo == PLATFORM) {
 		position = position + col.speed * (game->FRAME_RATE / 1000.0);
-		break;
-	case HOME:
-		break;
-	default:
-		break;
 	}
+	else if (col.tipo == HOME) {
+
+	}
+	else if (col.tipo == ENEMY || position.GetY() < game->RIVER_LOW - 10 || position.GetX() > game->WINDOW_WIDTH) {
+		health--;
+		position = Point2D<float>(205, 402);
+		angle = 0;
+	}
+
 }
 
 void Frog::HandleEvent(const SDL_Event& event) {
@@ -91,3 +90,6 @@ void Frog::HandleEvent(const SDL_Event& event) {
 	}
 }
 
+int Frog::GetHealth() const {
+	return health;
+}

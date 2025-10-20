@@ -191,13 +191,16 @@ Game::handleEvents()
 {
 	SDL_Event event;
 
-	// Only quit is handled directly, everything else is delegated
 	while (SDL_PollEvent(&event)) {
+		if (frog->GetHealth() == 0)
+			event.type = SDL_EVENT_QUIT;
+		
 		if (event.type == SDL_EVENT_QUIT)
 			exit = true;
 
 		frog->HandleEvent(event);
-		// TODO
+
+
 	}
 }
 
@@ -208,7 +211,7 @@ Game::checkCollision(const SDL_FRect& rect) const
 	collision.tipo = NONE; //Inicializamos en tipo NONE (sin colisión)
 	bool hasCollisioned = false;
 	int i = 0;
-	while(!hasCollisioned && i < logs.size()) {
+	while (!hasCollisioned && i < logs.size()) {
 		Collision col = logs[i]->CheckCollision(rect);
 		if (col.tipo != NONE) {
 			collision.tipo = col.tipo;
@@ -219,7 +222,7 @@ Game::checkCollision(const SDL_FRect& rect) const
 	}
 	i = 0;
 
-	while(!hasCollisioned && i < vehicles.size()) {
+	while (!hasCollisioned && i < vehicles.size()) {
 		Collision col = vehicles[i]->CheckCollision(rect);
 		if (col.tipo != NONE) {
 			collision.tipo = col.tipo;
@@ -229,7 +232,7 @@ Game::checkCollision(const SDL_FRect& rect) const
 	}
 	i = 0;
 
-   return collision;
+	return collision;
 }
 
 
