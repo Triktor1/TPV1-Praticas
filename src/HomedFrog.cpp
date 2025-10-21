@@ -12,9 +12,14 @@ HomedFrog::HomedFrog(Point2D<float> position, Texture* texture, Game* game) :
 void HomedFrog::Render() const {
 	SDL_FRect frogDimensions = { position.GetX(), position.GetY(),
 			(float)texture->getFrameWidth(), (float)texture->getFrameHeight() };
-	if(reached) texture->renderFrame(frogDimensions, 0, 0);
+	SDL_FPoint center = { frogDimensions.w / 2, frogDimensions.h / 2 };
+	if(reached) texture->renderFrame(frogDimensions, 0, 0, 180, &center, SDL_FLIP_NONE);
 }
 
 void HomedFrog::SetReached(bool hasReached) {
 	reached = hasReached;
+}
+
+bool HomedFrog::GetReached() const {
+	return reached;
 }

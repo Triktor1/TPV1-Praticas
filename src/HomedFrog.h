@@ -18,4 +18,5 @@ public:
 	HomedFrog(Point2D<float>, Texture*, Game*);
 	void Render() const;
 	void SetReached(bool hasReached);
+	bool GetReached() const;
 };
