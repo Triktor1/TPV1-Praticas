@@ -17,8 +17,7 @@ void Log::Render() const {
 
 void Log::Update() {
 	position = position + speed * (game->FRAME_RATE / 1000.0);
-	if (position.GetX() < -150) position = { position.GetX() + 150 + game->WINDOW_WIDTH , position.GetY() };
-	else if (position.GetX() > game->WINDOW_WIDTH) position = { position.GetX() - 150 - game->WINDOW_WIDTH, position.GetY() };
+	if (position.GetX() >= game->WINDOW_WIDTH + 150 - texture->getFrameWidth()) position = { position.GetX() - 150*2 - game->WINDOW_WIDTH, position.GetY()};
 }
 
 Collision Log::CheckCollision(const SDL_FRect& FRect) {
