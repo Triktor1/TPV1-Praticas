@@ -6,6 +6,8 @@
 
 #include "texture.h"
 
+#include "HomedFrog.h"
+
 #include <iostream>
 #include <fstream>
 using namespace std;
@@ -13,6 +15,11 @@ using namespace std;
 // Constantes
 constexpr const char* const WINDOW_TITLE = "Frogger 1.0";
 constexpr const char* const MAP_FILE = "assets/maps/default.txt";
+
+constexpr int HOMEFROGNUM = 5;
+//Las posiciones de las casas, siendo la posición el pixel inferior derecho del cuadrado 2x2 que constituye el centro del sprite de casa.
+//Empieza en (32, 38) y se va sumando 96 en la posición horizontal con cada casa consecutiva, según la imagen dada
+const Point2D<float> homePositions[HOMEFROGNUM] = { Point2D<float>(32,38), Point2D<float>(128, 38), Point2D<float>(224, 38), Point2D<float>(320, 38), Point2D<float>(416, 38) };
 
 // Estructura para especificar las texturas que hay que
 // cargar y el tamaño de su matriz de frames
@@ -86,6 +93,7 @@ Game::Game()
 				frogSpawn = Point2D<float>(pointX, pointY);
 				sprType = FROG;
 				frog = new Frog{ Vector2D<float>(0, 0), Point2D<float>(pointX, pointY), 3, getTexture(sprType), this };
+				
 			}
 			else if (objType == 'V' || objType == 'L') {
 
@@ -118,6 +126,9 @@ Game::Game()
 					break;
 				}
 			}
+			for (int i = 0; i < 5; i++) {
+				homedFrogs.push_back(new HomedFrog{ Point2D<float>(homePositions[i] - Point2D<float>(getTexture(FROG)->getFrameWidth()/2,getTexture(FROG)->getFrameHeight()/2)), getTexture(FROG), this});
+			}
 		}
 	}
 	file.close();
@@ -141,7 +152,10 @@ Game::~Game()
 		e = nullptr;
 	}
 	delete frog;
-	// TODO: liberar memoria reservada por la clase
+	for (HomedFrog* hf : homedFrogs) {
+		delete hf;
+		hf = nullptr;
+	}
 }
 
 void
@@ -158,7 +172,9 @@ Game::render() const
 		logs[i]->Render();
 	}
 	frog->Frog::Render();
-
+	for (int i = 0; i < homedFrogs.size(); i++) {
+		homedFrogs[i]->Render();
+	}
 	SDL_RenderPresent(renderer);
 }
 
@@ -172,7 +188,6 @@ Game::update()
 		logs[i]->Update();
 	}
 	frog->Update();
-	// TODO
 }
 
 void
@@ -199,8 +214,6 @@ Game::handleEvents()
 			exit = true;
 
 		frog->HandleEvent(event);
-
-
 	}
 }
 
@@ -209,6 +222,7 @@ Game::checkCollision(const SDL_FRect& rect) const
 {
 	Collision collision;
 	collision.tipo = NONE; //Inicializamos en tipo NONE (sin colisión)
+	
 	bool hasCollisioned = false;
 	int i = 0;
 	while (!hasCollisioned && i < logs.size()) {
@@ -232,6 +246,16 @@ Game::checkCollision(const SDL_FRect& rect) const
 	}
 	i = 0;
 
+	while (!hasCollisioned && i < HOMEFROGNUM) {
+		SDL_FRect homePos = { homePositions[i].GetX(), homePositions[i].GetY(), 1, 1 };
+		if (SDL_HasRectIntersectionFloat(&rect, &homePos)) {
+			collision.tipo = HOME;
+			hasCollisioned = true;
+		}
+		i++;
+	}
+	i = 0;
+
 	return collision;
 }
 
@@ -239,19 +263,7 @@ Point2D<float> Game::getFrogSpawn() const {
 	return frogSpawn;
 }
 
-
-/*
-
-#include "game.h"
-
-int main(int argc, char* argv[])
-{
-	Game().run();
-
-	// TODO: manejar excepciones
-
-	return 0;
+HomedFrog* Game::GetHomedFrog(int index) {
+	return homedFrogs[index];
 }
-
-*/
 

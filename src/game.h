@@ -8,12 +8,14 @@
 #include "Vehicle.h"
 #include "Log.h"
 #include "Frog.h"
+#include "HomedFrog.h"
 
 // Declaraciones anticipadas
 class Texture;
 class Vehicle;
 class Log;
 class Frog;
+class HomedFrog;
 
 /**
  * Clase principal del juego.
@@ -47,6 +49,7 @@ private:
 	std::array<Texture*, NUM_TEXTURES> textures;
 	std::vector<Vehicle*> vehicles;
 	std::vector<Log*> logs;
+	std::vector<HomedFrog*> homedFrogs;
 	Frog* frog;
 
 	void render() const;
@@ -73,6 +76,9 @@ public:
 
 	//Devuelve la posición de spawn de la rana
 	Point2D<float> getFrogSpawn() const;
+
+	HomedFrog* GetHomedFrog(int);
+
 };
 
 inline Texture*
