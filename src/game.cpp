@@ -83,7 +83,7 @@ Game::Game()
 	}
 	else {
 		while (file >> objType) { //Asumo que el archivo tendrá el formato correcto
-			
+
 			if (objType == '#') {
 				file.ignore(numeric_limits<streamsize>::max(), '\n');
 			}
@@ -93,7 +93,7 @@ Game::Game()
 				frogSpawn = Point2D<float>(pointX, pointY);
 				sprType = FROG;
 				frog = new Frog{ Vector2D<float>(0, 0), Point2D<float>(pointX, pointY), 3, getTexture(sprType), this };
-				
+
 			}
 			else if (objType == 'V' || objType == 'L') {
 
@@ -127,7 +127,7 @@ Game::Game()
 				}
 			}
 			for (int i = 0; i < 5; i++) {
-				homedFrogs.push_back(new HomedFrog{ Point2D<float>(homePositions[i] - Point2D<float>(getTexture(FROG)->getFrameWidth()/2,getTexture(FROG)->getFrameHeight()/2)), getTexture(FROG), this});
+				homedFrogs.push_back(new HomedFrog{ Point2D<float>(homePositions[i] - Point2D<float>(getTexture(FROG)->getFrameWidth() / 2,getTexture(FROG)->getFrameHeight() / 2)), getTexture(FROG), this });
 			}
 		}
 	}
@@ -222,7 +222,7 @@ Game::checkCollision(const SDL_FRect& rect) const
 {
 	Collision collision;
 	collision.tipo = NONE; //Inicializamos en tipo NONE (sin colisión)
-	
+
 	bool hasCollisioned = false;
 	int i = 0;
 	while (!hasCollisioned && i < logs.size()) {
@@ -247,9 +247,9 @@ Game::checkCollision(const SDL_FRect& rect) const
 	i = 0;
 
 	while (!hasCollisioned && i < HOMEFROGNUM) {
-		SDL_FRect homePos = { homePositions[i].GetX(), homePositions[i].GetY(), 1, 1 };
-		if (SDL_HasRectIntersectionFloat(&rect, &homePos)) {
-			collision.tipo = HOME;
+		Collision col = homedFrogs[i]->CheckCollision(rect);
+		if (col.tipo != NONE) {
+			collision.tipo = col.tipo;
 			hasCollisioned = true;
 		}
 		i++;
@@ -263,7 +263,25 @@ Point2D<float> Game::getFrogSpawn() const {
 	return frogSpawn;
 }
 
-HomedFrog* Game::GetHomedFrog(int index) {
-	return homedFrogs[index];
-}
 
+bool Game::tryReachHome(const SDL_FRect& hitbox) {
+	bool reached = true;
+	int i = 0;
+	while (reached && i < homedFrogs.size()) {
+		SDL_FRect homeRect = {
+			homePositions[i].GetX() - getTexture(FROG)->getFrameWidth() / 2.0f,
+			homePositions[i].GetY() - getTexture(FROG)->getFrameHeight() / 2.0f,
+			(float)getTexture(FROG)->getFrameWidth(),
+			(float)getTexture(FROG)->getFrameHeight()
+		};
+
+		if (SDL_HasRectIntersectionFloat(&hitbox, &homeRect)) {
+			if (!homedFrogs[i]->GetReached()) {
+				homedFrogs[i]->SetReached(true);
+				reached = false;
+			}
+		}
+		i++;
+	}
+	return reached;
+}

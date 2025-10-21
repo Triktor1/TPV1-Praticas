@@ -16,6 +16,18 @@ void HomedFrog::Render() const {
 	if(reached) texture->renderFrame(frogDimensions, 0, 0, 180, &center, SDL_FLIP_NONE);
 }
 
+Collision HomedFrog::CheckCollision(const SDL_FRect& FRect) {
+	Collision collision;
+	SDL_FRect col{ position.GetX(), position.GetY(), (float)texture->getFrameWidth(), (float)texture->getFrameHeight() };
+	if (SDL_HasRectIntersectionFloat(&FRect, &col)) {
+		collision.tipo = HOME;
+	}
+	else collision.tipo = NONE;
+
+	return collision;
+}
+
+
 void HomedFrog::SetReached(bool hasReached) {
 	reached = hasReached;
 }

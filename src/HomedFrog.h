@@ -17,6 +17,7 @@ public:
 
 	HomedFrog(Point2D<float>, Texture*, Game*);
 	void Render() const;
+	Collision CheckCollision(const SDL_FRect& FRect);
 	void SetReached(bool hasReached);
 	bool GetReached() const;
 };

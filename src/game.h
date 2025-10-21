@@ -30,7 +30,7 @@ public:
 	static constexpr int WINDOW_HEIGHT = 484;
 	// Extremo inferior del río
 	static constexpr int RIVER_LOW = 210;
-	
+
 
 	enum TextureName
 	{
@@ -77,8 +77,9 @@ public:
 	//Devuelve la posición de spawn de la rana
 	Point2D<float> getFrogSpawn() const;
 
-	HomedFrog* GetHomedFrog(int);
-
+	//Comprueba con qué nido se ha chocado la rana, y si no ha sido alcanzado antes, marca que ahora sí
+	//[IMPORTANTE] Este método sólo funciona porque se llama después de comprobar que ha habido una colisión de tipo HOME
+	bool tryReachHome(const SDL_FRect& hitbox);
 };
 
 inline Texture*

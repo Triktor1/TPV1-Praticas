@@ -59,14 +59,10 @@ void Frog::Update() {
 		position = position + col.speed * (game->FRAME_RATE / 1000.0);
 	}
 	else if (col.tipo == HOME) {
-		int homedFrogID = (int)position.GetX() / 96;
-		position = game->getFrogSpawn();
-		if (game->GetHomedFrog(homedFrogID)->GetReached()) {
+		if (game->tryReachHome(hitbox)) {
 			health--;
 		}
-		else {
-			game->GetHomedFrog(homedFrogID)->SetReached(true);
-		}
+		position = game->getFrogSpawn();
 	}
 	else if (col.tipo == ENEMY || position.GetY() < game->RIVER_LOW || position.GetX() > game->WINDOW_WIDTH - texture->getFrameWidth()) {
 		health--;
