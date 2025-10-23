@@ -126,11 +126,12 @@ Game::Game()
 					break;
 				}
 			}
-			for (int i = 0; i < 5; i++) {
-				homedFrogs.push_back(new HomedFrog{ Point2D<float>(homePositions[i] - Point2D<float>(getTexture(FROG)->getFrameWidth() / 2,getTexture(FROG)->getFrameHeight() / 2)), getTexture(FROG), this });
-			}
+
 		}
+	for (int i = 0; i < 5; i++) {
+		homedFrogs.push_back(new HomedFrog{ Point2D<float>(homePositions[i] - Point2D<float>(getTexture(FROG)->getFrameWidth() / 2,getTexture(FROG)->getFrameHeight() / 2)), getTexture(FROG), this });
 	}
+}
 	file.close();
 
 	// Configura que se pueden utilizar capas translúcidas
@@ -188,6 +189,17 @@ Game::update()
 		logs[i]->Update();
 	}
 	frog->Update();
+
+	if (frog->GetHealth() == 0 ) {
+		cout << "Has perdido" << endl; 
+		exit = true;
+	}
+
+	if (allFrogsHome()) {
+		cout << "Has ganado" << endl;
+		exit = true;
+		
+	}
 }
 
 void
@@ -207,9 +219,6 @@ Game::handleEvents()
 	SDL_Event event;
 
 	while (SDL_PollEvent(&event)) {
-		if (frog->GetHealth() == 0)
-			event.type = SDL_EVENT_QUIT;
-
 		if (event.type == SDL_EVENT_QUIT)
 			exit = true;
 
@@ -284,4 +293,13 @@ bool Game::tryReachHome(const SDL_FRect& hitbox) {
 		i++;
 	}
 	return reached;
+}
+
+bool 
+Game::allFrogsHome() const {
+	for (auto &hf : homedFrogs) {
+		if (!hf->GetReached())
+			return false;
+	}
+	return true;
 }

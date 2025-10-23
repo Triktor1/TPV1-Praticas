@@ -80,6 +80,10 @@ public:
 	//Comprueba con qué nido se ha chocado la rana, y si no ha sido alcanzado antes, marca que ahora sí
 	//[IMPORTANTE] Este método sólo funciona porque se llama después de comprobar que ha habido una colisión de tipo HOME
 	bool tryReachHome(const SDL_FRect& hitbox);
+
+	//Comprueba que si todas las casas no cumplen el metodo GetReached(), devuelve false
+	//a no ser que sea lo contrario y así seria todo true.
+	bool allFrogsHome() const;
 };
 
 inline Texture*
