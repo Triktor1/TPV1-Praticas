@@ -1,13 +1,9 @@
 #include "game.h"
-
 #include <string>
-
 #include <SDL3_image/SDL_image.h>
-
+#include <random>
 #include "texture.h"
-
 #include "HomedFrog.h"
-
 #include <iostream>
 #include <fstream>
 using namespace std;
@@ -51,6 +47,7 @@ Point2D<float> frogSpawn;
 Game::Game()
 	: exit(false)
 {
+
 	// Carga SDL y sus bibliotecas auxiliares
 	SDL_Init(SDL_INIT_VIDEO);
 
@@ -133,9 +130,10 @@ Game::Game()
 	}
 }
 	file.close();
-
-	// Configura que se pueden utilizar capas translúcidas
-	// SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+	randomGenerator.seed(time(nullptr));
+	srand(SDL_GetTicks());
+	waspSpawnTime = getRandomRange(5, 15) * 1000;
+	currentTime = 0;
 }
 
 Game::~Game()
@@ -157,6 +155,10 @@ Game::~Game()
 		delete hf;
 		hf = nullptr;
 	}
+	for (Wasp* w : wasps) {
+		delete w;
+		w = nullptr;
+	}
 }
 
 void
@@ -172,6 +174,9 @@ Game::render() const
 	for (int i = 0; i < logs.size(); i++) {
 		logs[i]->Render();
 	}
+	for (int i = 0; i < wasps.size(); i++) {
+		wasps[i]->Render();
+	}
 	frog->Frog::Render();
 	for (int i = 0; i < homedFrogs.size(); i++) {
 		homedFrogs[i]->Render();
@@ -182,9 +187,11 @@ Game::render() const
 void
 Game::update()
 {
+	currentTime = SDL_GetTicks();
 	for (int i = 0; i < vehicles.size(); i++) {
 		vehicles[i]->Update();
 	}
+
 	for (int i = 0; i < logs.size(); i++) {
 		logs[i]->Update();
 	}
@@ -197,8 +204,23 @@ Game::update()
 
 	if (allFrogsHome()) {
 		cout << "Has ganado" << endl;
-		exit = true;
-		
+		exit = true;	
+	}
+
+	for (int i = wasps.size() -		1; i >= 0; i--) { //Se recorre al revés para no saltarse avispas en caso de borrar alguna
+		wasps[i]->Update();
+		cout << wasps[i]->getLifeTime() << endl;
+		if (!wasps[i]->isAlive()) {
+			delete wasps[i];
+			wasps[i] = nullptr;
+			wasps.erase(wasps.begin()+i);
+		}
+	}
+
+	if (currentTime >= waspSpawnTime) {
+		waspSpawnTime = currentTime + getRandomRange(5, 15) * 1000;
+		int rndHome = getRandomRange(0, 4);
+		wasps.push_back(new Wasp{homePositions[rndHome] - Point2D<float>(getTexture(WASP)->getFrameWidth() / 2,getTexture(WASP)->getFrameHeight() / 2), Vector2D<float>(0,0), getTexture(WASP), this, (float)(getRandomRange(3, 10) * 1000.0)});
 	}
 }
 
@@ -206,10 +228,16 @@ void
 Game::run()
 {
 	while (!exit) {
+		try {
+
 		update();
 		render();
 		handleEvents();
 		SDL_Delay(FRAME_RATE);
+		}
+		catch(exception e){
+			cout << e.what() << endl;
+		}
 	}
 }
 
@@ -247,6 +275,16 @@ Game::checkCollision(const SDL_FRect& rect) const
 
 	while (!hasCollisioned && i < vehicles.size()) {
 		Collision col = vehicles[i]->CheckCollision(rect);
+		if (col.tipo != NONE) {
+			collision.tipo = col.tipo;
+			hasCollisioned = true;
+		}
+		i++;
+	}
+	i = 0;
+
+	while (!hasCollisioned && i < wasps.size()) {
+		Collision col = wasps[i]->CheckCollision(rect);
 		if (col.tipo != NONE) {
 			collision.tipo = col.tipo;
 			hasCollisioned = true;
@@ -302,4 +340,8 @@ Game::allFrogsHome() const {
 			return false;
 	}
 	return true;
+}
+
+int Game::getRandomRange(int min, int max) {
+	return uniform_int_distribution<int>(min, max)(randomGenerator);
 }

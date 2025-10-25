@@ -9,6 +9,8 @@
 #include "Log.h"
 #include "Frog.h"
 #include "HomedFrog.h"
+#include "Wasp.h"
+#include <random>
 
 // Declaraciones anticipadas
 class Texture;
@@ -16,6 +18,9 @@ class Vehicle;
 class Log;
 class Frog;
 class HomedFrog;
+class Wasp;
+
+using namespace std;
 
 /**
  * Clase principal del juego.
@@ -44,12 +49,14 @@ public:
 	};
 
 private:
+	std::mt19937_64 randomGenerator;
 	SDL_Window* window;
 	SDL_Renderer* renderer;
-	std::array<Texture*, NUM_TEXTURES> textures;
-	std::vector<Vehicle*> vehicles;
-	std::vector<Log*> logs;
-	std::vector<HomedFrog*> homedFrogs;
+	array<Texture*, NUM_TEXTURES> textures;
+	vector<Vehicle*> vehicles;
+	vector<Log*> logs;
+	vector<HomedFrog*> homedFrogs;
+	vector<Wasp*> wasps;
 	Frog* frog;
 
 	void render() const;
@@ -57,7 +64,8 @@ private:
 	void handleEvents();
 
 	bool exit;
-
+	int waspSpawnTime;
+	int currentTime;
 	// Elemento del juego
 	// TODO: añadir atributos para los objetos del juego
 
@@ -84,6 +92,9 @@ public:
 	//Comprueba que si todas las casas no cumplen el metodo GetReached(), devuelve false
 	//a no ser que sea lo contrario y así seria todo true.
 	bool allFrogsHome() const;
+
+	//Devuelve un número aleatorio entre el rango
+	int getRandomRange(int min, int max);
 };
 
 inline Texture*
