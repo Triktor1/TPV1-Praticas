@@ -13,7 +13,9 @@ void HomedFrog::Render() const {
 	SDL_FRect frogDimensions = { position.GetX(), position.GetY(),
 			(float)texture->getFrameWidth(), (float)texture->getFrameHeight() };
 	SDL_FPoint center = { frogDimensions.w / 2, frogDimensions.h / 2 };
-	if(reached) texture->renderFrame(frogDimensions, 0, 0, 180, &center, SDL_FLIP_NONE);
+	if (reached) {
+		texture->renderFrame(frogDimensions, 0, 0, 180, &center, SDL_FLIP_NONE);
+	}
 }
 
 Collision HomedFrog::CheckCollision(const SDL_FRect& FRect) {

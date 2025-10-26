@@ -56,6 +56,7 @@ private:
 	vector<Vehicle*> vehicles;
 	vector<Log*> logs;
 	vector<HomedFrog*> homedFrogs;
+	vector<bool> reachedHomes;
 	vector<Wasp*> wasps;
 	Frog* frog;
 

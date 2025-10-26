@@ -125,10 +125,11 @@ Game::Game()
 			}
 
 		}
-	for (int i = 0; i < 5; i++) {
-		homedFrogs.push_back(new HomedFrog{ Point2D<float>(homePositions[i] - Point2D<float>(getTexture(FROG)->getFrameWidth() / 2,getTexture(FROG)->getFrameHeight() / 2)), getTexture(FROG), this });
+		for (int i = 0; i < 5; i++) {
+			homedFrogs.push_back(new HomedFrog{ Point2D<float>(homePositions[i] - Point2D<float>(getTexture(FROG)->getFrameWidth() / 2,getTexture(FROG)->getFrameHeight() / 2)), getTexture(FROG), this });
+			reachedHomes.push_back(false);
+		}
 	}
-}
 	file.close();
 	randomGenerator.seed(time(nullptr));
 	srand(SDL_GetTicks());
@@ -174,12 +175,12 @@ Game::render() const
 	for (int i = 0; i < logs.size(); i++) {
 		logs[i]->Render();
 	}
-	for (int i = 0; i < wasps.size(); i++) {
-		wasps[i]->Render();
-	}
 	frog->Frog::Render();
 	for (int i = 0; i < homedFrogs.size(); i++) {
 		homedFrogs[i]->Render();
+	}
+	for (int i = 0; i < wasps.size(); i++) {
+		wasps[i]->Render();
 	}
 	SDL_RenderPresent(renderer);
 }
@@ -197,30 +198,32 @@ Game::update()
 	}
 	frog->Update();
 
-	if (frog->GetHealth() == 0 ) {
-		cout << "Has perdido" << endl; 
+	if (frog->GetHealth() == 0) {
+		cout << "Has perdido" << endl;
 		exit = true;
 	}
 
 	if (allFrogsHome()) {
 		cout << "Has ganado" << endl;
-		exit = true;	
+		exit = true;
 	}
 
-	for (int i = wasps.size() -		1; i >= 0; i--) { //Se recorre al revés para no saltarse avispas en caso de borrar alguna
+	for (int i = wasps.size() - 1; i >= 0; i--) { //Se recorre al revés para no saltarse avispas en caso de borrar alguna
 		wasps[i]->Update();
-		cout << wasps[i]->getLifeTime() << endl;
 		if (!wasps[i]->isAlive()) {
 			delete wasps[i];
 			wasps[i] = nullptr;
-			wasps.erase(wasps.begin()+i);
+			wasps.erase(wasps.begin() + i);
 		}
 	}
 
 	if (currentTime >= waspSpawnTime) {
 		waspSpawnTime = currentTime + getRandomRange(5, 15) * 1000;
-		int rndHome = getRandomRange(0, 4);
-		wasps.push_back(new Wasp{homePositions[rndHome] - Point2D<float>(getTexture(WASP)->getFrameWidth() / 2,getTexture(WASP)->getFrameHeight() / 2), Vector2D<float>(0,0), getTexture(WASP), this, (float)(getRandomRange(3, 10) * 1000.0)});
+		int rndHome;
+		do {
+			rndHome = getRandomRange(0, 4);
+		} while (reachedHomes[rndHome]);
+		wasps.push_back(new Wasp{ homePositions[rndHome] - Point2D<float>(getTexture(WASP)->getFrameWidth() / 2,getTexture(WASP)->getFrameHeight() / 2), Vector2D<float>(0,0), getTexture(WASP), this, (float)(getRandomRange(3, 10) * 1000.0) });
 	}
 }
 
@@ -230,12 +233,12 @@ Game::run()
 	while (!exit) {
 		try {
 
-		update();
-		render();
-		handleEvents();
-		SDL_Delay(FRAME_RATE);
+			update();
+			render();
+			handleEvents();
+			SDL_Delay(FRAME_RATE);
 		}
-		catch(exception e){
+		catch (exception e) {
 			cout << e.what() << endl;
 		}
 	}
@@ -325,6 +328,7 @@ bool Game::tryReachHome(const SDL_FRect& hitbox) {
 		if (SDL_HasRectIntersectionFloat(&hitbox, &homeRect)) {
 			if (!homedFrogs[i]->GetReached()) {
 				homedFrogs[i]->SetReached(true);
+				reachedHomes[i] = true;
 				reached = false;
 			}
 		}
@@ -333,9 +337,9 @@ bool Game::tryReachHome(const SDL_FRect& hitbox) {
 	return reached;
 }
 
-bool 
+bool
 Game::allFrogsHome() const {
-	for (auto &hf : homedFrogs) {
+	for (auto& hf : homedFrogs) {
 		if (!hf->GetReached())
 			return false;
 	}
