@@ -23,7 +23,7 @@ void Frog::Render() const {
 
 void Frog::Update() {
 	//Movimiento
-	const float step = 32; // 448/14, osea 14 pasos (y además la altura de un tile en píxeles)
+	const float step = FROG_STEP;
 	static int jumpFrames = 0;
 	float maxX = Game::WINDOW_WIDTH - (float)texture->getFrameHeight();
 	float maxY = Game::WINDOW_HEIGHT - (float)texture->getFrameHeight();
@@ -44,7 +44,7 @@ void Frog::Update() {
 		}
 
 		anim = 1;
-		jumpFrames = 7;
+		jumpFrames = JUMP_DURATION;
 		lastDir = Vector2D<float>(0, 0);
 	}
 	else {

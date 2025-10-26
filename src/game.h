@@ -49,6 +49,14 @@ public:
 	};
 
 private:
+	//Rango de tiempo para spawn de avispas
+	static constexpr int WASP_MIN_SPAWN = 10;
+	static constexpr int WASP_MAX_SPAWN = 15;
+	
+	//Rango de tiempo de vida de avispas
+	static constexpr int WASP_MIN_LIFE = 3;
+	static constexpr int WASP_MAX_LIFE = 10;
+
 	std::mt19937_64 randomGenerator;
 	SDL_Window* window;
 	SDL_Renderer* renderer;

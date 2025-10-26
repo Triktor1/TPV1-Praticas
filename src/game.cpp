@@ -89,7 +89,7 @@ Game::Game()
 				file >> pointY;
 				frogSpawn = Point2D<float>(pointX, pointY);
 				sprType = FROG;
-				frog = new Frog{ Vector2D<float>(0, 0), Point2D<float>(pointX, pointY), 3, getTexture(sprType), this };
+				frog = new Frog{ Vector2D<float>(0, 0), Point2D<float>(pointX, pointY), frog->HEALTH, getTexture(sprType), this };
 
 			}
 			else if (objType == 'V' || objType == 'L') {
@@ -133,7 +133,7 @@ Game::Game()
 	file.close();
 	randomGenerator.seed(time(nullptr));
 	srand(SDL_GetTicks());
-	waspSpawnTime = getRandomRange(5, 15) * 1000;
+	waspSpawnTime = getRandomRange(WASP_MIN_SPAWN, WASP_MAX_SPAWN) * 1000;
 	currentTime = 0;
 }
 
@@ -218,12 +218,12 @@ Game::update()
 	}
 
 	if (currentTime >= waspSpawnTime) {
-		waspSpawnTime = currentTime + getRandomRange(5, 15) * 1000;
+		waspSpawnTime = currentTime + getRandomRange(WASP_MIN_SPAWN, WASP_MAX_SPAWN) * 1000;
 		int rndHome;
 		do {
-			rndHome = getRandomRange(0, 4);
+			rndHome = getRandomRange(0, HOMEFROGNUM-1);
 		} while (reachedHomes[rndHome]);
-		wasps.push_back(new Wasp{ homePositions[rndHome] - Point2D<float>(getTexture(WASP)->getFrameWidth() / 2,getTexture(WASP)->getFrameHeight() / 2), Vector2D<float>(0,0), getTexture(WASP), this, (float)(getRandomRange(3, 10) * 1000.0) });
+		wasps.push_back(new Wasp{ homePositions[rndHome] - Point2D<float>(getTexture(WASP)->getFrameWidth() / 2,getTexture(WASP)->getFrameHeight() / 2), Vector2D<float>(0,0), getTexture(WASP), this, (float)(getRandomRange(WASP_MIN_LIFE, WASP_MAX_LIFE) * 1000.0) });
 	}
 }
 
