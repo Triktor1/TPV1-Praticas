@@ -49,7 +49,7 @@ constexpr array<TextureSpec, Game::NUM_TEXTURES> textureList{
 	{"wasp.png"},
 };
 
-Point2D<float> frogSpawn;
+constexpr Point2D<float> frogSpawn;
 
 Game::Game()
 	: exit(false), frog(nullptr) //TODO POR NO INICIAR FROG EN NULLPTR 
@@ -306,7 +306,6 @@ Game::checkCollision(const SDL_FRect& rect) const
 {
 	Collision collision;
 	collision.tipo = NONE; //Inicializamos en tipo NONE (sin colisión)
-
 	bool hasCollisioned = false;
 	int i = 0;
 	while (!hasCollisioned && i < logs.size()) {
@@ -315,40 +314,32 @@ Game::checkCollision(const SDL_FRect& rect) const
 			collision.tipo = col.tipo;
 			collision.speed = col.speed;
 			hasCollisioned = true;
-		}
-		i++;
-	}
-	i = 0;
+		} i++;
+	} i = 0;
 
 	while (!hasCollisioned && i < vehicles.size()) {
 		Collision col = vehicles[i]->CheckCollision(rect);
 		if (col.tipo != NONE) {
 			collision.tipo = col.tipo;
 			hasCollisioned = true;
-		}
-		i++;
-	}
-	i = 0;
+		} i++;
+	} i = 0;
 
 	while (!hasCollisioned && i < wasps.size()) {
 		Collision col = wasps[i]->CheckCollision(rect);
 		if (col.tipo != NONE) {
 			collision.tipo = col.tipo;
 			hasCollisioned = true;
-		}
-		i++;
-	}
-	i = 0;
+		} i++;
+	} i = 0;
 
 	while (!hasCollisioned && i < HOMEFROGNUM) {
 		Collision col = homedFrogs[i]->CheckCollision(rect);
 		if (col.tipo != NONE) {
 			collision.tipo = col.tipo;
 			hasCollisioned = true;
-		}
-		i++;
+		} i++;
 	}
-	i = 0;
 
 	return collision;
 }

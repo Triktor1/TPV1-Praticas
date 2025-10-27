@@ -24,6 +24,9 @@ private:
 	int health;
 	double angle;
 
+	void FrogMovementUpdate();
+	void FrogCollisionsUpdate();
+
 public:
 	
 	Frog(Vector2D<float>, Point2D<float>, int, Texture*, Game*);

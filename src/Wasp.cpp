@@ -33,6 +33,6 @@ bool Wasp::isAlive() const{
 	return lifeTime >= 0;
 }
 
-int Wasp::getLifeTime() {
+int Wasp::getLifeTime() const {
 	return lifeTime;
 }

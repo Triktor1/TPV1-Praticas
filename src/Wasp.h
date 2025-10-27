@@ -23,6 +23,6 @@ public:
 	void Update();
 	Collision CheckCollision(const SDL_FRect& FRect);
 	bool isAlive() const;
-	int getLifeTime();
+	int getLifeTime() const;
 };
 

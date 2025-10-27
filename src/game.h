@@ -20,8 +20,6 @@ class Frog;
 class HomedFrog;
 class Wasp;
 
-using namespace std;
-
 /**
  * Clase principal del juego.
  */

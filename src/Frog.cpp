@@ -21,7 +21,7 @@ void Frog::Render() const {
 	texture->renderFrame(frogDimensions, 0, anim, angle, &center, SDL_FLIP_NONE);
 }
 
-void Frog::Update() {
+void Frog::FrogMovementUpdate() {
 	//Movimiento
 	const float step = FROG_STEP;
 	static int jumpFrames = 0;
@@ -42,7 +42,6 @@ void Frog::Update() {
 		else {
 			position = position + lastDir * step;
 		}
-
 		anim = 1;
 		jumpFrames = JUMP_DURATION;
 		lastDir = Vector2D<float>(0, 0);
@@ -51,7 +50,9 @@ void Frog::Update() {
 		jumpFrames--;
 		if (jumpFrames == 0) anim = 0;
 	}
+}
 
+void Frog::FrogCollisionsUpdate() {
 	//Colisiones
 	SDL_FRect hitbox = { position.GetX() + 5.5, position.GetY() + 8.5, 25, 19 }; //Calculado con los espacios de píxeles entre límite de textura y de rana
 	Collision col = game->checkCollision(hitbox);
@@ -69,8 +70,13 @@ void Frog::Update() {
 		position = game->getFrogSpawn();
 		angle = 0;
 	}
-
 }
+
+void Frog::Update() {
+	FrogMovementUpdate();
+	FrogCollisionsUpdate();
+}
+
 
 void Frog::HandleEvent(const SDL_Event& event) {
 	if (event.type == SDL_EVENT_KEY_DOWN) {
