@@ -57,18 +57,18 @@ Game::Game()
 	try {
 		// Carga SDL y sus bibliotecas auxiliares
 		if (!SDL_Init(SDL_INIT_VIDEO)) {
-			throw string("Error inicializando SDL: ") + SDL_GetError();
+			throw string("Error inicializando SDL: ") + SDL_GetError() + "\n";
 		};
 
 		window = SDL_CreateWindow(WINDOW_TITLE, WINDOW_WIDTH, WINDOW_HEIGHT,0);
 
 		if (!window)
-			throw string("window: ") + SDL_GetError();
+			throw string("window: ") + SDL_GetError() + "\n";
 
 		renderer = SDL_CreateRenderer(window, nullptr);
 
 		if (!renderer)
-			throw string("renderer: ") + SDL_GetError();
+			throw string("renderer: ") + SDL_GetError() + "\n";
 
 		// Carga las texturas al inicio
 		
@@ -81,7 +81,7 @@ Game::Game()
 		//Variables para leer el archivo
 		fstream file(MAP_FILE);
 		if (!file) 
-			throw string("Error: No se ha encontrado el archivo mapa. El nombre del archivo que se intenta leer es: ") + string(MAP_FILE);
+			throw string("Error: No se ha encontrado el archivo mapa. El nombre del archivo que se intenta leer es: ") + string(MAP_FILE) + "\n";
 		char objType, c_sprType;
 		TextureName sprType;
 		int pointX, pointY, directionX;
@@ -92,17 +92,19 @@ Game::Game()
 					}
 					else if (objType == 'F') {
 						if (!(file >> pointX >> pointY)) {
-							throw string("Error: formato invalido para rana en el archivo de mapa: ") + string(MAP_FILE);
+							throw string("Error: formato invalido para rana en el archivo de mapa: ") + string(MAP_FILE) + "\n";
 						};
 						frogSpawn = Point2D<float>(pointX, pointY);
 						sprType = FROG;
-						frog = new Frog{ Vector2D<float>(0, 0), Point2D<float>(pointX, pointY), frog->HEALTH, getTexture(sprType), this };
+						int health;
+						file >> health;
+						frog = new Frog{ Vector2D<float>(0, 0), Point2D<float>(pointX, pointY), health, getTexture(sprType), this };
 
 					}
 					else if (objType == 'V' || objType == 'L') {
 
 						if (!(file >> pointX >> pointY >> directionX >> c_sprType)) {
-							throw string("Error: formato invalido para vehiculo/log en el archivo de mapa: ") + string(MAP_FILE);
+							throw string("Error: formato invalido para vehiculo/log en el archivo de mapa: ") + string(MAP_FILE) + "\n";
 						}
 
 						switch (objType) {

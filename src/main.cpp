@@ -31,7 +31,7 @@ void firstTest()
 	if (!SDL_CreateWindowAndRenderer("Frogger",
 		WIN_WIDTH, WIN_HEIGHT, 0,
 		&window, &renderer))
-		throw string("Error cargando SDL: ") + SDL_GetError(); 
+		throw string("Error cargando SDL: ") + SDL_GetError() + "\n";
 	else {
 		// Rellena la pantalla de negro
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
@@ -53,7 +53,7 @@ int main(int argc, char* argv[])
 		Game().run();
 	}
 	catch (const string& e) {
-		cout << "Error fatal en la aplicacion: " << e << endl; 
+		cout << "Error fatal en la aplicacion: \n" << e << endl; 
 	}
 	return 0;
 }

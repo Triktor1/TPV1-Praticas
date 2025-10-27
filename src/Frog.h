@@ -25,8 +25,6 @@ private:
 	double angle;
 
 public:
-	//Vidas de la rana
-	static constexpr int HEALTH = 3;
 	
 	Frog(Vector2D<float>, Point2D<float>, int, Texture*, Game*);
 	void Render() const;
