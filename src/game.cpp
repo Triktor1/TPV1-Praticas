@@ -49,7 +49,9 @@ Game::Game()
 {
 
 	// Carga SDL y sus bibliotecas auxiliares
-	SDL_Init(SDL_INIT_VIDEO);
+	if (!SDL_Init(SDL_INIT_VIDEO)) {
+		throw string("Error inicializando SDL: ") + SDL_GetError(); 
+	};
 
 	window = SDL_CreateWindow(WINDOW_TITLE,
 		WINDOW_WIDTH,
@@ -57,12 +59,12 @@ Game::Game()
 		0);
 
 	if (window == nullptr)
-		throw "window: "s + SDL_GetError();
+		throw string("window: ") + SDL_GetError();
 
 	renderer = SDL_CreateRenderer(window, nullptr);
 
 	if (renderer == nullptr)
-		throw "renderer: "s + SDL_GetError();
+		throw string("renderer: ") + SDL_GetError();
 
 	// Carga las texturas al inicio
 	for (size_t i = 0; i < textures.size(); i++) {
@@ -76,17 +78,19 @@ Game::Game()
 	TextureName sprType;
 	int pointX, pointY, directionX;
 	if (!file) {
-		cout << "No se ha encontrado el archivo." << endl;
+		throw string("Error: No se ha encontrado el archivo mapa") + string(MAP_FILE);
 	}
 	else {
 		while (file >> objType) { //Asumo que el archivo tendrá el formato correcto
 
+			
 			if (objType == '#') {
 				file.ignore(numeric_limits<streamsize>::max(), '\n');
 			}
 			else if (objType == 'F') {
-				file >> pointX;
-				file >> pointY;
+				if (!(file >> pointX >> pointY)) {
+					throw string("Error: formato inválido para rana en archivo de mapa: ") + string(MAP_FILE);
+				};
 				frogSpawn = Point2D<float>(pointX, pointY);
 				sprType = FROG;
 				frog = new Frog{ Vector2D<float>(0, 0), Point2D<float>(pointX, pointY), frog->HEALTH, getTexture(sprType), this };
@@ -94,10 +98,9 @@ Game::Game()
 			}
 			else if (objType == 'V' || objType == 'L') {
 
-				file >> pointX;
-				file >> pointY;
-				file >> directionX;
-				file >> c_sprType;
+				if (!(file >> pointX >> pointY >> directionX >> c_sprType)) {
+					throw string("Error: formato inválido para vehículo/log en archivo de mapa: ") + string(MAP_FILE);
+				}
 
 				switch (objType) {
 				case 'V':
@@ -123,7 +126,6 @@ Game::Game()
 					break;
 				}
 			}
-
 		}
 		for (int i = 0; i < 5; i++) {
 			homedFrogs.push_back(new HomedFrog{ Point2D<float>(homePositions[i] - Point2D<float>(getTexture(FROG)->getFrameWidth() / 2,getTexture(FROG)->getFrameHeight() / 2)), getTexture(FROG), this });

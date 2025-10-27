@@ -8,6 +8,7 @@
 #include "Vector2D.h"
 #include "game.h"
 #include "Vehicle.h"
+#include <string>
 
 using namespace std;
 
@@ -23,13 +24,14 @@ void firstTest()
 	SDL_Window* window = nullptr;
 	SDL_Renderer* renderer = nullptr;
 
-	SDL_Init(SDL_INIT_VIDEO); // activa SDL (añadir SDL_INIT_AUDIO, etc. si procede)
+	(SDL_Init(SDL_INIT_VIDEO));
+	 // activa SDL (añadir SDL_INIT_AUDIO, etc. si procede)
 
 	// Crea la ventana y el renderizador
 	if (!SDL_CreateWindowAndRenderer("Frogger",
 		WIN_WIDTH, WIN_HEIGHT, 0,
 		&window, &renderer))
-		cout << "Error cargando SDL: " << SDL_GetError() << endl;
+		throw string("Error cargando SDL: ") + SDL_GetError(); 
 	else {
 		// Rellena la pantalla de negro
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
@@ -47,6 +49,11 @@ void firstTest()
 
 int main(int argc, char* argv[])
 {
-	Game().run();
+	try {
+		Game().run();
+	}
+	catch (const string& e) {
+		cout << "Error fatal en la aplicación" << e << endl; 
+	}
 	return 0;
 }
