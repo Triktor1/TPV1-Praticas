@@ -11,10 +11,18 @@ using namespace std;
 // Constantes
 constexpr const char* const WINDOW_TITLE = "Frogger 1.0";
 constexpr const char* const MAP_FILE = "assets/maps/default.txt";
-constexpr int HOMEFROGNUM = 5;
+
+constexpr const int HOMEFROGNUM = 5;
+constexpr const float HOME_FIRST_X = 32;
+constexpr const float HOME_Y = 38;
+constexpr const float HOME_DISTANCE = 96;
 //Las posiciones de las casas, siendo la posición el pixel inferior derecho del cuadrado 2x2 que constituye el centro del sprite de casa.
 //Empieza en (32, 38) y se va sumando 96 en la posición horizontal con cada casa consecutiva, según la imagen dada
-const Point2D<float> homePositions[HOMEFROGNUM] = { Point2D<float>(32,38), Point2D<float>(128, 38), Point2D<float>(224, 38), Point2D<float>(320, 38), Point2D<float>(416, 38) };
+const Point2D<float> homePositions[HOMEFROGNUM] = { Point2D<float>(HOME_FIRST_X, HOME_Y), 
+													Point2D<float>(HOME_FIRST_X + HOME_DISTANCE, HOME_Y), 
+													Point2D<float>(HOME_FIRST_X + HOME_DISTANCE * 2, HOME_Y), 
+													Point2D<float>(HOME_FIRST_X + HOME_DISTANCE * 3, HOME_Y), 
+													Point2D<float>(HOME_FIRST_X + HOME_DISTANCE * 4, HOME_Y) };
 
 // Estructura para especificar las texturas que hay que
 // cargar y el tamaño de su matriz de frames
