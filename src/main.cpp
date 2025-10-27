@@ -53,7 +53,7 @@ int main(int argc, char* argv[])
 		Game().run();
 	}
 	catch (const string& e) {
-		cout << "Error fatal en la aplicación" << e << endl; 
+		cout << "Error fatal en la aplicacion: " << e << endl; 
 	}
 	return 0;
 }
