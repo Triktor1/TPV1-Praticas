@@ -49,10 +49,9 @@ constexpr array<TextureSpec, Game::NUM_TEXTURES> textureList{
 	{"wasp.png"},
 };
 
-constexpr Point2D<float> frogSpawn;
 
 Game::Game()
-	: exit(false), frog(nullptr) //TODO POR NO INICIAR FROG EN NULLPTR 
+	: exit(false), frog(nullptr)
 {
 	try {
 		// Carga SDL y sus bibliotecas auxiliares
@@ -211,7 +210,6 @@ Game::render() const
 {
 	SDL_RenderClear(renderer);
 
-	// TODO
 	getTexture(BACKGROUND)->render();
 	for (int i = 0; i < vehicles.size(); i++) {
 		vehicles[i]->Render();
