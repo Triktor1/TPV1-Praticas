@@ -58,19 +58,17 @@ private:
 	std::mt19937_64 randomGenerator;
 	SDL_Window* window;
 	SDL_Renderer* renderer;
-	std::array<Texture*, NUM_TEXTURES> textures;
-	std::vector<Vehicle*> vehicles;
-	std::vector<Log*> logs;
-	std::vector<HomedFrog*> homedFrogs;
-	std::vector<bool> reachedHomes;
-	std::vector<Wasp*> wasps;
+	array<Texture*, NUM_TEXTURES> textures;
+	vector<Vehicle*> vehicles;
+	vector<Log*> logs;
+	vector<HomedFrog*> homedFrogs;
+	vector<bool> reachedHomes;
+	vector<Wasp*> wasps;
 	Frog* frog;
 
 	void render() const;
 	void update();
 	void handleEvents();
-
-	Point2D<float> frogSpawn;
 
 	bool exit;
 	int waspSpawnTime;

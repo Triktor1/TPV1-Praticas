@@ -6,7 +6,6 @@
 #include "HomedFrog.h"
 #include <iostream>
 #include <fstream>
-#include <vector>
 using namespace std;
 
 // Constantes
@@ -49,6 +48,8 @@ constexpr array<TextureSpec, Game::NUM_TEXTURES> textureList{
 	{"turtle.png", 1, 7},
 	{"wasp.png"},
 };
+
+constexpr Point2D<float> frogSpawn;
 
 Game::Game()
 	: exit(false), frog(nullptr) //TODO POR NO INICIAR FROG EN NULLPTR 
@@ -339,6 +340,7 @@ Game::checkCollision(const SDL_FRect& rect) const
 			hasCollisioned = true;
 		} i++;
 	}
+
 	return collision;
 }
 
