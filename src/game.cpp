@@ -6,8 +6,6 @@
 #include "HomedFrog.h"
 #include <iostream>
 #include <fstream>
-#include <string> 
-
 using namespace std;
 
 // Constantes
@@ -59,12 +57,12 @@ Game::Game()
 		0);
 
 	if (window == nullptr)
-		throw string("window: ") + SDL_GetError();
+		throw "window: "s + SDL_GetError();
 
 	renderer = SDL_CreateRenderer(window, nullptr);
 
 	if (renderer == nullptr)
-		throw string("renderer: ") + SDL_GetError();
+		throw "renderer: "s + SDL_GetError();
 
 	// Carga las texturas al inicio
 	for (size_t i = 0; i < textures.size(); i++) {
@@ -78,7 +76,7 @@ Game::Game()
 	TextureName sprType;
 	int pointX, pointY, directionX;
 	if (!file) {
-		throw string("No se ha encontrado el archivo mapa"); 
+		cout << "No se ha encontrado el archivo." << endl;
 	}
 	else {
 		while (file >> objType) { //Asumo que el archivo tendrá el formato correcto

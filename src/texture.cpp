@@ -10,7 +10,7 @@ SDL_Texture* tryLoadTexture(SDL_Renderer* renderer, const char* filename)
 	SDL_Texture* texture = IMG_LoadTexture(renderer, filename);
 
 	if (texture == nullptr)
-		throw string("Error: failed load image texture: ") + filename;
+		throw "load image texture"s + filename;
 
 	SDL_SetTextureScaleMode(texture, SDL_SCALEMODE_NEAREST);
 
