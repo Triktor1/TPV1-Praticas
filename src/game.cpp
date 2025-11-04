@@ -372,11 +372,12 @@ bool Game::tryReachHome(const SDL_FRect& hitbox) {
 
 bool
 Game::allFrogsHome() const {
-	for (auto& hf : homedFrogs) {
-		if (!hf->GetReached())
-			return false;
+	int count = 0;
+	for (int i = 0; i < HOMEFROGNUM; i++) {
+		if (homedFrogs[i]->GetReached())
+			count++;
 	}
-	return true;
+	return count == HOMEFROGNUM; 
 }
 
 int Game::getRandomRange(int min, int max) {
