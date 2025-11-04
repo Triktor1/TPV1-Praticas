@@ -4,11 +4,9 @@
 using namespace std;
 
 Frog::Frog(Vector2D<float> lastDir, Point2D<float> position, int health, Texture* texture, Game* game) :
+	SceneObject(position, texture, game),
 	lastDir(lastDir),
-	position(position),
 	health(health),
-	texture(texture),
-	game(game),
 	anim(0),
 	angle(0.0)
 {

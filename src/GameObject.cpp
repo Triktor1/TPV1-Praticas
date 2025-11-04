@@ -1,6 +1,9 @@
 #include "GameObject.h"
 #include <SDL3_image/SDL_image.h>
 
+void GameObject::Render() const{
+
+}
 
 void GameObject::Update() {
 

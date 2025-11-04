@@ -1,10 +1,8 @@
 #include "Wasp.h"
 
 Wasp::Wasp(Point2D<float> position, Vector2D<float> speed, Texture* texture, Game* game, float lifeTime) :
-	position(position),
+	SceneObject(position, texture, game),
 	speed(speed),
-	texture(texture),
-	game(game),
 	lifeTime(lifeTime)
 {
 }
