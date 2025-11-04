@@ -99,10 +99,10 @@ Game::Game()
 						int health;
 						file >> health;
 						frog = new Frog{ Vector2D<float>(0, 0), Point2D<float>(pointX, pointY), health, getTexture(sprType), this };
+						
 
 					}
 					else if (objType == 'V' || objType == 'L') {
-
 						if (!(file >> pointX >> pointY >> directionX >> c_sprType)) {
 							throw string("Error: formato invalido para vehiculo/log en el archivo de mapa: ") + string(MAP_FILE) + "\n";
 						}
@@ -130,6 +130,7 @@ Game::Game()
 						default:
 							break;
 						}
+						
 					}
 				}
 			for (int i = 0; i < 5; i++) {
@@ -153,36 +154,7 @@ Game::Game()
 
 Game::~Game()
 {
-	destroyElements(vehicles);
-	destroyElements(logs);
-	destroyElements(wasps);
-	delete frog; 
-	frog = nullptr; 
-	destroyElements(homedFrogs);
-
-	/*	}
-	for (Vehicle* e : vehicles) {
-		delete e;
-		e = nullptr;
-	}
-	for (Log* e : logs) {
-		delete e;
-		e = nullptr;
-	}
-	delete frog;
-	for (HomedFrog* hf : homedFrogs) {
-		delete hf;
-		hf = nullptr;
-	}
-	for (Wasp* w : wasps) {
-		delete w;
-		w = nullptr;
-	}*/
-	//es un array asi que por eso no puedo utilizar el metoodo, se podria hacer uno para arrays pero mucho lio no? 
-	for (Texture* t : textures) {
-		delete t;
-		t = nullptr;
-	}
+	destroyAllElements();
 
 }
 

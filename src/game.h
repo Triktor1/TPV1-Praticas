@@ -109,7 +109,8 @@ public:
 
 	//Destructor de TODO, simplificacion de un solo metodo
 	void destroyAllElements();
-	
+
+	//metodos constructores con istream
 };
 
 inline Texture*
