@@ -54,7 +54,7 @@ void Frog::FrogMovementUpdate() {
 
 void Frog::FrogCollisionsUpdate() {
 	//Colisiones
-	SDL_FRect hitbox = { position.GetX() + 5.5, position.GetY() + 8.5, 25, 19 }; //Calculado con los espacios de píxeles entre límite de textura y de rana
+	SDL_FRect hitbox = { position.GetX() + FROG_HITBOX_OFFSET_X, position.GetY() + FROG_HITBOX_OFFSET_Y, FROG_HITBOX_WIDTH, FROG_HITBOX_HEIGHT }; //Calculado con los espacios de píxeles entre límite de textura y de rana
 	Collision col = game->checkCollision(hitbox);
 	if (col.tipo == PLATFORM) {
 		position = position + col.speed * (game->FRAME_RATE / 1000.0);
@@ -83,19 +83,19 @@ void Frog::HandleEvent(const SDL_Event& event) {
 		switch (event.key.key) {
 		case SDLK_W: case SDLK_UP:
 			lastDir = Vector2D<float>(0, -1);
-			angle = 0;
+			angle = ANGLE_UP;
 			break;
 		case SDLK_A: case SDLK_LEFT:
 			lastDir = Vector2D<float>(-1, 0);
-			angle = 270;
+			angle = ANGLE_LEFT;
 			break;
 		case SDLK_S: case SDLK_DOWN:
 			lastDir = Vector2D<float>(0, 1);
-			angle = 180;
+			angle = ANGLE_DOWN;
 			break;
 		case SDLK_D: case SDLK_RIGHT:
 			lastDir = Vector2D<float>(1, 0);
-			angle = 90;
+			angle = ANGLE_RIGHT;
 			break;
 		default:
 			break;
