@@ -105,7 +105,7 @@ public:
 
 	//Destructor de vector de punteros
 	template <typename T>
-	void destroyElements(vector<T*>& vec);
+	void destroyElements(std::vector <T*>& vec);
 
 	//Destructor de TODO, simplificacion de un solo metodo
 	void destroyAllElements();
