@@ -3,11 +3,12 @@
 #include "texture.h"
 #include "Collision.h"
 #include "game.h"
+#include "SceneObject.h"
 
 class Game;
 class Collision;
 
-class Wasp
+class Wasp : public SceneObject
 {
 private:
 	Game* game;

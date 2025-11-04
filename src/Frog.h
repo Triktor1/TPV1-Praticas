@@ -3,11 +3,12 @@
 #include "Vector2D.h"
 #include "Collision.h"
 #include "game.h"
+#include "SceneObject.h"
 
 class Game;
 class Collision;
 
-class Frog
+class Frog : public SceneObject
 {
 private:
 	// 448/14, osea 14 pasos (y además la altura de un tile en píxeles)

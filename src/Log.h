@@ -3,11 +3,12 @@
 #include "Vector2D.h"
 #include "Collision.h"
 #include "game.h"
+#include "Platform.h"
 
 class Game;
 class Collision;
 
-class Log
+class Log : Platform
 {
 private:
 	Game* game;

@@ -2,14 +2,14 @@
 #include "texture.h"
 #include "Vector2D.h"
 #include "Collision.h"
-#include "game.h"
+#include "Crosser.h"
 
 class Game;
-class Collision;
 
-class Vehicle
+class Vehicle : public Crosser
 {
 private:
+
 	Game* game;
 	Texture* texture;
 	Point2D<float> position;
@@ -18,8 +18,7 @@ private:
 public:
 	Vehicle(Vector2D<float>, Point2D<float>, Texture*, Game*);
 
-	void Render() const;
-	void Update();
+	void Update() override;
 	Collision CheckCollision(const SDL_FRect& FRect);
 };
 

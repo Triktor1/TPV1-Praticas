@@ -1,19 +1,10 @@
 #include "Vehicle.h"
 
 
-Vehicle::Vehicle(Vector2D<float> sentido, Point2D<float> posicion, Texture* textura, Game* juego) :
-	speed(sentido),
-	position(posicion),
-	texture(textura),
-	game(juego)
+Vehicle::Vehicle(Vector2D<float> sentido, Point2D<float> posicion, Texture* textura, Game* juego) : 
+	GameObject(posicion, textura, juego),
+	speed(sentido)
 {
-
-}
-
-void Vehicle::Render() const {
-	SDL_FRect hitbox = { (float)position.GetX(), (float)position.GetY(),
-				(float)texture->getFrameWidth(), (float)texture->getFrameHeight() };
-	texture->renderFrame(hitbox, 0, 0);
 }
 
 void Vehicle::Update() {

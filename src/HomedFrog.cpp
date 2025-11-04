@@ -2,9 +2,7 @@
 #include "game.h"
 
 HomedFrog::HomedFrog(Point2D<float> position, Texture* texture, Game* game) :
-	position(position),
-	texture(texture),
-	game(game),
+	GameObject(position, texture, game),
 	reached(false)
 {
 }

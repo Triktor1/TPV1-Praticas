@@ -15,22 +15,32 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Crosser.cpp" />
     <ClCompile Include="src\Frog.cpp" />
     <ClCompile Include="src\game.cpp" />
+    <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="src\HomedFrog.cpp" />
     <ClCompile Include="src\Log.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Platform.cpp" />
+    <ClCompile Include="src\SceneObject.cpp" />
     <ClCompile Include="src\texture.cpp" />
+    <ClCompile Include="src\TurtleGroup.cpp" />
     <ClCompile Include="src\Vehicle.cpp" />
     <ClCompile Include="src\Wasp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Collision.h" />
+    <ClInclude Include="src\Crosser.h" />
     <ClInclude Include="src\Frog.h" />
     <ClInclude Include="src\game.h" />
+    <ClInclude Include="src\GameObject.h" />
     <ClInclude Include="src\HomedFrog.h" />
     <ClInclude Include="src\Log.h" />
+    <ClInclude Include="src\Platform.h" />
+    <ClInclude Include="src\SceneObject.h" />
     <ClInclude Include="src\texture.h" />
+    <ClInclude Include="src\TurtleGroup.h" />
     <ClInclude Include="src\Vector2D.h" />
     <ClInclude Include="src\Vehicle.h" />
     <ClInclude Include="src\Wasp.h" />
