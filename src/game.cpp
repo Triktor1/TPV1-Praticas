@@ -1,5 +1,6 @@
 #include "game.h"
 #include <string>
+#include <vector>
 #include <SDL3_image/SDL_image.h>
 #include <random>
 #include "texture.h"
@@ -144,37 +145,7 @@ Game::Game()
 	}
 	catch(const string& e)
 	{
-		if (frog) {
-			delete frog;		
-			frog = nullptr; 
-		}
-
-		for (auto& v : vehicles) {
-			delete v;
-			v = nullptr;
-		}
-		vehicles.clear(); 
-			
-		for (auto& l : logs) {
-			delete l; 
-			l = nullptr; 
-		}
-		logs.clear();
-
-		for (auto& t : textures) {
-				delete t;
-				t = nullptr;
-		}
-
-		for (auto& h : homedFrogs) {
-			delete h;
-			h = nullptr;
-		}
-
-		homedFrogs.clear();
-		reachedHomes.clear();
-		if (renderer) SDL_DestroyRenderer(renderer); 
-		if (window) SDL_DestroyWindow(window);
+		destroyAllElements();
 		SDL_Quit(); 
 		throw; 
 	}
@@ -182,10 +153,14 @@ Game::Game()
 
 Game::~Game()
 {
-	for (Texture* t : textures) {
-		delete t;
-		t = nullptr;
-	}
+	destroyElements(vehicles);
+	destroyElements(logs);
+	destroyElements(wasps);
+	delete frog; 
+	frog = nullptr; 
+	destroyElements(homedFrogs);
+
+	/*	}
 	for (Vehicle* e : vehicles) {
 		delete e;
 		e = nullptr;
@@ -202,7 +177,13 @@ Game::~Game()
 	for (Wasp* w : wasps) {
 		delete w;
 		w = nullptr;
+	}*/
+	//es un array asi que por eso no puedo utilizar el metoodo, se podria hacer uno para arrays pero mucho lio no? 
+	for (Texture* t : textures) {
+		delete t;
+		t = nullptr;
 	}
+
 }
 
 void
@@ -297,6 +278,40 @@ Game::handleEvents()
 
 		frog->HandleEvent(event);
 	}
+}
+
+//Destruir elmenetos de vectores
+template <typename T>
+void
+Game::destroyElements(vector<T*>& vec) {
+
+	for (auto& e : vec) {
+		delete e;
+		e = nullptr;
+	}
+	vec.clear();
+}
+
+//Metodo que agrupa TODO a borrar para la excepcion
+void 
+Game::destroyAllElements() {
+	if (frog) {
+		delete frog;
+		frog = nullptr;
+	}
+	destroyElements(vehicles);
+	destroyElements(logs);
+	destroyElements(wasps);
+	destroyElements(homedFrogs);
+
+	for (auto& t : textures) {
+		delete t;
+		t = nullptr;
+	}
+
+	reachedHomes.clear();
+	if (renderer) SDL_DestroyRenderer(renderer);
+	if (window) SDL_DestroyWindow(window);
 }
 
 Collision

@@ -102,6 +102,14 @@ public:
 
 	//Devuelve un número aleatorio entre el rango
 	int getRandomRange(int min, int max);
+
+	//Destructor de vector de punteros
+	template <typename T>
+	void destroyElements(vector<T*>& vec);
+
+	//Destructor de TODO, simplificacion de un solo metodo
+	void destroyAllElements();
+	
 };
 
 inline Texture*
