@@ -1,6 +1,11 @@
 #pragma once
 #include "Crosser.h"
-class Platform : public Crosser
-{
+#include "Collision.h"
+
+class Platform : public Crosser {
+	using Crosser::Crosser;
+
+public:
+	Collision checkCollision(const SDL_FRect& FRect);
 };
 

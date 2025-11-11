@@ -1,10 +1,6 @@
 #pragma once
-#include "texture.h"
-#include "Vector2D.h"
 #include "Collision.h"
 #include "Crosser.h"
-
-class Game;
 
 class Vehicle : public Crosser
 {

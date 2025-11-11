@@ -1,5 +1,6 @@
 #include "SceneObject.h"
-#include <SDL3_image/SDL_image.h>
+#include "Game.h"
+#include "texture.h"
 
 SceneObject::SceneObject(Point2D<float> position, Texture* texture, Game* game) :
 	GameObject(game),
@@ -9,8 +10,7 @@ SceneObject::SceneObject(Point2D<float> position, Texture* texture, Game* game) 
 }
 
 void SceneObject::Render() const {
-	SDL_FRect hitbox = getBoundingBox();
-	texture->renderFrame(hitbox, 0, 0);
+	texture->renderFrame(getBoundingBox(), 0, 0);
 }
 
 void SceneObject::Update() {

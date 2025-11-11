@@ -1,9 +1,8 @@
 #include "Vehicle.h"
-
+#include "Game.h"
 
 Vehicle::Vehicle(Vector2D<float> sentido, Point2D<float> posicion, Texture* textura, Game* juego) : 
-	GameObject(posicion, textura, juego),
-	speed(sentido)
+	Crosser(posicion, sentido, textura, juego)
 {
 }
 

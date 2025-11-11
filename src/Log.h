@@ -1,15 +1,14 @@
 #pragma once
 #include "texture.h"
 #include "Vector2D.h"
-#include "Collision.h"
-#include "game.h"
 #include "Platform.h"
+#include "game.h"
 
-class Game;
 class Collision;
 
 class Log : Platform
 {
+	using Platform::Platform;
 private:
 	Game* game;
 	Texture* texture;
@@ -17,7 +16,6 @@ private:
 	Vector2D<float> speed;
 
 public:
-	Log(Vector2D<float>, Point2D<float>, Texture*, Game*);
 
 	void Render() const;
 	void Update();

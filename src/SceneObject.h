@@ -3,7 +3,6 @@
 #include "texture.h"
 #include "Vector2D.h"
 
-class Game;
 class SceneObject : public GameObject
 {
 protected:

@@ -1,14 +1,5 @@
 #include "Log.h"
 
-Log::Log(Vector2D<float> sentido, Point2D<float> posicion, Texture* textura, Game* juego) :
-	speed(sentido),
-	position(posicion),
-	texture(textura),
-	game(juego)
-{
-
-}
-
 void Log::Render() const {
 	SDL_FRect hitbox = { (float)position.GetX(), (float)position.GetY(),
 				(float)texture->getFrameWidth(), (float)texture->getFrameHeight() };
