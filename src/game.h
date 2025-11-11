@@ -63,6 +63,9 @@ private:
 	std::vector<HomedFrog*> homedFrogs;
 	std::vector<bool> reachedHomes;
 	std::vector<Wasp*> wasps;
+
+	std::vector<SceneObject*> sceneObjects;
+
 	Frog* frog;
 
 	void render() const;

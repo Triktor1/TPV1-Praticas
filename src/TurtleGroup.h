@@ -12,4 +12,3 @@ private:
 public:
 	TurtleGroup(Point2D<float>, Vector2D<float>, int, bool, Texture*, Game*);
 };
-

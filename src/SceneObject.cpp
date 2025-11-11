@@ -20,7 +20,3 @@ void SceneObject::Update() {
 SDL_FRect SceneObject::getBoundingBox() const{
 	return { (float)position.GetX(), (float)position.GetY(), (float)texture->getFrameWidth(), (float)texture->getFrameHeight() };
 }
-
-void SceneObject::checkCollision() const{
-
-}

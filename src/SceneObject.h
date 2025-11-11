@@ -16,6 +16,6 @@ public:
 	SceneObject(Point2D<float>, Texture*, Game*);
 	void Render() const override;
 	void Update() override;
-	void checkCollision() const;
+	Collision virtual checkCollision(SDL_FRect& const) const;
 };
 

@@ -164,19 +164,11 @@ Game::render() const
 	SDL_RenderClear(renderer);
 
 	getTexture(BACKGROUND)->render();
-	for (int i = 0; i < vehicles.size(); i++) {
-		vehicles[i]->Render();
+
+	for (SceneObject* so : sceneObjects) {
+		so->Render();
 	}
-	for (int i = 0; i < logs.size(); i++) {
-		logs[i]->Render();
-	}
-	frog->Frog::Render();
-	for (int i = 0; i < homedFrogs.size(); i++) {
-		homedFrogs[i]->Render();
-	}
-	for (int i = 0; i < wasps.size(); i++) {
-		wasps[i]->Render();
-	}
+
 	SDL_RenderPresent(renderer);
 }
 
@@ -184,14 +176,9 @@ void
 Game::update()
 {
 	currentTime = SDL_GetTicks();
-	for (int i = 0; i < vehicles.size(); i++) {
-		vehicles[i]->Update();
+	for (SceneObject* so : sceneObjects) {
+		so->Update();
 	}
-
-	for (int i = 0; i < logs.size(); i++) {
-		logs[i]->Update();
-	}
-	frog->Update();
 
 	if (frog->GetHealth() == 0) {
 		cout << "Has perdido" << endl;
@@ -203,14 +190,14 @@ Game::update()
 		exit = true;
 	}
 
-	for (int i = wasps.size() - 1; i >= 0; i--) { //Se recorre al revés para no saltarse avispas en caso de borrar alguna
-		wasps[i]->Update();
-		if (!wasps[i]->isAlive()) {
-			delete wasps[i];
-			wasps[i] = nullptr;
-			wasps.erase(wasps.begin() + i);
-		}
-	}
+	//for (int i = wasps.size() - 1; i >= 0; i--) { //Se recorre al revés para no saltarse avispas en caso de borrar alguna
+	//	wasps[i]->Update();
+	//	if (!wasps[i]->isAlive()) {
+	//		delete wasps[i];
+	//		wasps[i] = nullptr;
+	//		wasps.erase(wasps.begin() + i);
+	//	}
+	//}
 
 	if (currentTime >= waspSpawnTime) {
 		waspSpawnTime = currentTime + getRandomRange(WASP_MIN_SPAWN, WASP_MAX_SPAWN) * 1000;
@@ -252,29 +239,13 @@ Game::handleEvents()
 	}
 }
 
-//Destruir elmenetos de vectores
-template <typename T>
-void
-Game::destroyElements(vector<T*>& vec) {
-
-	for (auto& e : vec) {
-		delete e;
-		e = nullptr;
-	}
-	vec.clear();
-}
-
 //Metodo que agrupa TODO a borrar para la excepcion
 void 
 Game::destroyAllElements() {
-	if (frog) {
-		delete frog;
-		frog = nullptr;
+	for (SceneObject* so : sceneObjects) {
+		delete so;
+		so = nullptr;
 	}
-	destroyElements(vehicles);
-	destroyElements(logs);
-	destroyElements(wasps);
-	destroyElements(homedFrogs);
 
 	for (auto& t : textures) {
 		delete t;
@@ -291,41 +262,15 @@ Game::checkCollision(const SDL_FRect& rect) const
 {
 	Collision collision;
 	collision.tipo = NONE; //Inicializamos en tipo NONE (sin colisión)
-	bool hasCollisioned = false;
-	int i = 0;
-	while (!hasCollisioned && i < logs.size()) {
-		Collision col = logs[i]->CheckCollision(rect);
+
+	for (SceneObject* so : sceneObjects) {
+		Collision col = so->checkCollision(&rect);
 		if (col.tipo != NONE) {
 			collision.tipo = col.tipo;
 			collision.speed = col.speed;
-			hasCollisioned = true;
-		} i++;
-	} i = 0;
-
-	while (!hasCollisioned && i < vehicles.size()) {
-		Collision col = vehicles[i]->CheckCollision(rect);
-		if (col.tipo != NONE) {
-			collision.tipo = col.tipo;
-			hasCollisioned = true;
-		} i++;
-	} i = 0;
-
-	while (!hasCollisioned && i < wasps.size()) {
-		Collision col = wasps[i]->CheckCollision(rect);
-		if (col.tipo != NONE) {
-			collision.tipo = col.tipo;
-			hasCollisioned = true;
-		} i++;
-	} i = 0;
-
-	while (!hasCollisioned && i < HOMEFROGNUM) {
-		Collision col = homedFrogs[i]->CheckCollision(rect);
-		if (col.tipo != NONE) {
-			collision.tipo = col.tipo;
-			hasCollisioned = true;
-		} i++;
+			return collision;
+		}
 	}
-
 	return collision;
 }
 
