@@ -29,8 +29,7 @@ private:
 	// Frames que dura la animación de salto de la rana
 	static constexpr int JUMP_DURATION = 7; 
 
-	Game* game;
-	Texture* texture;
+
 	Point2D<float> position;
 	Vector2D<float> lastDir;
 	int anim;
@@ -43,6 +42,7 @@ private:
 public:
 	
 	Frog(Vector2D<float>, Point2D<float>, int, Texture*, Game*);
+	Frog(std::istream&);
 	void Render() const;
 	void Update();
 	void HandleEvent(const SDL_Event&);

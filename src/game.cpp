@@ -19,10 +19,10 @@ constexpr const float HOME_Y = 38;
 constexpr const float HOME_DISTANCE = 96;
 //Las posiciones de las casas, siendo la posición el pixel inferior derecho del cuadrado 2x2 que constituye el centro del sprite de casa.
 //Empieza en (32, 38) y se va sumando 96 en la posición horizontal con cada casa consecutiva, según la imagen dada
-const Point2D<float> homePositions[HOMEFROGNUM] = { Point2D<float>(HOME_FIRST_X, HOME_Y), 
-													Point2D<float>(HOME_FIRST_X + HOME_DISTANCE, HOME_Y), 
-													Point2D<float>(HOME_FIRST_X + HOME_DISTANCE * 2, HOME_Y), 
-													Point2D<float>(HOME_FIRST_X + HOME_DISTANCE * 3, HOME_Y), 
+const Point2D<float> homePositions[HOMEFROGNUM] = { Point2D<float>(HOME_FIRST_X, HOME_Y),
+													Point2D<float>(HOME_FIRST_X + HOME_DISTANCE, HOME_Y),
+													Point2D<float>(HOME_FIRST_X + HOME_DISTANCE * 2, HOME_Y),
+													Point2D<float>(HOME_FIRST_X + HOME_DISTANCE * 3, HOME_Y),
 													Point2D<float>(HOME_FIRST_X + HOME_DISTANCE * 4, HOME_Y) };
 
 // Estructura para especificar las texturas que hay que
@@ -60,7 +60,7 @@ Game::Game()
 			throw string("Error inicializando SDL: ") + SDL_GetError() + "\n";
 		};
 
-		window = SDL_CreateWindow(WINDOW_TITLE, WINDOW_WIDTH, WINDOW_HEIGHT,0);
+		window = SDL_CreateWindow(WINDOW_TITLE, WINDOW_WIDTH, WINDOW_HEIGHT, 0);
 
 		if (!window)
 			throw string("window: ") + SDL_GetError() + "\n";
@@ -71,72 +71,49 @@ Game::Game()
 			throw string("renderer: ") + SDL_GetError() + "\n";
 
 		// Carga las texturas al inicio
-		
+
 		for (size_t i = 0; i < textures.size(); i++) {
 			auto [name, nrows, ncols] = textureList[i];
 			textures[i] = new Texture(renderer, (string(imgBase) + name).c_str(), nrows, ncols);
+			cout << textures[i] << endl;
 		}
-		
-		
+
+
 		//Variables para leer el archivo
 		fstream file(MAP_FILE);
-		if (!file) 
+		if (!file)
 			throw string("Error: No se ha encontrado el archivo mapa. El nombre del archivo que se intenta leer es: ") + string(MAP_FILE) + "\n";
 		char objType, c_sprType;
 		TextureName sprType;
 		int pointX, pointY, directionX;
 
-				while (file >> objType) { //Asumo que el archivo tendrá el formato correcto
-					if (objType == '#') {
-						file.ignore(numeric_limits<streamsize>::max(), '\n');
-					}
-					else if (objType == 'F') {
-						if (!(file >> pointX >> pointY)) {
-							throw string("Error: formato invalido para rana en el archivo de mapa: ") + string(MAP_FILE) + "\n";
-						};
-						frogSpawn = Point2D<float>(pointX, pointY);
-						sprType = FROG;
-						int health;
-						file >> health;
-						frog = new Frog{ Vector2D<float>(0, 0), Point2D<float>(pointX, pointY), health, getTexture(sprType), this };
-						
-
-					}
-					else if (objType == 'V' || objType == 'L') {
-						if (!(file >> pointX >> pointY >> directionX >> c_sprType)) {
-							throw string("Error: formato invalido para vehiculo/log en el archivo de mapa: ") + string(MAP_FILE) + "\n";
-						}
-
-						switch (objType) {
-						case 'V':
-							switch (c_sprType) {
-							case '1': sprType = CAR1; break;
-							case '2': sprType = CAR2; break;
-							case '3': sprType = CAR3; break;
-							case '4': sprType = CAR4; break;
-							case '5': sprType = CAR5; break;
-							default:  sprType = CAR1; break;
-							}
-							vehicles.push_back(new Vehicle{ Vector2D<float>(directionX, 0), Point2D<float>(pointX, pointY), getTexture(sprType), this });
-							break;
-						case 'L':
-							switch (c_sprType) {
-							case '0': sprType = LOG1; break;
-							case '1': sprType = LOG2; break;
-							default:  sprType = LOG1; break;
-							}
-							logs.push_back(new Log{ Vector2D<float>(directionX, 0), Point2D<float>(pointX, pointY), getTexture(sprType), this });
-							break;
-						default:
-							break;
-						}
-						
-					}
-				}
-			for (int i = 0; i < 5; i++) {
-				homedFrogs.push_back(new HomedFrog{ Point2D<float>(homePositions[i] - Point2D<float>(getTexture(FROG)->getFrameWidth() / 2,getTexture(FROG)->getFrameHeight() / 2)), getTexture(FROG), this });
-				reachedHomes.push_back(false);
+		while (file >> objType) { //Asumo que el archivo tendrá el formato correcto
+			if (objType == '#') {
+				file.ignore(numeric_limits<streamsize>::max(), '\n');
 			}
+			else if (objType == 'F') {
+				sceneObjects.push_back(Frog::readFile(file, this));
+			}
+			else if (objType == 'V' || objType == 'L') {
+				
+				case 'L':
+					switch (c_sprType) {
+					case '0': sprType = LOG1; break;
+					case '1': sprType = LOG2; break;
+					default:  sprType = LOG1; break;
+					}
+					logs.push_back(new Log{ Vector2D<float>(directionX, 0), Point2D<float>(pointX, pointY), getTexture(sprType), this });
+					break;
+				default:
+					break;
+				}
+
+			}
+		}
+		for (int i = 0; i < 5; i++) {
+			homedFrogs.push_back(new HomedFrog{ Point2D<float>(homePositions[i] - Point2D<float>(getTexture(FROG)->getFrameWidth() / 2,getTexture(FROG)->getFrameHeight() / 2)), getTexture(FROG), this });
+			reachedHomes.push_back(false);
+		}
 
 		file.close();
 		randomGenerator.seed(time(nullptr));
@@ -144,18 +121,18 @@ Game::Game()
 		waspSpawnTime = getRandomRange(WASP_MIN_SPAWN, WASP_MAX_SPAWN) * 1000;
 		currentTime = 0;
 	}
-	catch(const string& e)
+	catch (const string& e)
 	{
 		destroyAllElements();
-		SDL_Quit(); 
-		throw; 
+		SDL_Quit();
+		throw e;
 	}
 }
 
 Game::~Game()
 {
 	destroyAllElements();
-
+	SDL_Quit();
 }
 
 void
@@ -178,12 +155,13 @@ Game::update()
 	currentTime = SDL_GetTicks();
 	for (SceneObject* so : sceneObjects) {
 		so->Update();
+
 	}
 
-	if (frog->GetHealth() == 0) {
-		cout << "Has perdido" << endl;
-		exit = true;
-	}
+	//if (frog->GetHealth() == 0) { //no se como hacer esto bien ayuda
+	//	cout << "Has perdido" << endl;
+	//	exit = true;
+	//}
 
 	if (allFrogsHome()) {
 		cout << "Has ganado" << endl;
@@ -203,7 +181,7 @@ Game::update()
 		waspSpawnTime = currentTime + getRandomRange(WASP_MIN_SPAWN, WASP_MAX_SPAWN) * 1000;
 		int rndHome;
 		do {
-			rndHome = getRandomRange(0, HOMEFROGNUM-1);
+			rndHome = getRandomRange(0, HOMEFROGNUM - 1);
 		} while (reachedHomes[rndHome]);
 		wasps.push_back(new Wasp{ homePositions[rndHome] - Point2D<float>(getTexture(WASP)->getFrameWidth() / 2,getTexture(WASP)->getFrameHeight() / 2), Vector2D<float>(0,0), getTexture(WASP), this, (float)(getRandomRange(WASP_MIN_LIFE, WASP_MAX_LIFE) * 1000.0) });
 	}
@@ -240,19 +218,36 @@ Game::handleEvents()
 }
 
 //Metodo que agrupa TODO a borrar para la excepcion
-void 
+void
 Game::destroyAllElements() {
-	for (SceneObject* so : sceneObjects) {
-		delete so;
-		so = nullptr;
+
+	for (Vehicle* v : vehicles) delete v;
+
+	vehicles.clear();
+
+	for (Log* l : logs) delete l;
+
+	logs.clear();
+
+	for (HomedFrog* hf : homedFrogs) delete hf;
+
+	homedFrogs.clear();
+
+	if (frog) {
+		delete frog;
+		frog = nullptr;
 	}
+
+	//for (SceneObject* so : sceneObjects) delete so;
+	//sceneObjects.clear();
+
+	reachedHomes.clear();
 
 	for (auto& t : textures) {
 		delete t;
 		t = nullptr;
 	}
 
-	reachedHomes.clear();
 	if (renderer) SDL_DestroyRenderer(renderer);
 	if (window) SDL_DestroyWindow(window);
 }
@@ -264,7 +259,7 @@ Game::checkCollision(const SDL_FRect& rect) const
 	collision.tipo = NONE; //Inicializamos en tipo NONE (sin colisión)
 
 	for (SceneObject* so : sceneObjects) {
-		Collision col = so->checkCollision(&rect);
+		Collision col = so->checkCollision(rect);
 		if (col.tipo != NONE) {
 			collision.tipo = col.tipo;
 			collision.speed = col.speed;
@@ -278,6 +273,9 @@ Point2D<float> Game::getFrogSpawn() const {
 	return frogSpawn;
 }
 
+void Game::setFrogSpawn(float x, float y) {
+	frogSpawn = Point2D<float>(x, y);
+}
 
 bool Game::tryReachHome(const SDL_FRect& hitbox) {
 	bool reached = true;
@@ -309,7 +307,7 @@ Game::allFrogsHome() const {
 		if (homedFrogs[i]->GetReached())
 			count++;
 	}
-	return count == HOMEFROGNUM; 
+	return count == HOMEFROGNUM;
 }
 
 int Game::getRandomRange(int min, int max) {

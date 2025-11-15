@@ -4,7 +4,7 @@
 
 class Vehicle : public Crosser
 {
-private:
+protected:
 
 	Game* game;
 	Texture* texture;
@@ -15,6 +15,6 @@ public:
 	Vehicle(Vector2D<float>, Point2D<float>, Texture*, Game*);
 
 	void Update() override;
-	Collision CheckCollision(const SDL_FRect& FRect);
+	Collision checkCollision(const SDL_FRect& FRect) override;
 };
 

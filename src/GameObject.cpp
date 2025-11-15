@@ -7,5 +7,5 @@ GameObject::GameObject(Game* juego) :
 }
 
 GameObject::~GameObject() {
-	delete game;
+
 }

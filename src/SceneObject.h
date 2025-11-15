@@ -2,20 +2,17 @@
 #include "GameObject.h"
 #include "texture.h"
 #include "Vector2D.h"
+#include "Collision.h"
 
 class SceneObject : public GameObject
 {
 protected:
-	Game* game;
 	Texture* texture;
 	Point2D<float> position;
-
 	SDL_FRect getBoundingBox() const;
-
 public:
 	SceneObject(Point2D<float>, Texture*, Game*);
-	void Render() const override;
+	virtual void Render() const override;
 	void Update() override;
-	Collision virtual checkCollision(SDL_FRect& const) const;
+	virtual Collision checkCollision(const SDL_FRect&) const;
 };
-

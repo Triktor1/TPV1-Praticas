@@ -4,7 +4,6 @@
 
 class Platform : public Crosser {
 	using Crosser::Crosser;
-
 public:
 	Collision checkCollision(const SDL_FRect& FRect);
 };

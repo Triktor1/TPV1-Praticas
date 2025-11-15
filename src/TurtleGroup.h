@@ -7,7 +7,7 @@
 class TurtleGroup : public Platform
 {
 private:
-	int turtleNum;
+	int numTurtles;
 	bool submergible;
 public:
 	TurtleGroup(Point2D<float>, Vector2D<float>, int, bool, Texture*, Game*);

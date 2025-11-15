@@ -94,6 +94,9 @@ public:
 	//Devuelve la posición de spawn de la rana
 	Point2D<float> getFrogSpawn() const;
 
+	//Cambia la posición de spawn de la rana
+	void setFrogSpawn(float x, float y);
+
 	//Comprueba con qué nido se ha chocado la rana, y si no ha sido alcanzado antes, marca que ahora sí
 	//[IMPORTANTE] Este método sólo funciona porque se llama después de comprobar que ha habido una colisión de tipo HOME
 	bool tryReachHome(const SDL_FRect& hitbox);
@@ -104,10 +107,6 @@ public:
 
 	//Devuelve un número aleatorio entre el rango
 	int getRandomRange(int min, int max);
-
-	//Destructor de vector de punteros
-	template <typename T>
-	void destroyElements(std::vector <T*>& vec);
 
 	//Destructor de TODO, simplificacion de un solo metodo
 	void destroyAllElements();

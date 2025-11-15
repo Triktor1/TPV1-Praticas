@@ -12,6 +12,12 @@ Frog::Frog(Vector2D<float> lastDir, Point2D<float> position, int health, Texture
 {
 }
 
+Frog::Frog(istream& in) : 
+{
+
+}
+
+
 void Frog::Render() const {
 	SDL_FRect frogDimensions = { position.GetX(), position.GetY(),
 				(float)texture->getFrameWidth(), (float)texture->getFrameHeight() };
