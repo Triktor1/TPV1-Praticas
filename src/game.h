@@ -8,16 +8,14 @@
 #include "Vehicle.h"
 #include "Log.h"
 #include "Frog.h"
+#include "HomedFrog.h"
 #include "Wasp.h"
+#include "TurtleGroup.h"
+#include "texture.h"
 #include <random>
+#include <list>
 
-// Declaraciones anticipadas
-class Texture;
-class Vehicle;
-class Log;
 class Frog;
-class HomedFrog;
-class Wasp;
 
 /**
  * Clase principal del juego.
@@ -55,17 +53,13 @@ private:
 	static constexpr int WASP_MAX_LIFE = 10;
 
 	std::mt19937_64 randomGenerator;
+	
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 	std::array<Texture*, NUM_TEXTURES> textures;
-	std::vector<Vehicle*> vehicles;
-	std::vector<Log*> logs;
-	std::vector<HomedFrog*> homedFrogs;
 	std::vector<bool> reachedHomes;
-	std::vector<Wasp*> wasps;
-
-	std::vector<SceneObject*> sceneObjects;
-
+	std::list<SceneObject*> sceneObjects;
+	std::vector<HomedFrog*> homedFrogs;
 	Frog* frog;
 
 	void render() const;

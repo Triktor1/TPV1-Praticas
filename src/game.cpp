@@ -3,15 +3,13 @@
 #include <vector>
 #include <SDL3_image/SDL_image.h>
 #include <random>
-#include "texture.h"
-#include "HomedFrog.h"
 #include <iostream>
 #include <fstream>
 using namespace std;
 
 // Constantes
 constexpr const char* const WINDOW_TITLE = "Frogger 1.0";
-constexpr const char* const MAP_FILE = "assets/maps/default.txt";
+constexpr const char* const MAP_FILE = "assets/maps/turtles.txt";
 
 constexpr const int HOMEFROGNUM = 5;
 constexpr const float HOME_FIRST_X = 32;
@@ -75,27 +73,44 @@ Game::Game()
 		for (size_t i = 0; i < textures.size(); i++) {
 			auto [name, nrows, ncols] = textureList[i];
 			textures[i] = new Texture(renderer, (string(imgBase) + name).c_str(), nrows, ncols);
-			cout << textures[i] << endl;
 		}
 
-
-		//Variables para leer el archivo
+		//Lectura de archivo
 		fstream file(MAP_FILE);
 		if (!file)
 			throw string("Error: No se ha encontrado el archivo mapa. El nombre del archivo que se intenta leer es: ") + string(MAP_FILE) + "\n";
-		char objType, c_sprType;
-		TextureName sprType;
-		int pointX, pointY, directionX;
+		char objType;
 
 		while (file >> objType) { //Asumo que el archivo tendrá el formato correcto
-			if (objType == '#') {
+			switch (objType) {
+			case '#':
+				file.ignore(numeric_limits<streamsize>::max(), '\n');
+				break;
+			case 'F':
+				frog = new Frog(this, file);
+				sceneObjects.push_back(frog);
+				break;
+			case 'L':
+				sceneObjects.push_back(new Log(this, file));
+				break;
+			case 'V':
+				sceneObjects.push_back(new Vehicle(this, file));
+				break;
+			case 'T':
+				sceneObjects.push_back(new TurtleGroup(this, file));
+				break;
+			}
+
+
+
+			/*if (objType == '#') {
 				file.ignore(numeric_limits<streamsize>::max(), '\n');
 			}
 			else if (objType == 'F') {
 				sceneObjects.push_back(Frog::readFile(file, this));
 			}
 			else if (objType == 'V' || objType == 'L') {
-				
+
 				case 'L':
 					switch (c_sprType) {
 					case '0': sprType = LOG1; break;
@@ -106,12 +121,12 @@ Game::Game()
 					break;
 				default:
 					break;
-				}
+			}*/
 
-			}
 		}
+
 		for (int i = 0; i < 5; i++) {
-			homedFrogs.push_back(new HomedFrog{ Point2D<float>(homePositions[i] - Point2D<float>(getTexture(FROG)->getFrameWidth() / 2,getTexture(FROG)->getFrameHeight() / 2)), getTexture(FROG), this });
+			//sceneObjects.push_back(new HomedFrog{ Point2D<float>(homePositions[i] - Point2D<float>(getTexture(FROG)->getFrameWidth() / 2,getTexture(FROG)->getFrameHeight() / 2)), getTexture(FROG), this });
 			reachedHomes.push_back(false);
 		}
 
@@ -155,7 +170,6 @@ Game::update()
 	currentTime = SDL_GetTicks();
 	for (SceneObject* so : sceneObjects) {
 		so->Update();
-
 	}
 
 	//if (frog->GetHealth() == 0) { //no se como hacer esto bien ayuda
@@ -183,7 +197,7 @@ Game::update()
 		do {
 			rndHome = getRandomRange(0, HOMEFROGNUM - 1);
 		} while (reachedHomes[rndHome]);
-		wasps.push_back(new Wasp{ homePositions[rndHome] - Point2D<float>(getTexture(WASP)->getFrameWidth() / 2,getTexture(WASP)->getFrameHeight() / 2), Vector2D<float>(0,0), getTexture(WASP), this, (float)(getRandomRange(WASP_MIN_LIFE, WASP_MAX_LIFE) * 1000.0) });
+		//wasps.push_back(new Wasp{ homePositions[rndHome] - Point2D<float>(getTexture(WASP)->getFrameWidth() / 2,getTexture(WASP)->getFrameHeight() / 2), Vector2D<float>(0,0), getTexture(WASP), this, (float)(getRandomRange(WASP_MIN_LIFE, WASP_MAX_LIFE) * 1000.0) });
 	}
 }
 
@@ -221,25 +235,12 @@ Game::handleEvents()
 void
 Game::destroyAllElements() {
 
-	for (Vehicle* v : vehicles) delete v;
-
-	vehicles.clear();
-
-	for (Log* l : logs) delete l;
-
-	logs.clear();
-
-	for (HomedFrog* hf : homedFrogs) delete hf;
-
-	homedFrogs.clear();
-
-	if (frog) {
-		delete frog;
-		frog = nullptr;
+	frog = nullptr;
+	for (SceneObject* so : sceneObjects) {
+		delete so;
+		so = nullptr;
 	}
-
-	//for (SceneObject* so : sceneObjects) delete so;
-	//sceneObjects.clear();
+	sceneObjects.clear();
 
 	reachedHomes.clear();
 
@@ -303,10 +304,10 @@ bool Game::tryReachHome(const SDL_FRect& hitbox) {
 bool
 Game::allFrogsHome() const {
 	int count = 0;
-	for (int i = 0; i < HOMEFROGNUM; i++) {
-		if (homedFrogs[i]->GetReached())
-			count++;
-	}
+	//for (int i = 0; i < HOMEFROGNUM; i++) {
+	//	if (homedFrogs[i]->GetReached())
+	//		count++;
+	//}
 	return count == HOMEFROGNUM;
 }
 

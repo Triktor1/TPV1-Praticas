@@ -6,19 +6,12 @@
 
 class Collision;
 
-class Log : Platform
+class Log : public Platform
 {
 	using Platform::Platform;
-private:
-	Game* game;
-	Texture* texture;
-	Point2D<float> position;
-	Vector2D<float> speed;
-
 public:
-
+	Log(Vector2D<float>, Point2D<float>, Texture*, Game*);
+	Log(Game*, std::istream& const);
 	void Render() const;
-	void Update();
-	Collision CheckCollision(const SDL_FRect& FRect);
+	Collision checkCollision(const SDL_FRect& FRect) const override;
 };
-

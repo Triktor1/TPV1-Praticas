@@ -5,7 +5,7 @@ Collision Platform::checkCollision(const SDL_FRect& FRect) {
 	SDL_FRect hitbox = getBoundingBox();
 	if (SDL_HasRectIntersectionFloat(&FRect, &hitbox)) {
 		collision.tipo = PLATFORM;
-		collision.speed = getSpeed();
+		collision.speed = speed;
 	}
 	else collision.tipo = NONE;
 

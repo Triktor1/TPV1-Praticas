@@ -12,9 +12,21 @@ Frog::Frog(Vector2D<float> lastDir, Point2D<float> position, int health, Texture
 {
 }
 
-Frog::Frog(istream& in) : 
+Frog::Frog(Game* game, istream& file) : 
+	SceneObject(game, file),
+	anim(0),
+	angle(0.0)
 {
-
+	float pointX, pointY;
+	int health;
+	if (!(file >> pointX >> pointY >> health)) {
+		throw string("Error: formato invalido para rana.\n");
+	};
+	lastDir = Vector2D<float>(0, 0);
+	position = Vector2D<float>(pointX, pointY);
+	game->setFrogSpawn(pointX, pointY);
+	this->health = health;
+	texture = this->texture = game->getTexture(game->FROG);
 }
 
 
