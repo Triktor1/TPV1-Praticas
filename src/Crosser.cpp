@@ -8,6 +8,12 @@ Crosser::Crosser(Point2D<float> position, Vector2D<float> speed, Texture* textur
 {
 }
 
+Crosser::Crosser(Game* game, std::istream& file) :
+	SceneObject(game, file),
+	backjump(150)
+{
+}
+
 void Crosser::Update() {
 	position = position + speed * (game->FRAME_RATE / 1000.0);
 	if (speed.GetX() > 0 && position.GetX() >= game->WINDOW_WIDTH + backjump - texture->getFrameWidth())
@@ -16,7 +22,6 @@ void Crosser::Update() {
 		 position = {position.GetX() + backjump + game->WINDOW_WIDTH, position.GetY()};
 }
 
-Vector2D<float> Crosser::getSpeed() const {
-	return speed;
-
-Collision Crosser::checkCollision(const SDL_FRect & FRect) {
+Collision Crosser::checkCollision(const SDL_FRect& FRect) const{
+	return Collision();
+}

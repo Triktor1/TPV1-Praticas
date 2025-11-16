@@ -6,6 +6,9 @@ GameObject::GameObject(Game* juego) :
 {
 }
 
-GameObject::~GameObject() {
-
+GameObject::GameObject(Game* juego, std::istream& file) :
+	game(juego)
+{
 }
+
+GameObject::~GameObject() {}

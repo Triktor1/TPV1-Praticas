@@ -1,4 +1,5 @@
 #pragma once
+#include <istream>
 
 class Game;
 class GameObject
@@ -10,6 +11,7 @@ public:
 protected:
 	Game* game;
 	GameObject(Game*);
+	GameObject(Game*, std::istream&);
 	virtual ~GameObject();
 
 };

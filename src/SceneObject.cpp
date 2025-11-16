@@ -9,6 +9,11 @@ SceneObject::SceneObject(Point2D<float> position, Texture* texture, Game* game) 
 {
 }
 
+SceneObject::SceneObject(Game* game, std::istream& file) :
+	GameObject(game, file)
+{
+}
+
 void SceneObject::Render() const {
 	texture->renderFrame(getBoundingBox(), 0, 0);
 }

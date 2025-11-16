@@ -12,6 +12,7 @@ protected:
 	SDL_FRect getBoundingBox() const;
 public:
 	SceneObject(Point2D<float>, Texture*, Game*);
+	SceneObject(Game*, std::istream&);
 	virtual void Render() const override;
 	void Update() override;
 	virtual Collision checkCollision(const SDL_FRect&) const;

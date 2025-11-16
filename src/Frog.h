@@ -42,7 +42,7 @@ private:
 public:
 	
 	Frog(Vector2D<float>, Point2D<float>, int, Texture*, Game*);
-	Frog(std::istream&);
+	Frog(Game*, std::istream&);
 	void Render() const;
 	void Update();
 	void HandleEvent(const SDL_Event&);
