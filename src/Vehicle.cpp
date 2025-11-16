@@ -18,7 +18,10 @@ Vehicle::Vehicle(Game* game,std::istream& file) :
 	this->speed = Vector2D<float>(speedX, 0);
 	this->texture = game->getTexture(Game::TextureName(game->CAR1 + textureType - 1));
 }
-
+void Vehicle::Render() const {
+	SDL_FlipMode flip = (speed.GetX() > 0) ? SDL_FLIP_NONE : SDL_FLIP_VERTICAL;
+	texture->renderFrame(getBoundingBox(), 0, 0, flip);
+}
 
 Collision Vehicle::checkCollision(const SDL_FRect& FRect) const {
 	Collision colision;

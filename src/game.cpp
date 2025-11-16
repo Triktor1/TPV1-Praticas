@@ -3,15 +3,13 @@
 #include <vector>
 #include <SDL3_image/SDL_image.h>
 #include <random>
-#include "texture.h"
-#include "HomedFrog.h"
 #include <iostream>
 #include <fstream>
 using namespace std;
 
 // Constantes
 constexpr const char* const WINDOW_TITLE = "Frogger 1.0";
-constexpr const char* const MAP_FILE = "assets/maps/default.txt";
+constexpr const char* const MAP_FILE = "assets/maps/turtles.txt";
 
 constexpr const int HOMEFROGNUM = 5;
 constexpr const float HOME_FIRST_X = 32;
@@ -77,14 +75,11 @@ Game::Game()
 			textures[i] = new Texture(renderer, (string(imgBase) + name).c_str(), nrows, ncols);
 		}
 
-
-		//Variables para leer el archivo
+		//Lectura de archivo
 		fstream file(MAP_FILE);
 		if (!file)
 			throw string("Error: No se ha encontrado el archivo mapa. El nombre del archivo que se intenta leer es: ") + string(MAP_FILE) + "\n";
-		char objType, c_sprType;
-		TextureName sprType;
-		int pointX, pointY, directionX;
+		char objType;
 
 		while (file >> objType) { //Asumo que el archivo tendrá el formato correcto
 			switch (objType) {
@@ -102,12 +97,12 @@ Game::Game()
 				sceneObjects.push_back(new Vehicle(this, file));
 				break;
 			case 'T':
-
+				sceneObjects.push_back(new TurtleGroup(this, file));
 				break;
 			}
-			
-			
-			
+
+
+
 			/*if (objType == '#') {
 				file.ignore(numeric_limits<streamsize>::max(), '\n');
 			}
@@ -129,24 +124,24 @@ Game::Game()
 			}*/
 
 		}
-		
-	for (int i = 0; i < 5; i++) {
-		//sceneObjects.push_back(new HomedFrog{ Point2D<float>(homePositions[i] - Point2D<float>(getTexture(FROG)->getFrameWidth() / 2,getTexture(FROG)->getFrameHeight() / 2)), getTexture(FROG), this });
-		reachedHomes.push_back(false);
-	}
 
-	file.close();
-	randomGenerator.seed(time(nullptr));
-	srand(SDL_GetTicks());
-	waspSpawnTime = getRandomRange(WASP_MIN_SPAWN, WASP_MAX_SPAWN) * 1000;
-	currentTime = 0;
-}
-catch (const string& e)
-{
-	destroyAllElements();
-	SDL_Quit();
-	throw e;
-}
+		for (int i = 0; i < 5; i++) {
+			//sceneObjects.push_back(new HomedFrog{ Point2D<float>(homePositions[i] - Point2D<float>(getTexture(FROG)->getFrameWidth() / 2,getTexture(FROG)->getFrameHeight() / 2)), getTexture(FROG), this });
+			reachedHomes.push_back(false);
+		}
+
+		file.close();
+		randomGenerator.seed(time(nullptr));
+		srand(SDL_GetTicks());
+		waspSpawnTime = getRandomRange(WASP_MIN_SPAWN, WASP_MAX_SPAWN) * 1000;
+		currentTime = 0;
+	}
+	catch (const string& e)
+	{
+		destroyAllElements();
+		SDL_Quit();
+		throw e;
+	}
 }
 
 Game::~Game()

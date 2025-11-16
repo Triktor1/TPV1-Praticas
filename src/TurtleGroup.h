@@ -11,4 +11,7 @@ private:
 	bool submergible;
 public:
 	TurtleGroup(Point2D<float>, Vector2D<float>, int, bool, Texture*, Game*);
+	TurtleGroup(Game*, std::istream&);
+	void Render() const override;
+	Collision checkCollision(const SDL_FRect& FRect) const override;
 };

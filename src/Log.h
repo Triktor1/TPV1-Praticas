@@ -13,6 +13,5 @@ public:
 	Log(Vector2D<float>, Point2D<float>, Texture*, Game*);
 	Log(Game*, std::istream& const);
 	void Render() const;
-	void Update();
 	Collision checkCollision(const SDL_FRect& FRect) const override;
 };

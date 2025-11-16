@@ -8,17 +8,14 @@
 #include "Vehicle.h"
 #include "Log.h"
 #include "Frog.h"
+#include "HomedFrog.h"
 #include "Wasp.h"
+#include "TurtleGroup.h"
+#include "texture.h"
 #include <random>
 #include <list>
 
-// Declaraciones anticipadas
-class Texture;
-class Vehicle;
-class Log;
 class Frog;
-class HomedFrog;
-class Wasp;
 
 /**
  * Clase principal del juego.

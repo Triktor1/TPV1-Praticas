@@ -16,12 +16,16 @@ Crosser::Crosser(Game* game, std::istream& file) :
 
 void Crosser::Update() {
 	position = position + speed * (game->FRAME_RATE / 1000.0);
-	if (speed.GetX() > 0 && position.GetX() >= game->WINDOW_WIDTH + backjump - texture->getFrameWidth())
-		position = {position.GetX() - backjump * 2 - game->WINDOW_WIDTH, position.GetY()};
-	else if (position.GetX() < -backjump)
-		 position = {position.GetX() + backjump + game->WINDOW_WIDTH, position.GetY()};
+	if (speed.GetX() > 0) {
+		if (position.GetX() >= game->WINDOW_WIDTH + backjump - texture->getFrameWidth()) {
+			position = { position.GetX() - backjump * 2 - game->WINDOW_WIDTH, position.GetY() };
+		}
+	}
+	else if (position.GetX() < -backjump) {
+		position = { position.GetX() + backjump + game->WINDOW_WIDTH, position.GetY() };
+	}
 }
 
-Collision Crosser::checkCollision(const SDL_FRect& FRect) const{
+Collision Crosser::checkCollision(const SDL_FRect& FRect) const {
 	return Collision();
 }

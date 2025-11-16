@@ -8,4 +8,5 @@ public:
 	Vehicle(Vector2D<float>, Point2D<float>, Texture*, Game*);
 	Vehicle(Game*, std::istream& const);
 	Collision checkCollision(const SDL_FRect& FRect) const override;
+	void Render() const override;
 };
