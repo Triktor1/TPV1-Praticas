@@ -46,5 +46,5 @@ public:
 	void Render() const;
 	void Update();
 	void HandleEvent(const SDL_Event&);
-	int GetHealth() const;
+	int getLives() const;
 };

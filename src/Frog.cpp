@@ -18,14 +18,14 @@ Frog::Frog(Game* game, istream& file) :
 	angle(0.0)
 {
 	float pointX, pointY;
-	int health;
-	if (!(file >> pointX >> pointY >> health)) {
+	int healthfile;
+	if (!(file >> pointX >> pointY >> healthfile)) {
 		throw string("Error: formato invalido para rana.\n");
 	};
 	lastDir = Vector2D<float>(0, 0);
 	position = Vector2D<float>(pointX, pointY);
 	game->setFrogSpawn(pointX, pointY);
-	this->health = health;
+	this -> health = healthfile;
 	texture = this->texture = game->getTexture(game->FROG);
 }
 
@@ -122,6 +122,6 @@ void Frog::HandleEvent(const SDL_Event& event) {
 	}
 }
 
-int Frog::GetHealth() const {
+int Frog::getLives() const {
 	return health;
 }

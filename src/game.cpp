@@ -172,10 +172,10 @@ Game::update()
 		so->Update();
 	}
 
-	//if (frog->GetHealth() == 0) { //no se como hacer esto bien ayuda
-	//	cout << "Has perdido" << endl;
-	//	exit = true;
-	//}
+	if (frog->getLives() == 0) { 
+		cout << "Has perdido" << endl;
+		exit = true;
+	}
 
 	if (allFrogsHome()) {
 		cout << "Has ganado" << endl;
