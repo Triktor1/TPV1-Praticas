@@ -266,10 +266,10 @@ bool Game::tryReachHome(const SDL_FRect& hitbox) {
 bool
 Game::allFrogsHome() const {
 	int count = 0;
-	//for (int i = 0; i < HOMEFROGNUM; i++) {
-	//	if (homedFrogs[i]->GetReached())
-	//		count++;
-	//}
+	for (int i = 0; i < HOMEFROGNUM; i++) {
+		if (homedFrogs[i]->GetReached())
+			count++;
+	}
 	return count == HOMEFROGNUM;
 }
 
