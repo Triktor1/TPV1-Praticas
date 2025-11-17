@@ -79,20 +79,7 @@ Game::Game()
 
 		readFile(MAP_FILE);
 
-		for (int i = 0; i < HOMEFROGNUM; i++) {
-			//sceneObjects.push_back(new HomedFrog{ Point2D<float>(homePositions[i] - Point2D<float>(getTexture(FROG)->getFrameWidth() / 2,getTexture(FROG)->getFrameHeight() / 2)), getTexture(FROG), this });
-			Point2D<float> homePos(
-				homePositions[i].GetX() - getTexture(FROG)->getFrameWidth() / 2.0f,
-				homePositions[i].GetY() - getTexture(FROG)->getFrameHeight() / 2.0f
-			);
-			//declarado asi, para facilidad de luego hacer pushback en scene y en homedfrogs
-			HomedFrog* hf = new HomedFrog(homePos, getTexture(FROG), this);
-			sceneObjects.push_back(hf);
-			homedFrogs.push_back(hf);
-
-			//wasp
-			reachedHomes.push_back(false);
-		}
+		buildHomes();
 
 		randomGenerator.seed(time(nullptr));
 		srand(SDL_GetTicks());
@@ -190,9 +177,60 @@ Game::handleEvents()
 			exit = true;
 
 		frog->HandleEvent(event);
+		if (event.type == SDL_EVENT_KEY_DOWN) {
+			bool ctrl = (event.key.mod & SDL_KMOD_CTRL);
+			bool shift = (event.key.mod & SDL_KMOD_SHIFT);
+			bool key0 = (event.key.key = SDLK_0);
+			if (key0 && ctrl && shift) {
+				reset();
+				return;
+			}
+		}
 	}
 }
 
+
+void
+Game::reset() {
+	destroySceneObjects();
+	readFile(MAP_FILE);
+	buildHomes();
+
+}
+
+
+void
+Game::buildHomes() {
+	for (int i = 0; i < HOMEFROGNUM; i++) {
+		//sceneObjects.push_back(new HomedFrog{ Point2D<float>(homePositions[i] - Point2D<float>(getTexture(FROG)->getFrameWidth() / 2,getTexture(FROG)->getFrameHeight() / 2)), getTexture(FROG), this });
+		Point2D<float> homePos(
+			homePositions[i].GetX() - getTexture(FROG)->getFrameWidth() / 2.0f,
+			homePositions[i].GetY() - getTexture(FROG)->getFrameHeight() / 2.0f
+		);
+		//declarado asi, para facilidad de luego hacer pushback en scene y en homedfrogs
+		HomedFrog* hf = new HomedFrog(homePos, getTexture(FROG), this);
+		sceneObjects.push_back(hf);
+		homedFrogs.push_back(hf);
+
+		//wasp
+		reachedHomes.push_back(false);
+	}
+
+}
+void
+Game::destroySceneObjects() {
+	frog = nullptr; 
+
+	for (SceneObject* so : sceneObjects) {
+		delete so; 
+	}
+	sceneObjects.clear();
+	homedFrogs.clear();
+	reachedHomes.clear();
+	toDelete.clear();
+
+
+}
 //Metodo que agrupa TODO a borrar para la excepcion
 void
 Game::destroyAllElements() {

@@ -116,6 +116,15 @@ public:
 	
 	//Añade un iterador al vector toDelete que será destruido al final del Update
 	void deleteAfter(Anchor it);
+
+	//Destrozar todos los elementos (menos ventana SDL) y que tiene dentro el init
+	void reset();
+	
+	//Destroza los elementos visuales del juego
+	void destroySceneObjects();
+
+	//Inicializa lso recursos necesarios de nuevo para el juego
+	void buildHomes();
 };
 
 inline Texture*
