@@ -152,7 +152,7 @@ Game::update()
 			rndHome = getRandomRange(0, HOMEFROGNUM - 1);
 		} while (reachedHomes[rndHome]);
 		Wasp* wasp = new Wasp{ homePositions[rndHome] - Point2D<float>(getTexture(WASP)->getFrameWidth() / 2,getTexture(WASP)->getFrameHeight() / 2), Vector2D<float>(0,0), getTexture(WASP), this, (float)(getRandomRange(WASP_MIN_LIFE, WASP_MAX_LIFE) * 1000.0) };
-		wasp->setAnchor(sceneObjects.insert(sceneObjects.end(), wasp));
+		wasp->setAnchor(sceneObjects.insert(sceneObjects.begin(), wasp));
 	}
 
 	//Borrado en sceneObjects de los objetos cuyo iterador está en toDelete

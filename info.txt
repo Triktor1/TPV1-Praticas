@@ -3,3 +3,6 @@ Víctor Castro Álvarez
 
 Hemos hecho los siguientes apartados opcionales:
 	- Animación de frog
+
+Hemos hecho alguna cosa también aunque no se pedía ni estaba en los opcionales:
+	- Animación de las tortugas que no se sumergen (ciclo de los primeros dos frames del spritesheet)
