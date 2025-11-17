@@ -125,8 +125,18 @@ Game::Game()
 
 		}
 
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < HOMEFROGNUM; i++) {
 			//sceneObjects.push_back(new HomedFrog{ Point2D<float>(homePositions[i] - Point2D<float>(getTexture(FROG)->getFrameWidth() / 2,getTexture(FROG)->getFrameHeight() / 2)), getTexture(FROG), this });
+			Point2D<float> homePos(
+				homePositions[i].GetX() - getTexture(FROG)->getFrameWidth() / 2.0f,
+				homePositions[i].GetY() - getTexture(FROG)->getFrameHeight() / 2.0f
+			);
+			//declarado asi, para facilidad de luego hacer pushback en scene y en homedfrogs
+			HomedFrog* hf = new HomedFrog(homePos, getTexture(FROG), this);
+			sceneObjects.push_back(hf);
+			homedFrogs.push_back(hf);
+
+			//wasp
 			reachedHomes.push_back(false);
 		}
 

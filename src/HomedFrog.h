@@ -9,15 +9,12 @@ class Game;
 class HomedFrog : public SceneObject
 {
 private:
-	Game* game;
-	Texture* texture;
-	Point2D<float> position;
 	bool reached;
 public:
 
 	HomedFrog(Point2D<float>, Texture*, Game*);
 	void Render() const override;
-	Collision CheckCollision(const SDL_FRect& FRect);
+	Collision checkCollision(const SDL_FRect& FRect) const override;
 	void SetReached(bool hasReached);
 	bool GetReached() const;
 };
