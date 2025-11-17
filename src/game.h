@@ -3,19 +3,21 @@
 
 #include <SDL3/SDL.h>
 #include <array>
-#include <istream>
+#include <iostream>
+#include <fstream>
 #include <vector>
-#include "Vehicle.h"
-#include "Log.h"
-#include "Frog.h"
-#include "HomedFrog.h"
-#include "Wasp.h"
-#include "TurtleGroup.h"
-#include "texture.h"
 #include <random>
 #include <list>
 
+#include "Vector2D.h"
+
+//Declaraciones anticipadas
+class HomedFrog;
 class Frog;
+class SceneObject;
+class Texture;
+
+class Collision;
 
 /**
  * Clase principal del juego.
@@ -23,6 +25,7 @@ class Frog;
 class Game
 {
 public:
+	using Anchor = std::list<SceneObject*>::iterator;
 	// Se actualiza el juego cada tantos milisegundos
 	static constexpr int FRAME_RATE = 30;
 	// Tamaño real de la ventana
@@ -61,6 +64,9 @@ private:
 	std::list<SceneObject*> sceneObjects;
 	std::vector<HomedFrog*> homedFrogs;
 	Frog* frog;
+
+	//Lista a la que se le meten los iteradores de los SceneObjects a borrar este ciclo
+	std::vector<Anchor> toDelete;
 
 	void render() const;
 	void update();
@@ -105,7 +111,11 @@ public:
 	//Destructor de TODO, simplificacion de un solo metodo
 	void destroyAllElements();
 
-	//metodos constructores con istream
+	//Se llama en la constructora de Game y lee el archivo cuya ruta está en MAP_FILE
+	void readFile(const char* file);
+	
+	//Añade un iterador al vector toDelete que será destruido al final del Update
+	void deleteAfter(Anchor it);
 };
 
 inline Texture*

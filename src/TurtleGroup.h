@@ -1,8 +1,5 @@
 #pragma once
-#include "texture.h"
-#include "Vector2D.h"
 #include "Platform.h"
-#include "game.h"
 
 class TurtleGroup : public Platform
 {

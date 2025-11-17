@@ -1,7 +1,6 @@
 #include "Frog.h"
-#include "game.h"
 
-using namespace std;
+
 
 Frog::Frog(Vector2D<float> lastDir, Point2D<float> position, int health, Texture* texture, Game* game) :
 	SceneObject(position, texture, game),
@@ -12,15 +11,15 @@ Frog::Frog(Vector2D<float> lastDir, Point2D<float> position, int health, Texture
 {
 }
 
-Frog::Frog(Game* game, istream& file) : 
+Frog::Frog(Game* game, std::istream& file) : 
 	SceneObject(game, file),
 	anim(0),
 	angle(0.0)
 {
 	float pointX, pointY;
-	int healthfile;
-	if (!(file >> pointX >> pointY >> healthfile)) {
-		throw string("Error: formato invalido para rana.\n");
+	int health;
+	if (!(file >> pointX >> pointY >> health)) {
+		throw std::string("Error: formato invalido para rana.\n");
 	};
 	lastDir = Vector2D<float>(0, 0);
 	position = Vector2D<float>(pointX, pointY);
@@ -92,7 +91,6 @@ void Frog::Update() {
 	FrogMovementUpdate();
 	FrogCollisionsUpdate();
 }
-
 
 void Frog::HandleEvent(const SDL_Event& event) {
 	if (event.type == SDL_EVENT_KEY_DOWN) {

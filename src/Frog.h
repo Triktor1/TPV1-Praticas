@@ -1,12 +1,6 @@
 #pragma once
-#include "texture.h"
-#include "Vector2D.h"
-#include "Collision.h"
-#include "game.h"
-#include "SceneObject.h"
 
-class Game;
-class Collision;
+#include "SceneObject.h"
 
 class Frog : public SceneObject
 {

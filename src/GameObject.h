@@ -1,7 +1,8 @@
 #pragma once
-#include <istream>
+#include <iostream>
+#include <fstream>
+#include "game.h"
 
-class Game;
 class GameObject
 {
 public:

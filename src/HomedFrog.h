@@ -1,10 +1,5 @@
 #pragma once
-#include "texture.h"
-#include "Vector2D.h"
-#include "Collision.h"
 #include "SceneObject.h"
-
-class Game;
 
 class HomedFrog : public SceneObject
 {

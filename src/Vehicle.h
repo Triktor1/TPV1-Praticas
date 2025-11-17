@@ -1,5 +1,5 @@
 #pragma once
-#include "Collision.h"
+
 #include "Crosser.h"
 
 class Vehicle : public Crosser
