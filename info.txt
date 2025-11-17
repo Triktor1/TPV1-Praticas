@@ -1,7 +1,5 @@
 Víctor Castro Álvarez
 Óscar Silva Urbina
 
-No hemos hecho ningún apartado opcional y funciona todo correctamente excepto el apartado de excepciones, donde hay errores en los siguientes aspectos:
-
-- Hay una excepción sin manejar de un archivo interno de SDL al quitar alguna textura de la carpeta images
-- Hay una excepción sin manejar cuando se detecta un archivo válido pero este está vacío
+Hemos hecho los siguientes apartados opcionales:
+	- Animación de frog

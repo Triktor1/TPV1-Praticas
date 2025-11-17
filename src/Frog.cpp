@@ -11,7 +11,7 @@ Frog::Frog(Vector2D<float> lastDir, Point2D<float> position, int health, Texture
 {
 }
 
-Frog::Frog(Game* game, std::istream& file) : 
+Frog::Frog(Game* game, std::istream& file) :
 	SceneObject(game, file),
 	anim(0),
 	angle(0.0)
@@ -24,7 +24,7 @@ Frog::Frog(Game* game, std::istream& file) :
 	lastDir = Vector2D<float>(0, 0);
 	position = Vector2D<float>(pointX, pointY);
 	game->setFrogSpawn(pointX, pointY);
-	this -> health = health;
+	this->health = health;
 	texture = this->texture = game->getTexture(game->FROG);
 }
 
@@ -71,19 +71,24 @@ void Frog::FrogCollisionsUpdate() {
 	//Colisiones
 	SDL_FRect hitbox = { position.GetX() + FROG_HITBOX_OFFSET_X, position.GetY() + FROG_HITBOX_OFFSET_Y, FROG_HITBOX_WIDTH, FROG_HITBOX_HEIGHT }; //Calculado con los espacios de píxeles entre límite de textura y de rana
 	Collision col = game->checkCollision(hitbox);
-	if (col.tipo == PLATFORM) {
-		position = position + col.speed * (game->FRAME_RATE / 1000.0);
-	}
-	else if (col.tipo == ENEMY || position.GetY() < game->RIVER_LOW || position.GetX() > game->WINDOW_WIDTH - texture->getFrameWidth()) {
+	if (position.GetX() > game->WINDOW_WIDTH || position.GetX() < - texture->getFrameWidth()) {
 		health--;
 		position = game->getFrogSpawn();
 		angle = 0;
+	}
+	else if (col.tipo == PLATFORM) {
+		position = position + col.speed * (game->FRAME_RATE / 1000.0);
 	}
 	else if (col.tipo == HOME) {
 		if (game->tryReachHome(hitbox)) {
 			health--;
 		}
 		position = game->getFrogSpawn();
+	}
+	else if (col.tipo == ENEMY || position.GetY() < game->RIVER_LOW) {
+		health--;
+		position = game->getFrogSpawn();
+		angle = 0;
 	}
 }
 
