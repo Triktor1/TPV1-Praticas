@@ -180,8 +180,8 @@ Game::handleEvents()
 		if (event.type == SDL_EVENT_KEY_DOWN) {
 			bool ctrl = (event.key.mod & SDL_KMOD_CTRL);
 			bool shift = (event.key.mod & SDL_KMOD_SHIFT);
-			bool key0 = (event.key.key = SDLK_0);
-			if (key0 && ctrl && shift) {
+			bool key0 = (event.key.key == SDLK_0);
+			if ( ctrl && shift && key0) {
 				reset();
 				return;
 			}
