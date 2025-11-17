@@ -51,8 +51,8 @@ void Frog::FrogMovementUpdate() {
 		else if (newX > game->WINDOW_WIDTH - texture->getFrameWidth()) {
 			position = Point2D<float>(game->WINDOW_WIDTH - texture->getFrameWidth(), position.GetY());
 		}
-		else if (newY > game->getFrogSpawn().GetY() + step) {
-			position = Point2D<float>(position.GetX(), game->getFrogSpawn().GetY() + step);
+		else if (newY > game->getFrogSpawn().GetY()) {
+			position = Point2D<float>(position.GetX(), game->getFrogSpawn().GetY());
 		}
 		else {
 			position = position + lastDir * step;
