@@ -8,6 +8,7 @@
 #include "Vector2D.h"
 #include "game.h"
 #include <string>
+#include "GameError.h"
 
 using namespace std;
 
@@ -22,9 +23,11 @@ int main(int argc, char* argv[])
 	try {
 		Game game;
 		game.run();
+		
 	}
-	catch (const string& e) {
-		cout << "Error fatal en la aplicacion: \n" << e << endl; 
+	catch (const GameError e) {
+		Game::mostrarError(e);
+		return 1;
 	}
 	return 0;
 }

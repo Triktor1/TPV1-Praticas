@@ -28,7 +28,7 @@ public:
 //error de formato de archivo (archivo corrupto o mal formado)
 class FileFormatError : public GameError {
 public:
-    FileFormatError(const std::string& filename, int line, const std::string& msg) : 
-        GameError("Error: Archivo corrupto o mal formado: " + filename + " en la linea " + std::to_string(line) + ": " + msg) {
+    FileFormatError(const std::string& filename, const std::string& msg) : 
+        GameError("Error: Archivo corrupto o mal formado: " + filename + ": " + msg) {
     }
 };
