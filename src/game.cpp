@@ -29,16 +29,33 @@ const Point2D<float> homePositions[HOMEFROGNUM] = { Point2D<float>(HOME_FIRST_X,
 
 //Configuración de botones
 const SDL_MessageBoxButtonData resetButtons[] = {
-		{ SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 0, "Volver" },
-		{ SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 1, "Reiniciar" },
+		{ SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 0, "Volver" },
+		{ SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 1, "Reiniciar" },
 };
-const SDL_MessageBoxData messageboxdata = {
-		SDL_MESSAGEBOX_INFORMATION, /* .flags */
+
+const SDL_MessageBoxColorScheme colorScheme = {
+	{ /* .colors (.r, .g, .b) */
+		/* [SDL_MESSAGEBOX_COLOR_BACKGROUND] */
+		{ 255,   200,   0 },
+		/* [SDL_MESSAGEBOX_COLOR_TEXT] */
+		{   0, 255,   0 },
+		/* [SDL_MESSAGEBOX_COLOR_BUTTON_BORDER] */
+		{ 255, 255,   0 },
+		/* [SDL_MESSAGEBOX_COLOR_BUTTON_BACKGROUND] */
+		{   0,   0, 255 },
+		/* [SDL_MESSAGEBOX_COLOR_BUTTON_SELECTED] */
+		{ 255,   0, 255 }
+	}
+};
+
+const SDL_MessageBoxData resetMessageData = {
+		SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT, /* .flags */
 		NULL, /* .window */
-		"Reinicio", /* .title */
-		"¿Reiniciar el nivel? Se perderá todo el progreso", /* .message */
+		"Reinicio de nivel", /* .title */
+		"¿Quieres reiniciar el nivel? Se perderá todo el progreso.", /* .message */
 		SDL_arraysize(resetButtons), /* .numbuttons */
 		resetButtons, /* .buttons */
+		&colorScheme
 };
 
 // Estructura para especificar las texturas que hay que
@@ -196,7 +213,7 @@ Game::handleEvents()
 			bool key0 = (event.key.key == SDLK_0);
 			if (key0) {
 				int buttonID;
-				SDL_ShowMessageBox(&messageboxdata, &buttonID);
+				SDL_ShowMessageBox(&resetMessageData, &buttonID);
 				if (buttonID == 1) {
 				reset();
 				}

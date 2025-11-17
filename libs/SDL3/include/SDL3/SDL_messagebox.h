@@ -172,7 +172,7 @@ typedef struct SDL_MessageBoxData
  *
  * \sa SDL_ShowSimpleMessageBox
  */
-extern SDL_DECLSPEC bool SDLCALL SDL_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonid);
+extern SDL_DECLSPEC bool SDLCALL SDL_ShowMessageBox(const SDL_MessageBoxData *resetMessageData, int *buttonid);
 
 /**
  * Display a simple modal message box.
