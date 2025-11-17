@@ -7,14 +7,9 @@ Wasp::Wasp(Point2D<float> position, Vector2D<float> speed, Texture* texture, Gam
 {
 }
 
-void Wasp::Render() const {
-	SDL_FRect hitbox = { (float)position.GetX(), (float)position.GetY(),
-			(float)texture->getFrameWidth(), (float)texture->getFrameHeight() };
-	texture->renderFrame(hitbox, 0, 0);
-}
-
 void Wasp::Update() {
 	lifeTime -= game->FRAME_RATE;
+	if (!isAlive()) game->deleteAfter(anchor);
 }
 
 Collision Wasp::CheckCollision(const SDL_FRect& FRect) {

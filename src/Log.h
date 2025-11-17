@@ -1,10 +1,6 @@
 #pragma once
-#include "texture.h"
-#include "Vector2D.h"
-#include "Platform.h"
-#include "game.h"
 
-class Collision;
+#include "Platform.h"
 
 class Log : public Platform
 {

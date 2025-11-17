@@ -1,5 +1,4 @@
 #include "HomedFrog.h"
-#include "game.h"
 
 HomedFrog::HomedFrog(Point2D<float> position, Texture* texture, Game* game) :
 	SceneObject(position, texture, game),
@@ -8,17 +7,16 @@ HomedFrog::HomedFrog(Point2D<float> position, Texture* texture, Game* game) :
 }
 
 void HomedFrog::Render() const {
-	SDL_FRect frogDimensions = { position.GetX(), position.GetY(),
-			(float)texture->getFrameWidth(), (float)texture->getFrameHeight() };
+	SDL_FRect frogDimensions =  getBoundingBox();
 	SDL_FPoint center = { frogDimensions.w / 2, frogDimensions.h / 2 };
 	if (reached) {
 		texture->renderFrame(frogDimensions, 0, 0, 180, &center, SDL_FLIP_NONE);
 	}
 }
 
-Collision HomedFrog::CheckCollision(const SDL_FRect& FRect) {
+Collision HomedFrog::checkCollision(const SDL_FRect& FRect) const {
 	Collision collision;
-	SDL_FRect col{ position.GetX(), position.GetY(), (float)texture->getFrameWidth(), (float)texture->getFrameHeight() };
+	SDL_FRect col = getBoundingBox();
 	if (SDL_HasRectIntersectionFloat(&FRect, &col)) {
 		collision.tipo = HOME;
 	}

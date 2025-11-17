@@ -7,6 +7,8 @@ TurtleGroup::TurtleGroup(Point2D<float> position, Vector2D<float> speed, int num
 {
 }
 
+constexpr const int SUBMERGETIME = 300;
+
 TurtleGroup::TurtleGroup(Game* game, std::istream& file) :
 	Platform(game, file)
 {
@@ -20,23 +22,38 @@ TurtleGroup::TurtleGroup(Game* game, std::istream& file) :
 	this->submergible = submergible == 1;
 }
 
+int TurtleGroup::GetCurrentAnim() const {
+	if (!submergible) return 0;
+	int now = SDL_GetTicks(); 
+	int frame = ((now / SUBMERGETIME)) % 7;
+	return frame;
+}
+
 void TurtleGroup::Render() const {
 	float turtlesWidth = (float)texture->getFrameWidth();
+	int anim = GetCurrentAnim();
+
 	for (int i = 0; i < numTurtles; i++) {
 		SDL_FRect hitbox = {
 			position.GetX() + i * texture->getFrameWidth(),
 			position.GetY(), texture->getFrameWidth(), texture->getFrameHeight() };
 		Point2D<float> pos(position.GetX() + i * turtlesWidth, position.GetY());
-		texture->renderFrame(hitbox, 0, 0);
+		texture->renderFrame(hitbox, 0, anim);
 	}
 }
 
 Collision TurtleGroup::checkCollision(const SDL_FRect& FRect) const {
 	Collision collision;
+	int anim = GetCurrentAnim();
 	SDL_FRect col{ position.GetX(), position.GetY(), (float)texture->getFrameWidth() * numTurtles, (float)texture->getFrameHeight() };
 	if (SDL_HasRectIntersectionFloat(&FRect, &col)) {
-		collision.tipo = PLATFORM;
-		collision.speed = speed;
+		if (submergible && anim >= 5 && anim <= 6) {
+			collision.tipo = NONE; 
+		}
+		else {
+			collision.tipo = PLATFORM;
+			collision.speed = speed;
+		}
 	}
 	else collision.tipo = NONE;
 

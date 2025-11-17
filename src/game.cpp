@@ -1,10 +1,13 @@
 #include "game.h"
+#include "Frog.h"
+#include "Wasp.h"
+#include "HomedFrog.h"
+#include "Vehicle.h"
+#include "Log.h"
+#include "TurtleGroup.h"
+
 #include <string>
-#include <vector>
 #include <SDL3_image/SDL_image.h>
-#include <random>
-#include <iostream>
-#include <fstream>
 using namespace std;
 
 // Constantes
@@ -69,68 +72,28 @@ Game::Game()
 			throw string("renderer: ") + SDL_GetError() + "\n";
 
 		// Carga las texturas al inicio
-
 		for (size_t i = 0; i < textures.size(); i++) {
 			auto [name, nrows, ncols] = textureList[i];
 			textures[i] = new Texture(renderer, (string(imgBase) + name).c_str(), nrows, ncols);
 		}
 
-		//Lectura de archivo
-		fstream file(MAP_FILE);
-		if (!file)
-			throw string("Error: No se ha encontrado el archivo mapa. El nombre del archivo que se intenta leer es: ") + string(MAP_FILE) + "\n";
-		char objType;
+		readFile(MAP_FILE);
 
-		while (file >> objType) { //Asumo que el archivo tendrá el formato correcto
-			switch (objType) {
-			case '#':
-				file.ignore(numeric_limits<streamsize>::max(), '\n');
-				break;
-			case 'F':
-				frog = new Frog(this, file);
-				sceneObjects.push_back(frog);
-				break;
-			case 'L':
-				sceneObjects.push_back(new Log(this, file));
-				break;
-			case 'V':
-				sceneObjects.push_back(new Vehicle(this, file));
-				break;
-			case 'T':
-				sceneObjects.push_back(new TurtleGroup(this, file));
-				break;
-			}
-
-
-
-			/*if (objType == '#') {
-				file.ignore(numeric_limits<streamsize>::max(), '\n');
-			}
-			else if (objType == 'F') {
-				sceneObjects.push_back(Frog::readFile(file, this));
-			}
-			else if (objType == 'V' || objType == 'L') {
-
-				case 'L':
-					switch (c_sprType) {
-					case '0': sprType = LOG1; break;
-					case '1': sprType = LOG2; break;
-					default:  sprType = LOG1; break;
-					}
-					logs.push_back(new Log{ Vector2D<float>(directionX, 0), Point2D<float>(pointX, pointY), getTexture(sprType), this });
-					break;
-				default:
-					break;
-			}*/
-
-		}
-
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < HOMEFROGNUM; i++) {
 			//sceneObjects.push_back(new HomedFrog{ Point2D<float>(homePositions[i] - Point2D<float>(getTexture(FROG)->getFrameWidth() / 2,getTexture(FROG)->getFrameHeight() / 2)), getTexture(FROG), this });
+			Point2D<float> homePos(
+				homePositions[i].GetX() - getTexture(FROG)->getFrameWidth() / 2.0f,
+				homePositions[i].GetY() - getTexture(FROG)->getFrameHeight() / 2.0f
+			);
+			//declarado asi, para facilidad de luego hacer pushback en scene y en homedfrogs
+			HomedFrog* hf = new HomedFrog(homePos, getTexture(FROG), this);
+			sceneObjects.push_back(hf);
+			homedFrogs.push_back(hf);
+
+			//wasp
 			reachedHomes.push_back(false);
 		}
 
-		file.close();
 		randomGenerator.seed(time(nullptr));
 		srand(SDL_GetTicks());
 		waspSpawnTime = getRandomRange(WASP_MIN_SPAWN, WASP_MAX_SPAWN) * 1000;
@@ -172,24 +135,15 @@ Game::update()
 		so->Update();
 	}
 
-	//if (frog->GetHealth() == 0) { //no se como hacer esto bien ayuda
-	//	cout << "Has perdido" << endl;
-	//	exit = true;
-	//}
+	if (frog->getLives() == 0) { 
+		cout << "Has perdido" << endl;
+		exit = true;
+	}
 
 	if (allFrogsHome()) {
 		cout << "Has ganado" << endl;
 		exit = true;
 	}
-
-	//for (int i = wasps.size() - 1; i >= 0; i--) { //Se recorre al revés para no saltarse avispas en caso de borrar alguna
-	//	wasps[i]->Update();
-	//	if (!wasps[i]->isAlive()) {
-	//		delete wasps[i];
-	//		wasps[i] = nullptr;
-	//		wasps.erase(wasps.begin() + i);
-	//	}
-	//}
 
 	if (currentTime >= waspSpawnTime) {
 		waspSpawnTime = currentTime + getRandomRange(WASP_MIN_SPAWN, WASP_MAX_SPAWN) * 1000;
@@ -197,8 +151,17 @@ Game::update()
 		do {
 			rndHome = getRandomRange(0, HOMEFROGNUM - 1);
 		} while (reachedHomes[rndHome]);
-		//wasps.push_back(new Wasp{ homePositions[rndHome] - Point2D<float>(getTexture(WASP)->getFrameWidth() / 2,getTexture(WASP)->getFrameHeight() / 2), Vector2D<float>(0,0), getTexture(WASP), this, (float)(getRandomRange(WASP_MIN_LIFE, WASP_MAX_LIFE) * 1000.0) });
+		Wasp* wasp = new Wasp{ homePositions[rndHome] - Point2D<float>(getTexture(WASP)->getFrameWidth() / 2,getTexture(WASP)->getFrameHeight() / 2), Vector2D<float>(0,0), getTexture(WASP), this, (float)(getRandomRange(WASP_MIN_LIFE, WASP_MAX_LIFE) * 1000.0) };
+		sceneObjects.push_back(wasp);
+		wasp->setAnchor(sceneObjects.end());
 	}
+
+	//Borrado en sceneObjects de los objetos cuyo iterador está en toDelete
+	for (Anchor it : toDelete) {
+		delete* it;
+		sceneObjects.erase(it);
+	}
+	toDelete.clear();
 }
 
 void
@@ -313,4 +276,39 @@ Game::allFrogsHome() const {
 
 int Game::getRandomRange(int min, int max) {
 	return uniform_int_distribution<int>(min, max)(randomGenerator);
+}
+
+void Game::readFile(const char* fileRoute) {
+
+	//Lectura de archivo
+	fstream file(fileRoute);
+	if (!file)
+		throw string("Error: No se ha encontrado el archivo mapa. El nombre del archivo que se intenta leer es: ") + string(MAP_FILE) + "\n";
+	char objType;
+
+	while (file >> objType) { //Asumo que el archivo tendrá el formato correcto
+		switch (objType) {
+		case '#':
+			file.ignore(numeric_limits<streamsize>::max(), '\n');
+			break;
+		case 'F':
+			frog = new Frog(this, file);
+			sceneObjects.push_back(frog);
+			break;
+		case 'L':
+			sceneObjects.push_back(new Log(this, file));
+			break;
+		case 'V':
+			sceneObjects.push_back(new Vehicle(this, file));
+			break;
+		case 'T':
+			sceneObjects.push_back(new TurtleGroup(this, file));
+			break;
+		}
+	}
+	file.close();
+}
+
+void Game::deleteAfter(Anchor it) {
+	toDelete.push_back(it);
 }
