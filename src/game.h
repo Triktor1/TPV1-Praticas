@@ -16,6 +16,7 @@ class HomedFrog;
 class Frog;
 class SceneObject;
 class Texture;
+class GameError;
 
 class Collision;
 
@@ -125,7 +126,10 @@ public:
 
 	//Inicializa lso recursos necesarios de nuevo para el juego
 	void buildHomes();
-};
+
+	//Crea una ventana de error
+	static void mostrarError(const GameError& e);
+	};
 
 inline Texture*
 Game::getTexture(TextureName name) const

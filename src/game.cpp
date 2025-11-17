@@ -5,6 +5,7 @@
 #include "Vehicle.h"
 #include "Log.h"
 #include "TurtleGroup.h"
+#include "GameError.h"
 
 #include <string>
 #include <SDL3_image/SDL_image.h>
@@ -382,4 +383,22 @@ void Game::readFile(const char* fileRoute) {
 
 void Game::deleteAfter(Anchor it) {
 	toDelete.push_back(it);
+}
+
+void Game::mostrarError(const GameError& e) {
+	const SDL_MessageBoxButtonData botones[] = {
+		{ SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 0, "Aceptar" }
+	};
+
+	const SDL_MessageBoxData datos = {
+		SDL_MESSAGEBOX_ERROR,
+		nullptr,                // ventana asociada
+		"Error en el juego",    // título genérico
+		e.what(),               // mensaje con el texto de la excepción
+		SDL_arraysize(botones),
+		botones,
+		nullptr
+	};
+
+	SDL_ShowMessageBox(&datos, nullptr);
 }

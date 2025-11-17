@@ -30,6 +30,8 @@
     <ClCompile Include="src\Wasp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameError.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="src\Collision.h" />
     <ClInclude Include="src\Crosser.h" />
     <ClInclude Include="src\Frog.h" />
@@ -44,6 +46,9 @@
     <ClInclude Include="src\Vector2D.h" />
     <ClInclude Include="src\Vehicle.h" />
     <ClInclude Include="src\Wasp.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ProyectoSDL.rc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
