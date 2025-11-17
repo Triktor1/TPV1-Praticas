@@ -24,7 +24,7 @@ Frog::Frog(Game* game, std::istream& file) :
 	lastDir = Vector2D<float>(0, 0);
 	position = Vector2D<float>(pointX, pointY);
 	game->setFrogSpawn(pointX, pointY);
-	this -> health = healthfile;
+	this -> health = health;
 	texture = this->texture = game->getTexture(game->FROG);
 }
 

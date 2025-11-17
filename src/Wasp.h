@@ -22,6 +22,6 @@ public:
 
 	//getter y setter del Anchor
 	Game::Anchor getAnchor() const { return anchor; };
-	void setAnchor(Game::Anchor it) { anchor = it; };
+	void setAnchor(const Game::Anchor& it) { anchor = it; };
 };
 
