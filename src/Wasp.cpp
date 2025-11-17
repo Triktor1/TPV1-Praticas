@@ -12,7 +12,7 @@ void Wasp::Update() {
 	if (!isAlive()) game->deleteAfter(anchor);
 }
 
-Collision Wasp::CheckCollision(const SDL_FRect& FRect) {
+Collision Wasp::checkCollision(const SDL_FRect& FRect) const {
 	Collision collision;
 	SDL_FRect col{ position.GetX(), position.GetY(), texture->getFrameWidth(), texture->getFrameHeight() };
 	if (SDL_HasRectIntersectionFloat(&FRect, &col))

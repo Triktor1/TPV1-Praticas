@@ -74,16 +74,16 @@ void Frog::FrogCollisionsUpdate() {
 	if (col.tipo == PLATFORM) {
 		position = position + col.speed * (game->FRAME_RATE / 1000.0);
 	}
+	else if (col.tipo == ENEMY || position.GetY() < game->RIVER_LOW || position.GetX() > game->WINDOW_WIDTH - texture->getFrameWidth()) {
+		health--;
+		position = game->getFrogSpawn();
+		angle = 0;
+	}
 	else if (col.tipo == HOME) {
 		if (game->tryReachHome(hitbox)) {
 			health--;
 		}
 		position = game->getFrogSpawn();
-	}
-	else if (col.tipo == ENEMY || position.GetY() < game->RIVER_LOW || position.GetX() > game->WINDOW_WIDTH - texture->getFrameWidth()) {
-		health--;
-		position = game->getFrogSpawn();
-		angle = 0;
 	}
 }
 
