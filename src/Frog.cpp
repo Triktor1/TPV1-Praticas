@@ -87,8 +87,10 @@ void Frog::FrogCollisionsUpdate() {
 	}
 	else if (col.tipo == ENEMY || position.GetY() < game->RIVER_LOW) {
 		health--;
-		position = game->getFrogSpawn();
-		angle = 0;
+		if (health > 0) {
+			position = game->getFrogSpawn();
+			angle = 0;
+		}
 	}
 }
 
