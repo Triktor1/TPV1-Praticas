@@ -1,4 +1,5 @@
 #include "HomedFrog.h"
+#include "game.h"
 
 HomedFrog::HomedFrog(Point2D<float> position, Texture* texture, Game* game) :
 	SceneObject(position, texture, game),

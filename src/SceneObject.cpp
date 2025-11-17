@@ -1,4 +1,6 @@
 #include "SceneObject.h"
+#include "Game.h"
+#include "texture.h"
 
 SceneObject::SceneObject(Point2D<float> position, Texture* texture, Game* game) :
 	GameObject(game),

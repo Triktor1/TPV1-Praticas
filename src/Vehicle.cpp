@@ -1,4 +1,5 @@
 #include "Vehicle.h"
+#include "Game.h"
 #include <string>
 
 Vehicle::Vehicle(Vector2D<float> sentido, Point2D<float> posicion, Texture* textura, Game* juego) :

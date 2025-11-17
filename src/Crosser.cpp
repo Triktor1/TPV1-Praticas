@@ -1,4 +1,5 @@
 #include "Crosser.h"
+#include "Game.h"
 
 Crosser::Crosser(Point2D<float> position, Vector2D<float> speed, Texture* texture, Game* game) :
 	SceneObject(position, texture, game),
