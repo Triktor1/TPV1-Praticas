@@ -26,6 +26,21 @@ const Point2D<float> homePositions[HOMEFROGNUM] = { Point2D<float>(HOME_FIRST_X,
 													Point2D<float>(HOME_FIRST_X + HOME_DISTANCE * 3, HOME_Y),
 													Point2D<float>(HOME_FIRST_X + HOME_DISTANCE * 4, HOME_Y) };
 
+
+//Configuración de botones
+const SDL_MessageBoxButtonData resetButtons[] = {
+		{ SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 0, "Volver" },
+		{ SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 1, "Reiniciar" },
+};
+const SDL_MessageBoxData messageboxdata = {
+		SDL_MESSAGEBOX_INFORMATION, /* .flags */
+		NULL, /* .window */
+		"Reinicio", /* .title */
+		"¿Reiniciar el nivel? Se perderá todo el progreso", /* .message */
+		SDL_arraysize(resetButtons), /* .numbuttons */
+		resetButtons, /* .buttons */
+};
+
 // Estructura para especificar las texturas que hay que
 // cargar y el tamaño de su matriz de frames
 struct TextureSpec
@@ -178,11 +193,13 @@ Game::handleEvents()
 
 		frog->HandleEvent(event);
 		if (event.type == SDL_EVENT_KEY_DOWN) {
-			bool ctrl = (event.key.mod & SDL_KMOD_CTRL);
-			bool shift = (event.key.mod & SDL_KMOD_SHIFT);
 			bool key0 = (event.key.key == SDLK_0);
-			if ( ctrl && shift && key0) {
+			if (key0) {
+				int buttonID;
+				SDL_ShowMessageBox(&messageboxdata, &buttonID);
+				if (buttonID == 1) {
 				reset();
+				}
 				return;
 			}
 		}
