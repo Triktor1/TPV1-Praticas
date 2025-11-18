@@ -351,14 +351,12 @@ int Game::getRandomRange(int min, int max) {
 }
 
 void Game::readFile(const char* fileRoute) {
-
 	//Lectura de archivo
 	fstream file(fileRoute);
 	if (!file)
 		throw FileNotFoundError(fileRoute);
 	char objType;
 	int line = 0; 
-
 	while (file >> objType) { //Asumo que el archivo tendrá el formato correcto
 		line++;
 		try

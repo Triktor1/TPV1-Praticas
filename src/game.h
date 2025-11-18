@@ -18,7 +18,7 @@ class SceneObject;
 class Texture;
 class GameError;
 
-class Collision;
+struct Collision;
 
 /**
  * Clase principal del juego.
