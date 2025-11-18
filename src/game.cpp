@@ -86,7 +86,7 @@ constexpr array<TextureSpec, Game::NUM_TEXTURES> textureList{
 
 
 Game::Game()
-	: exit(false), frog(nullptr)
+	: frog(nullptr), exit(false)
 {
 	try {
 		// Carga SDL y sus bibliotecas auxiliares

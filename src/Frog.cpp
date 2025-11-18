@@ -40,8 +40,6 @@ void Frog::FrogMovementUpdate() {
 	//Movimiento
 	const float step = FROG_STEP;
 	static int jumpFrames = 0;
-	float maxX = Game::WINDOW_WIDTH - (float)texture->getFrameHeight();
-	float maxY = Game::WINDOW_HEIGHT - (float)texture->getFrameHeight();
 	if (lastDir.GetX() != 0 || lastDir.GetY() != 0) {
 		float newX = position.GetX() + lastDir.GetX() * step;
 		float newY = position.GetY() + lastDir.GetY() * step;

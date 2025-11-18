@@ -26,8 +26,8 @@ private:
 
 	Point2D<float> position;
 	Vector2D<float> lastDir;
-	int anim;
 	int health;
+	int anim;
 	double angle;
 
 	void FrogMovementUpdate();
