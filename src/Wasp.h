@@ -11,7 +11,7 @@ private:
 public:
 	Wasp(Point2D<float>, Vector2D<float>, Texture*, Game*, float);
 
-	void Update();
+	void Update() override;
 	Collision checkCollision(const SDL_FRect&) const override; 
 	//Comprueba si la avispa está viva o muerta
 	bool isAlive() const;

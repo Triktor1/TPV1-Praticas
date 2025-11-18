@@ -15,13 +15,6 @@ Log::Log(Game* game, std::istream& file) :
 	this->texture = game->getTexture(Game::TextureName(game->LOG1 + textureType));
 }
 
-void Log::Render() const {
-	SDL_FRect hitbox = { (float)position.GetX(), (float)position.GetY(),
-				(float)texture->getFrameWidth(), (float)texture->getFrameHeight() };
-	texture->renderFrame(hitbox, 0, 0);
-}
-
-
 Collision Log::checkCollision(const SDL_FRect& FRect) const {
 	Collision collision;
 	SDL_FRect col{ position.GetX(), position.GetY(), (float)texture->getFrameWidth(), (float)texture->getFrameHeight() };

@@ -6,7 +6,7 @@ Vehicle::Vehicle(Vector2D<float> sentido, Point2D<float> posicion, Texture* text
 {
 }
 
-Vehicle::Vehicle(Game* game,std::istream& file) :
+Vehicle::Vehicle(Game* game, std::istream& file) :
 	Crosser(game, file)
 {
 	float posX, posY, speedX, textureType;
