@@ -26,8 +26,8 @@ Texture::Texture(SDL_Renderer* renderer, SDL_Texture* texture, int rows, int col
 	width = texture->w;
 	height = texture->h;
 
-	frameWidth = float(width) / ncolumns;
-	frameHeight = float(height) / nrows;
+	frameWidth = width / ncolumns;
+	frameHeight = height / nrows;
 }
 
 Texture::Texture(SDL_Renderer* renderer, const char* filename, int rows, int columns)
@@ -70,12 +70,11 @@ Texture::operator=(Texture&& other) noexcept
 	return *this;
 }
 
-
 SDL_FRect
 Texture::getFrameRect(int row, int col) const
 {
-	return SDL_FRect{ float(col * frameWidth), float(row * frameHeight),
-					 float(frameWidth), float(frameHeight) };
+	return SDL_FRect{float(col * frameWidth), float(row * frameHeight),
+	                 float(frameWidth), float(frameHeight)};
 }
 
 void
@@ -105,14 +104,14 @@ Texture::render(const SDL_FRect& rect, double angle, const SDL_FPoint* center, S
 void
 Texture::renderFrame(const SDL_FRect& rect, int row, int col) const
 {
-	SDL_FRect origin{col * frameWidth, row * frameHeight, frameWidth, frameHeight};
+	SDL_FRect origin = getFrameRect(row, col);
 	SDL_RenderTexture(renderer, texture, &origin, &rect);
 }
 
 void
 Texture::renderFrame(const SDL_FRect& rect, int row, int col, SDL_FlipMode flip) const
 {
-	SDL_FRect origin{col * frameWidth, row * frameHeight, frameWidth, frameHeight};
+	SDL_FRect origin = getFrameRect(row, col);
 	SDL_RenderTextureRotated(renderer, texture, &origin, &rect, 0, nullptr, flip);
 }
 

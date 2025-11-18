@@ -13,7 +13,7 @@ using namespace std;
 
 // Constantes
 constexpr const char* const WINDOW_TITLE = "Frogger 1.0";
-constexpr const char* const MAP_FILE = "assets/maps/turtles.txt";
+constexpr const char* const MAP_FILE = "../assets/maps/turtles.txt";
 
 constexpr const int HOMEFROGNUM = 5;
 constexpr const float HOME_FIRST_X = 32;
@@ -68,7 +68,7 @@ struct TextureSpec
 	int ncols = 1;
 };
 
-constexpr const char* imgBase = "assets/images/";
+constexpr const char* imgBase = "../assets/images/";
 
 constexpr array<TextureSpec, Game::NUM_TEXTURES> textureList{
 	TextureSpec{"frog.png", 1, 2},

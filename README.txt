@@ -9,10 +9,12 @@ Instrucciones
 
 * El proyecto tiene tres configuraciones: Debug, Sanitize y Release. Las dos primeras compilan el programa para depuración y son las que conviene usar durante el desarrollo. La diferencia entre ambas es que Debug comprueba fugas de memoria con checkML.h mientras que Sanitize comprueba errores de acceso a memoria con AddressSanitizer (ambos herramientas son incompatibles). La configuración Release compila una versión optimizada para su uso corriente.
 
+* Si quieres crear nuevos proyectos en la misma solución recuerda añadir la página de propiedades ProyectosSDL.props al nuevo proyecto: en el menú Ver -> Otras ventanas -> Administrador de propiedades -> Agregar hoja de propiedades existente, busca el archivo ProyectosSDL.props para incorporarlo. Sin hacer esto es posible que el compilador no encuentre la biblioteca SDL o se produzcan otros errores de compilación.
+
 Bibliotecas
 -----------
 
-* SDL3 3.2.22
+* SDL3 3.2.24
 * SDL3_image 3.2.4
 
 Más información sobre las bibliotecas en https://www.libsdl.org/.
