@@ -1,4 +1,5 @@
 #include "TurtleGroup.h"
+#include "GameError.h";
 
 TurtleGroup::TurtleGroup(Point2D<float> position, Vector2D<float> speed, int numTurtles, bool submergible, Texture* texture, Game* game) :
 	Platform(position, speed, texture, game),
@@ -14,7 +15,9 @@ TurtleGroup::TurtleGroup(Game* game, std::istream& file) :
 {
 	float posX, posY, speedX;
 	int numTurtles, submergible;
-	file >> posX >> posY >> speedX >> numTurtles >> submergible;
+	if (!(file >> posX >> posY >> speedX >> numTurtles >> submergible)) {
+		throw GameError("Formato Invalido para Turtle");
+	}
 	this->position = Vector2D<float>(posX, posY);
 	this->speed = Vector2D<float>(speedX, 0);
 	this->texture = game->getTexture(game->TURTLE);

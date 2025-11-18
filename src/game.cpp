@@ -357,25 +357,36 @@ void Game::readFile(const char* fileRoute) {
 	if (!file)
 		throw FileNotFoundError(fileRoute);
 	char objType;
+	int line = 0; 
 
 	while (file >> objType) { //Asumo que el archivo tendrá el formato correcto
-		switch (objType) {
-		case '#':
-			file.ignore(numeric_limits<streamsize>::max(), '\n');
-			break;
-		case 'F':
-			frog = new Frog(this, file);
-			sceneObjects.push_back(frog);
-			break;
-		case 'L':
-			sceneObjects.push_back(new Log(this, file));
-			break;
-		case 'V':
-			sceneObjects.push_back(new Vehicle(this, file));
-			break;
-		case 'T':
-			sceneObjects.push_back(new TurtleGroup(this, file));
-			break;
+		line++;
+		try
+		{
+			switch (objType) {
+			case '#':
+				file.ignore(numeric_limits<streamsize>::max(), '\n');
+				break;
+			case 'F':
+				frog = new Frog(this, file);
+				sceneObjects.push_back(frog);
+				break;
+			case 'L':
+				sceneObjects.push_back(new Log(this, file));
+				break;
+			case 'V':
+				sceneObjects.push_back(new Vehicle(this, file));
+				break;
+			case 'T':
+				sceneObjects.push_back(new TurtleGroup(this, file));
+				break;
+
+			default:
+				throw FileFormatError(fileRoute, line, "Tipo de objeto desconocido");
+			}
+		}
+		catch (const GameError& e) {
+			throw FileFormatError(fileRoute, line, e.what());
 		}
 	}
 	file.close();

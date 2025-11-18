@@ -1,5 +1,5 @@
 #include "Frog.h"
-
+#include "GameError.h"
 
 
 Frog::Frog(Vector2D<float> lastDir, Point2D<float> position, int health, Texture* texture, Game* game) :
@@ -19,7 +19,7 @@ Frog::Frog(Game* game, std::istream& file) :
 	float pointX, pointY;
 	int health;
 	if (!(file >> pointX >> pointY >> health)) {
-		throw std::string("Error: formato invalido para rana.\n");
+		throw GameError("Tipo incorrecto para Frog");
 	};
 	lastDir = Vector2D<float>(0, 0);
 	position = Vector2D<float>(pointX, pointY);
