@@ -5,6 +5,7 @@
 #include "Vehicle.h"
 #include "Log.h"
 #include "TurtleGroup.h"
+#include "GameError.h"
 
 #include <string>
 #include <SDL3_image/SDL_image.h>
@@ -12,7 +13,7 @@ using namespace std;
 
 // Constantes
 constexpr const char* const WINDOW_TITLE = "Frogger 1.0";
-constexpr const char* const MAP_FILE = "assets/maps/turtles.txt";
+constexpr const char* const MAP_FILE = "../assets/maps/turtles.txt";
 
 constexpr const int HOMEFROGNUM = 5;
 constexpr const float HOME_FIRST_X = 32;
@@ -26,6 +27,38 @@ const Point2D<float> homePositions[HOMEFROGNUM] = { Point2D<float>(HOME_FIRST_X,
 													Point2D<float>(HOME_FIRST_X + HOME_DISTANCE * 3, HOME_Y),
 													Point2D<float>(HOME_FIRST_X + HOME_DISTANCE * 4, HOME_Y) };
 
+
+//Configuración de botones
+const SDL_MessageBoxButtonData resetButtons[] = {
+		{ SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 0, "Volver" },
+		{ SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 1, "Reiniciar" },
+};
+
+const SDL_MessageBoxColorScheme colorScheme = {
+	{ /* .colors (.r, .g, .b) */
+		/* [SDL_MESSAGEBOX_COLOR_BACKGROUND] */
+		{ 255,   200,   0 },
+		/* [SDL_MESSAGEBOX_COLOR_TEXT] */
+		{   0, 255,   0 },
+		/* [SDL_MESSAGEBOX_COLOR_BUTTON_BORDER] */
+		{ 255, 255,   0 },
+		/* [SDL_MESSAGEBOX_COLOR_BUTTON_BACKGROUND] */
+		{   0,   0, 255 },
+		/* [SDL_MESSAGEBOX_COLOR_BUTTON_SELECTED] */
+		{ 255,   0, 255 }
+	}
+};
+
+const SDL_MessageBoxData resetMessageData = {
+		SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT, /* .flags */
+		NULL, /* .window */
+		"Reinicio de nivel", /* .title */
+		"¿Quieres reiniciar el nivel? Se perderá todo el progreso.", /* .message */
+		SDL_arraysize(resetButtons), /* .numbuttons */
+		resetButtons, /* .buttons */
+		&colorScheme
+};
+
 // Estructura para especificar las texturas que hay que
 // cargar y el tamaño de su matriz de frames
 struct TextureSpec
@@ -35,7 +68,7 @@ struct TextureSpec
 	int ncols = 1;
 };
 
-constexpr const char* imgBase = "assets/images/";
+constexpr const char* imgBase = "../assets/images/";
 
 constexpr array<TextureSpec, Game::NUM_TEXTURES> textureList{
 	TextureSpec{"frog.png", 1, 2},
@@ -53,23 +86,23 @@ constexpr array<TextureSpec, Game::NUM_TEXTURES> textureList{
 
 
 Game::Game()
-	: exit(false), frog(nullptr)
+	: frog(nullptr), exit(false)
 {
 	try {
 		// Carga SDL y sus bibliotecas auxiliares
 		if (!SDL_Init(SDL_INIT_VIDEO)) {
-			throw string("Error inicializando SDL: ") + SDL_GetError() + "\n";
+			throw SDLError();
 		};
 
 		window = SDL_CreateWindow(WINDOW_TITLE, WINDOW_WIDTH, WINDOW_HEIGHT, 0);
 
 		if (!window)
-			throw string("window: ") + SDL_GetError() + "\n";
+			throw SDLError();
 
 		renderer = SDL_CreateRenderer(window, nullptr);
 
 		if (!renderer)
-			throw string("renderer: ") + SDL_GetError() + "\n";
+			throw SDLError();
 
 		// Carga las texturas al inicio
 		for (size_t i = 0; i < textures.size(); i++) {
@@ -79,31 +112,18 @@ Game::Game()
 
 		readFile(MAP_FILE);
 
-		for (int i = 0; i < HOMEFROGNUM; i++) {
-			//sceneObjects.push_back(new HomedFrog{ Point2D<float>(homePositions[i] - Point2D<float>(getTexture(FROG)->getFrameWidth() / 2,getTexture(FROG)->getFrameHeight() / 2)), getTexture(FROG), this });
-			Point2D<float> homePos(
-				homePositions[i].GetX() - getTexture(FROG)->getFrameWidth() / 2.0f,
-				homePositions[i].GetY() - getTexture(FROG)->getFrameHeight() / 2.0f
-			);
-			//declarado asi, para facilidad de luego hacer pushback en scene y en homedfrogs
-			HomedFrog* hf = new HomedFrog(homePos, getTexture(FROG), this);
-			sceneObjects.push_back(hf);
-			homedFrogs.push_back(hf);
-
-			//wasp
-			reachedHomes.push_back(false);
-		}
+		buildHomes();
 
 		randomGenerator.seed(time(nullptr));
 		srand(SDL_GetTicks());
 		waspSpawnTime = getRandomRange(WASP_MIN_SPAWN, WASP_MAX_SPAWN) * 1000;
 		currentTime = 0;
 	}
-	catch (const string& e)
+	catch (const GameError& e)
 	{
 		destroyAllElements();
 		SDL_Quit();
-		throw e;
+		throw;
 	}
 }
 
@@ -152,8 +172,7 @@ Game::update()
 			rndHome = getRandomRange(0, HOMEFROGNUM - 1);
 		} while (reachedHomes[rndHome]);
 		Wasp* wasp = new Wasp{ homePositions[rndHome] - Point2D<float>(getTexture(WASP)->getFrameWidth() / 2,getTexture(WASP)->getFrameHeight() / 2), Vector2D<float>(0,0), getTexture(WASP), this, (float)(getRandomRange(WASP_MIN_LIFE, WASP_MAX_LIFE) * 1000.0) };
-		sceneObjects.push_back(wasp);
-		wasp->setAnchor(sceneObjects.end());
+		wasp->setAnchor(sceneObjects.insert(sceneObjects.begin(), wasp));
 	}
 
 	//Borrado en sceneObjects de los objetos cuyo iterador está en toDelete
@@ -191,9 +210,62 @@ Game::handleEvents()
 			exit = true;
 
 		frog->HandleEvent(event);
+		if (event.type == SDL_EVENT_KEY_DOWN) {
+			bool key0 = (event.key.key == SDLK_0);
+			if (key0) {
+				int buttonID;
+				SDL_ShowMessageBox(&resetMessageData, &buttonID);
+				if (buttonID == 1) {
+				reset();
+				}
+				return;
+			}
+		}
 	}
 }
 
+
+void
+Game::reset() {
+	destroySceneObjects();
+	readFile(MAP_FILE);
+	buildHomes();
+
+}
+
+
+void
+Game::buildHomes() {
+	for (int i = 0; i < HOMEFROGNUM; i++) {
+		//sceneObjects.push_back(new HomedFrog{ Point2D<float>(homePositions[i] - Point2D<float>(getTexture(FROG)->getFrameWidth() / 2,getTexture(FROG)->getFrameHeight() / 2)), getTexture(FROG), this });
+		Point2D<float> homePos(
+			homePositions[i].GetX() - getTexture(FROG)->getFrameWidth() / 2.0f,
+			homePositions[i].GetY() - getTexture(FROG)->getFrameHeight() / 2.0f
+		);
+		//declarado asi, para facilidad de luego hacer pushback en scene y en homedfrogs
+		HomedFrog* hf = new HomedFrog(homePos, getTexture(FROG), this);
+		sceneObjects.push_back(hf);
+		homedFrogs.push_back(hf);
+
+		//wasp
+		reachedHomes.push_back(false);
+	}
+
+}
+void
+Game::destroySceneObjects() {
+	frog = nullptr; 
+
+	for (SceneObject* so : sceneObjects) {
+		delete so; 
+	}
+	sceneObjects.clear();
+	homedFrogs.clear();
+	reachedHomes.clear();
+	toDelete.clear();
+
+
+}
 //Metodo que agrupa TODO a borrar para la excepcion
 void
 Game::destroyAllElements() {
@@ -267,10 +339,10 @@ bool Game::tryReachHome(const SDL_FRect& hitbox) {
 bool
 Game::allFrogsHome() const {
 	int count = 0;
-	//for (int i = 0; i < HOMEFROGNUM; i++) {
-	//	if (homedFrogs[i]->GetReached())
-	//		count++;
-	//}
+	for (int i = 0; i < HOMEFROGNUM; i++) {
+		if (homedFrogs[i]->GetReached())
+			count++;
+	}
 	return count == HOMEFROGNUM;
 }
 
@@ -279,31 +351,40 @@ int Game::getRandomRange(int min, int max) {
 }
 
 void Game::readFile(const char* fileRoute) {
-
 	//Lectura de archivo
 	fstream file(fileRoute);
 	if (!file)
-		throw string("Error: No se ha encontrado el archivo mapa. El nombre del archivo que se intenta leer es: ") + string(MAP_FILE) + "\n";
+		throw FileNotFoundError(fileRoute);
 	char objType;
-
+	int line = 0; 
 	while (file >> objType) { //Asumo que el archivo tendrá el formato correcto
-		switch (objType) {
-		case '#':
-			file.ignore(numeric_limits<streamsize>::max(), '\n');
-			break;
-		case 'F':
-			frog = new Frog(this, file);
-			sceneObjects.push_back(frog);
-			break;
-		case 'L':
-			sceneObjects.push_back(new Log(this, file));
-			break;
-		case 'V':
-			sceneObjects.push_back(new Vehicle(this, file));
-			break;
-		case 'T':
-			sceneObjects.push_back(new TurtleGroup(this, file));
-			break;
+		line++;
+		try
+		{
+			switch (objType) {
+			case '#':
+				file.ignore(numeric_limits<streamsize>::max(), '\n');
+				break;
+			case 'F':
+				frog = new Frog(this, file);
+				sceneObjects.push_back(frog);
+				break;
+			case 'L':
+				sceneObjects.push_back(new Log(this, file));
+				break;
+			case 'V':
+				sceneObjects.push_back(new Vehicle(this, file));
+				break;
+			case 'T':
+				sceneObjects.push_back(new TurtleGroup(this, file));
+				break;
+
+			default:
+				throw FileFormatError(fileRoute, line, "Tipo de objeto desconocido");
+			}
+		}
+		catch (const GameError& e) {
+			throw FileFormatError(fileRoute, line, e.what());
 		}
 	}
 	file.close();
@@ -311,4 +392,22 @@ void Game::readFile(const char* fileRoute) {
 
 void Game::deleteAfter(Anchor it) {
 	toDelete.push_back(it);
+}
+
+void Game::mostrarError(const GameError& e) {
+	const SDL_MessageBoxButtonData botones[] = {
+		{ SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 0, "Aceptar" }
+	};
+
+	const SDL_MessageBoxData datos = {
+		SDL_MESSAGEBOX_ERROR,
+		nullptr,                // ventana asociada
+		"Error en el juego",    // título genérico
+		e.what(),               // mensaje con el texto de la excepción
+		SDL_arraysize(botones),
+		botones,
+		nullptr
+	};
+
+	SDL_ShowMessageBox(&datos, nullptr);
 }

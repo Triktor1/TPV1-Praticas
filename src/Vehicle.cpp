@@ -1,4 +1,5 @@
 #include "Vehicle.h"
+#include "GameError.h"
 #include <string>
 
 Vehicle::Vehicle(Vector2D<float> sentido, Point2D<float> posicion, Texture* textura, Game* juego) :
@@ -6,12 +7,12 @@ Vehicle::Vehicle(Vector2D<float> sentido, Point2D<float> posicion, Texture* text
 {
 }
 
-Vehicle::Vehicle(Game* game,std::istream& file) :
+Vehicle::Vehicle(Game* game, std::istream& file) :
 	Crosser(game, file)
 {
 	float posX, posY, speedX, textureType;
 	if (!(file >> posX >> posY >> speedX >> textureType)) {
-		//throw string("Error: formato invalido para vehiculo.\n");
+		throw GameError("Formato Incorrrecto/incompleto de Vehicle");
 	}
 	this->position = Vector2D<float>(posX, posY);
 	this->speed = Vector2D<float>(speedX, 0);

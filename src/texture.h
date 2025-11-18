@@ -14,8 +14,8 @@ class Texture
 	int height;
 	int nrows;
 	int ncolumns;
-	float frameWidth;
-	float frameHeight;
+	int frameWidth;
+	int frameHeight;
 
 	SDL_FRect getFrameRect(int row, int col) const;
 

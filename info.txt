@@ -1,7 +1,11 @@
 Víctor Castro Álvarez
 Óscar Silva Urbina
 
-No hemos hecho ningún apartado opcional y funciona todo correctamente excepto el apartado de excepciones, donde hay errores en los siguientes aspectos:
+Hemos implementado todo lo que se pedía de forma obligatoria en la práctica.
+En cuanto al reinicio de la partida, hemos decidido implementar la opción 2: un cuadro de confirmación después de pulsar la tecla 0.
 
-- Hay una excepción sin manejar de un archivo interno de SDL al quitar alguna textura de la carpeta images
-- Hay una excepción sin manejar cuando se detecta un archivo válido pero este está vacío
+Hemos hecho los siguientes apartados opcionales:
+	- Animación de frog
+
+Hemos hecho alguna cosa también aunque no se pedía ni estaba en los opcionales:
+	- Animación de las tortugas que no se sumergen (ciclo de los primeros dos frames del spritesheet)
