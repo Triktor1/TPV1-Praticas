@@ -91,18 +91,18 @@ Game::Game()
 	try {
 		// Carga SDL y sus bibliotecas auxiliares
 		if (!SDL_Init(SDL_INIT_VIDEO)) {
-			throw string("Error inicializando SDL: ") + SDL_GetError() + "\n";
+			throw SDLError();
 		};
 
 		window = SDL_CreateWindow(WINDOW_TITLE, WINDOW_WIDTH, WINDOW_HEIGHT, 0);
 
 		if (!window)
-			throw string("window: ") + SDL_GetError() + "\n";
+			throw SDLError();
 
 		renderer = SDL_CreateRenderer(window, nullptr);
 
 		if (!renderer)
-			throw string("renderer: ") + SDL_GetError() + "\n";
+			throw SDLError();
 
 		// Carga las texturas al inicio
 		for (size_t i = 0; i < textures.size(); i++) {
@@ -119,11 +119,11 @@ Game::Game()
 		waspSpawnTime = getRandomRange(WASP_MIN_SPAWN, WASP_MAX_SPAWN) * 1000;
 		currentTime = 0;
 	}
-	catch (const string& e)
+	catch (const GameError& e)
 	{
 		destroyAllElements();
 		SDL_Quit();
-		throw e;
+		throw;
 	}
 }
 
@@ -355,7 +355,7 @@ void Game::readFile(const char* fileRoute) {
 	//Lectura de archivo
 	fstream file(fileRoute);
 	if (!file)
-		throw string("Error: No se ha encontrado el archivo mapa. El nombre del archivo que se intenta leer es: ") + string(MAP_FILE) + "\n";
+		throw FileNotFoundError(fileRoute);
 	char objType;
 
 	while (file >> objType) { //Asumo que el archivo tendrá el formato correcto
