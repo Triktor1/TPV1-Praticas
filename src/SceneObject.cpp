@@ -5,6 +5,8 @@ SceneObject::SceneObject(Point2D<float> position, Texture* texture, Game* game) 
 	position(position),
 	texture(texture)
 {
+	height = texture->getFrameHeight();
+	width = texture->getFrameWidth();
 }
 
 SceneObject::SceneObject(Game* game, std::istream& file) :

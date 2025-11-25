@@ -5,6 +5,5 @@ class Platform : public Crosser {
 protected:
 	using Crosser::Crosser;
 public:
-	Collision checkCollision(const SDL_FRect& FRect);
+	Collision checkCollision(const SDL_FRect& FRect) const override;
 };
-

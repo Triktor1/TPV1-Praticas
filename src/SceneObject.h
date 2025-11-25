@@ -8,6 +8,7 @@ class SceneObject : public GameObject
 {
 protected:
 	Point2D<float> position;
+	float height, width;
 	Texture* texture;
 	SDL_FRect getBoundingBox() const;
 public:

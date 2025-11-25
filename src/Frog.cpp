@@ -30,8 +30,7 @@ Frog::Frog(Game* game, std::istream& file) :
 
 
 void Frog::Render() const {
-	SDL_FRect frogDimensions = { position.GetX(), position.GetY(),
-				(float)texture->getFrameWidth(), (float)texture->getFrameHeight() };
+	SDL_FRect frogDimensions = getBoundingBox();
 	SDL_FPoint center = { frogDimensions.w / 2, frogDimensions.h / 2 };
 	texture->renderFrame(frogDimensions, 0, anim, angle, &center, SDL_FLIP_NONE);
 }
