@@ -378,7 +378,9 @@ void Game::readFile(const char* fileRoute) {
 			case 'T':
 				sceneObjects.push_back(new TurtleGroup(this, file));
 				break;
-
+			case 'W':
+				sceneObjects.push_front(new Wasp(this, file));
+				break;
 			default:
 				throw FileFormatError(fileRoute, line, "Tipo de objeto desconocido");
 			}
@@ -401,9 +403,9 @@ void Game::mostrarError(const GameError& e) {
 
 	const SDL_MessageBoxData datos = {
 		SDL_MESSAGEBOX_ERROR,
-		nullptr,                // ventana asociada
-		"Error en el juego",    // título genérico
-		e.what(),               // mensaje con el texto de la excepción
+		nullptr,
+		"Error en el juego",
+		e.what(),
 		SDL_arraysize(botones),
 		botones,
 		nullptr

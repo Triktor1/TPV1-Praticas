@@ -30,7 +30,8 @@ private:
 	int anim;
 	double angle;
 
-	void FrogMovementUpdate();
+	void FrogMovementUpdateInstJump();
+	void FrogMovementUpdateAnimJump();
 	void FrogCollisionsUpdate();
 
 public:

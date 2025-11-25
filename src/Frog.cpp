@@ -36,7 +36,7 @@ void Frog::Render() const {
 	texture->renderFrame(frogDimensions, 0, anim, angle, &center, SDL_FLIP_NONE);
 }
 
-void Frog::FrogMovementUpdate() {
+void Frog::FrogMovementUpdateInstJump() {
 	//Movimiento
 	const float step = FROG_STEP;
 	static int jumpFrames = 0;
@@ -55,14 +55,21 @@ void Frog::FrogMovementUpdate() {
 		else {
 			position = position + lastDir * step;
 		}
-		anim = 1;
 		jumpFrames = JUMP_DURATION;
+		anim = 1;
 		lastDir = Vector2D<float>(0, 0);
 	}
 	else {
 		jumpFrames--;
 		if (jumpFrames == 0) anim = 0;
 	}
+}
+
+void Frog::FrogMovementUpdateAnimJump() {
+	const float step = FROG_STEP;
+	float newX = position.GetX() + lastDir.GetX() * step;
+	float newY = position.GetY() + lastDir.GetY() * step;
+
 }
 
 void Frog::FrogCollisionsUpdate() {
@@ -93,7 +100,7 @@ void Frog::FrogCollisionsUpdate() {
 }
 
 void Frog::Update() {
-	FrogMovementUpdate();
+	FrogMovementUpdateInstJump();
 	FrogCollisionsUpdate();
 }
 

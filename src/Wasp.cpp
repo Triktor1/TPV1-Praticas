@@ -7,6 +7,17 @@ Wasp::Wasp(Point2D<float> position, Vector2D<float> speed, Texture* texture, Gam
 {
 }
 
+Wasp::Wasp(Game* game, std::istream& file) :
+	SceneObject(game, file)
+{
+	float posX, posY, speedX, speedY, time;
+	file >> posX >> posY >> speedX >> speedY >> time;
+	position = Vector2D<float>(posX, posY);
+	speed = Vector2D<float>(speedX, speedY);
+	lifeTime = time;
+	texture = this->texture = game->getTexture(game->WASP);
+}
+
 void Wasp::Update() {
 	lifeTime -= game->FRAME_RATE;
 	if (!isAlive()) game->deleteAfter(anchor);
@@ -22,7 +33,7 @@ Collision Wasp::checkCollision(const SDL_FRect& FRect) const {
 	return collision;
 }
 
-bool Wasp::isAlive() const{
+bool Wasp::isAlive() const {
 	return lifeTime >= 0;
 }
 

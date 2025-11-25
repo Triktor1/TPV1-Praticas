@@ -10,6 +10,7 @@ private:
 
 public:
 	Wasp(Point2D<float>, Vector2D<float>, Texture*, Game*, float);
+	Wasp(Game*, std::istream&);
 
 	void Update() override;
 	Collision checkCollision(const SDL_FRect&) const override; 
