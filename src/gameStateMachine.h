@@ -1,9 +1,8 @@
 #ifndef GAME_STATE_MACHINE_H
 #define GAME_STATE_MACHINE_H
-
+#include <SDL3/SDL.h>
 #include <memory>
 #include <stack>
-
 #include "gameState.h"
 
 /**

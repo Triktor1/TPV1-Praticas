@@ -8,6 +8,7 @@
 #include <vector>
 #include <random>
 #include <list>
+#include "gameStateMachine.h"
 
 #include "Vector2D.h"
 
@@ -23,7 +24,7 @@ struct Collision;
 /**
  * Clase principal del juego.
  */
-class Game
+class Game : private GameStateMachine
 {
 public:
 	using Anchor = std::list<SceneObject*>::iterator;

@@ -31,6 +31,8 @@ Frog::Frog(Game* game, std::istream& file) :
 
 void Frog::Render() const {
 	SDL_FRect frogDimensions = getBoundingBox();
+	frogDimensions.x = position.GetX();
+	frogDimensions.y = position.GetY();
 	SDL_FPoint center = { frogDimensions.w / 2, frogDimensions.h / 2 };
 	texture->renderFrame(frogDimensions, 0, anim, angle, &center, SDL_FLIP_NONE);
 }
@@ -42,20 +44,26 @@ void Frog::FrogMovementUpdateInstJump() {
 	if (lastDir.GetX() != 0 || lastDir.GetY() != 0) {
 		float newX = position.GetX() + lastDir.GetX() * step;
 		float newY = position.GetY() + lastDir.GetY() * step;
-		if (newX < 0) {
+		bool outD = newX > game->WINDOW_WIDTH - texture->getFrameWidth(),
+			outL = newX < 0,
+			outR = newY > game->getFrogSpawn().GetY();
+
+		if (outL) {
 			position = Point2D<float>(0, position.GetY());
 		}
-		else if (newX > game->WINDOW_WIDTH - texture->getFrameWidth()) {
+		else if (outD) {
 			position = Point2D<float>(game->WINDOW_WIDTH - texture->getFrameWidth(), position.GetY());
 		}
-		else if (newY > game->getFrogSpawn().GetY()) {
+		else if (outR) {
 			position = Point2D<float>(position.GetX(), game->getFrogSpawn().GetY());
 		}
 		else {
 			position = position + lastDir * step;
 		}
+		if (!outD && !outL && !outR) {
 		jumpFrames = JUMP_DURATION;
 		anim = 1;
+		}
 		lastDir = Vector2D<float>(0, 0);
 	}
 	else {
@@ -75,7 +83,7 @@ void Frog::FrogCollisionsUpdate() {
 	//Colisiones
 	SDL_FRect hitbox = { position.GetX() + FROG_HITBOX_OFFSET_X, position.GetY() + FROG_HITBOX_OFFSET_Y, FROG_HITBOX_WIDTH, FROG_HITBOX_HEIGHT }; //Calculado con los espacios de píxeles entre límite de textura y de rana
 	Collision col = game->checkCollision(hitbox);
-	if (position.GetX() > game->WINDOW_WIDTH || position.GetX() < - texture->getFrameWidth()) {
+	if (position.GetX() > game->WINDOW_WIDTH || position.GetX() < -texture->getFrameWidth()) {
 		health--;
 		position = game->getFrogSpawn();
 		angle = 0;

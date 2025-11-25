@@ -1,5 +1,4 @@
 #pragma once
-
 #include "SceneObject.h"
 
 class Frog : public SceneObject
