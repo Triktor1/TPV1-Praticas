@@ -21,12 +21,12 @@ constexpr uint WIN_HEIGHT = 600;
 int main(int argc, char* argv[])
 {
 	try {
-		Game game;
+		SDLApplication game;
 		game.run();
 		
 	}
 	catch (const GameError e) {
-		Game::mostrarError(e);
+		SDLApplication::mostrarError(e);
 		return 1;
 	}
 	return 0;

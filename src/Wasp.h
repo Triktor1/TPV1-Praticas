@@ -6,11 +6,11 @@ class Wasp : public SceneObject
 private:
 	Vector2D<float> speed;
 	int lifeTime;
-	Game::Anchor anchor;
+	SDLApplication::Anchor anchor;
 
 public:
-	Wasp(Point2D<float>, Vector2D<float>, Texture*, Game*, float);
-	Wasp(Game*, std::istream&);
+	Wasp(Point2D<float>, Vector2D<float>, Texture*, SDLApplication*, float);
+	Wasp(SDLApplication*, std::istream&);
 
 	void Update() override;
 	Collision checkCollision(const SDL_FRect&) const override; 
@@ -21,7 +21,7 @@ public:
 	int getLifeTime() const;
 
 	//getter y setter del Anchor
-	Game::Anchor getAnchor() const { return anchor; };
-	void setAnchor(const Game::Anchor& it) { anchor = it; };
+	SDLApplication::Anchor getAnchor() const { return anchor; };
+	void setAnchor(const SDLApplication::Anchor& it) { anchor = it; };
 };
 

@@ -10,9 +10,9 @@ public:
 	virtual void Update() = 0;
 
 protected:
-	Game* game;
-	GameObject(Game*);
-	GameObject(Game*, std::istream&);
+	SDLApplication* game;
+	GameObject(SDLApplication*);
+	GameObject(SDLApplication*, std::istream&);
 	virtual ~GameObject();
 	GameState* state;
 

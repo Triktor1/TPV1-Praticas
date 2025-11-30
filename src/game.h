@@ -24,7 +24,7 @@ struct Collision;
 /**
  * Clase principal del juego.
  */
-class Game : private GameStateMachine
+class SDLApplication : private GameStateMachine
 {
 public:
 	using Anchor = std::list<SceneObject*>::iterator;
@@ -81,8 +81,8 @@ private:
 	Point2D<float> frogSpawn;
 
 public:
-	Game();
-	~Game();
+	SDLApplication();
+	~SDLApplication();
 
 	// Obtiene una textura por su nombre
 	Texture* getTexture(TextureName name) const;
@@ -136,7 +136,7 @@ public:
 	};
 
 inline Texture*
-Game::getTexture(TextureName name) const
+SDLApplication::getTexture(TextureName name) const
 {
 	return textures[name];
 }

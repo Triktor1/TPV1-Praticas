@@ -60,7 +60,7 @@
     <ClCompile Include="gameState.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="playState.cpp">
+    <ClCompile Include="PlayState.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
     <ClCompile Include="MainMenuState.cpp">

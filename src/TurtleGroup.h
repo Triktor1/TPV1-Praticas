@@ -9,8 +9,8 @@ private:
 	int GetCurrentAnim() const;
 
 public:
-	TurtleGroup(Point2D<float>, Vector2D<float>, int, bool, Texture*, Game*);
-	TurtleGroup(Game*, std::istream&);
+	TurtleGroup(Point2D<float>, Vector2D<float>, int, bool, Texture*, SDLApplication*);
+	TurtleGroup(SDLApplication*, std::istream&);
 	void Render() const override;
 	Collision checkCollision(const SDL_FRect& FRect) const override;
 };

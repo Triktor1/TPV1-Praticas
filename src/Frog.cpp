@@ -2,7 +2,7 @@
 #include "GameError.h"
 
 
-Frog::Frog(Vector2D<float> lastDir, Point2D<float> position, int health, Texture* texture, Game* game) :
+Frog::Frog(Vector2D<float> lastDir, Point2D<float> position, int health, Texture* texture, SDLApplication* game) :
 	SceneObject(position, texture, game),
 	lastDir(lastDir),
 	health(health),
@@ -11,7 +11,7 @@ Frog::Frog(Vector2D<float> lastDir, Point2D<float> position, int health, Texture
 {
 }
 
-Frog::Frog(Game* game, std::istream& file) :
+Frog::Frog(SDLApplication* game, std::istream& file) :
 	SceneObject(game, file),
 	anim(0),
 	angle(0.0)

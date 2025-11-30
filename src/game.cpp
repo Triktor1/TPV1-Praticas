@@ -70,7 +70,7 @@ struct TextureSpec
 
 constexpr const char* imgBase = "../assets/images/";
 
-constexpr array<TextureSpec, Game::NUM_TEXTURES> textureList{
+constexpr array<TextureSpec, SDLApplication::NUM_TEXTURES> textureList{
 	TextureSpec{"frog.png", 1, 2},
 	{"background.png"},
 	{"car1.png"},
@@ -85,7 +85,7 @@ constexpr array<TextureSpec, Game::NUM_TEXTURES> textureList{
 };
 
 
-Game::Game()
+SDLApplication::SDLApplication()
 	: frog(nullptr), exit(false)
 {
 	try {
@@ -127,14 +127,14 @@ Game::Game()
 	}
 }
 
-Game::~Game()
+SDLApplication::~SDLApplication()
 {
 	destroyAllElements();
 	SDL_Quit();
 }
 
 void
-Game::render() const
+SDLApplication::render() const
 {
 	SDL_RenderClear(renderer);
 
@@ -148,7 +148,7 @@ Game::render() const
 }
 
 void
-Game::update()
+SDLApplication::update()
 {
 	currentTime = SDL_GetTicks();
 	for (SceneObject* so : sceneObjects) {
@@ -184,7 +184,7 @@ Game::update()
 }
 
 void
-Game::run()
+SDLApplication::run()
 {
 	while (!exit) {
 		try {
@@ -201,7 +201,7 @@ Game::run()
 }
 
 void
-Game::handleEvents()
+SDLApplication::handleEvents()
 {
 	SDL_Event event;
 
@@ -226,7 +226,7 @@ Game::handleEvents()
 
 
 void
-Game::reset() {
+SDLApplication::reset() {
 	destroySceneObjects();
 	readFile(MAP_FILE);
 	buildHomes();
@@ -235,7 +235,7 @@ Game::reset() {
 
 
 void
-Game::buildHomes() {
+SDLApplication::buildHomes() {
 	for (int i = 0; i < HOMEFROGNUM; i++) {
 		//sceneObjects.push_back(new HomedFrog{ Point2D<float>(homePositions[i] - Point2D<float>(getTexture(FROG)->getFrameWidth() / 2,getTexture(FROG)->getFrameHeight() / 2)), getTexture(FROG), this });
 		Point2D<float> homePos(
@@ -253,7 +253,7 @@ Game::buildHomes() {
 
 }
 void
-Game::destroySceneObjects() {
+SDLApplication::destroySceneObjects() {
 	frog = nullptr; 
 
 	for (SceneObject* so : sceneObjects) {
@@ -268,7 +268,7 @@ Game::destroySceneObjects() {
 }
 //Metodo que agrupa TODO a borrar para la excepcion
 void
-Game::destroyAllElements() {
+SDLApplication::destroyAllElements() {
 
 	frog = nullptr;
 	for (SceneObject* so : sceneObjects) {
@@ -289,7 +289,7 @@ Game::destroyAllElements() {
 }
 
 Collision
-Game::checkCollision(const SDL_FRect& rect) const
+SDLApplication::checkCollision(const SDL_FRect& rect) const
 {
 	Collision collision;
 	collision.tipo = NONE; //Inicializamos en tipo NONE (sin colisión)
@@ -305,15 +305,15 @@ Game::checkCollision(const SDL_FRect& rect) const
 	return collision;
 }
 
-Point2D<float> Game::getFrogSpawn() const {
+Point2D<float> SDLApplication::getFrogSpawn() const {
 	return frogSpawn;
 }
 
-void Game::setFrogSpawn(float x, float y) {
+void SDLApplication::setFrogSpawn(float x, float y) {
 	frogSpawn = Point2D<float>(x, y);
 }
 
-bool Game::tryReachHome(const SDL_FRect& hitbox) {
+bool SDLApplication::tryReachHome(const SDL_FRect& hitbox) {
 	bool reached = true;
 	int i = 0;
 	while (reached && i < homedFrogs.size()) {
@@ -337,7 +337,7 @@ bool Game::tryReachHome(const SDL_FRect& hitbox) {
 }
 
 bool
-Game::allFrogsHome() const {
+SDLApplication::allFrogsHome() const {
 	int count = 0;
 	for (int i = 0; i < HOMEFROGNUM; i++) {
 		if (homedFrogs[i]->GetReached())
@@ -346,11 +346,11 @@ Game::allFrogsHome() const {
 	return count == HOMEFROGNUM;
 }
 
-int Game::getRandomRange(int min, int max) {
+int SDLApplication::getRandomRange(int min, int max) {
 	return uniform_int_distribution<int>(min, max)(randomGenerator);
 }
 
-void Game::readFile(const char* fileRoute) {
+void SDLApplication::readFile(const char* fileRoute) {
 	//Lectura de archivo
 	fstream file(fileRoute);
 	if (!file)
@@ -392,11 +392,11 @@ void Game::readFile(const char* fileRoute) {
 	file.close();
 }
 
-void Game::deleteAfter(Anchor it) {
+void SDLApplication::deleteAfter(Anchor it) {
 	toDelete.push_back(it);
 }
 
-void Game::mostrarError(const GameError& e) {
+void SDLApplication::mostrarError(const GameError& e) {
 	const SDL_MessageBoxButtonData botones[] = {
 		{ SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 0, "Aceptar" }
 	};

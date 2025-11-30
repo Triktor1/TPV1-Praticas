@@ -1,12 +1,12 @@
 #include "GameObject.h"
 #include <SDL3_image/SDL_image.h>
 
-GameObject::GameObject(Game* juego) :
+GameObject::GameObject(SDLApplication* juego) :
 	game(juego)
 {
 }
 
-GameObject::GameObject(Game* juego, std::istream& file) :
+GameObject::GameObject(SDLApplication* juego, std::istream& file) :
 	game(juego)
 {
 }

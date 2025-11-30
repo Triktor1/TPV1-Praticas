@@ -1,13 +1,13 @@
 #include "Crosser.h"
 
-Crosser::Crosser(Point2D<float> position, Vector2D<float> speed, Texture* texture, Game* game) :
+Crosser::Crosser(Point2D<float> position, Vector2D<float> speed, Texture* texture, SDLApplication* game) :
 	SceneObject(position, texture, game),
 	speed(speed),
 	backjump(150)
 {
 }
 
-Crosser::Crosser(Game* game, std::istream& file) :
+Crosser::Crosser(SDLApplication* game, std::istream& file) :
 	SceneObject(game, file),
 	backjump(150)
 {

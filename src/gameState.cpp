@@ -2,6 +2,13 @@
 #include "GameObject.h"
 #include "EventHandler.h"
 
+
+
+GameState::GameState(SDLApplication* game)
+	: game(game)
+{
+}
+
 void GameState::render() const {
 	for (auto obj : gameObjects)
 		obj->Render();
@@ -13,5 +20,15 @@ void GameState::update() {
 }
 
 void GameState::handleEvent(const SDL_Event& e) {
-	
+	for (EventHandler* eh : eventHandlers) {
+		eh->handleEvent(e);
+	}
+}
+
+void GameState::addEventListener(EventHandler* event) {
+	eventHandlers.push_back(event);
+}
+
+void GameState::addObject(GameObject* object) {
+	gameObjects.push_back(object);
 }

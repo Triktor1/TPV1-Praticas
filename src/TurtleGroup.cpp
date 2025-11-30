@@ -1,7 +1,7 @@
 #include "TurtleGroup.h"
 #include "GameError.h"
 
-TurtleGroup::TurtleGroup(Point2D<float> position, Vector2D<float> speed, int numTurtles, bool submergible, Texture* texture, Game* game) :
+TurtleGroup::TurtleGroup(Point2D<float> position, Vector2D<float> speed, int numTurtles, bool submergible, Texture* texture, SDLApplication* game) :
 	Platform(position, speed, texture, game),
 	numTurtles(numTurtles),
 	submergible(submergible)
@@ -10,7 +10,7 @@ TurtleGroup::TurtleGroup(Point2D<float> position, Vector2D<float> speed, int num
 
 constexpr const int SUBMERGETIME = 300;
 
-TurtleGroup::TurtleGroup(Game* game, std::istream& file) :
+TurtleGroup::TurtleGroup(SDLApplication* game, std::istream& file) :
 	Platform(game, file)
 {
 	float posX, posY, speedX;

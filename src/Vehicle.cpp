@@ -2,12 +2,12 @@
 #include "GameError.h"
 #include <string>
 
-Vehicle::Vehicle(Vector2D<float> sentido, Point2D<float> posicion, Texture* textura, Game* juego) :
+Vehicle::Vehicle(Vector2D<float> sentido, Point2D<float> posicion, Texture* textura, SDLApplication* juego) :
 	Crosser(posicion, sentido, textura, juego)
 {
 }
 
-Vehicle::Vehicle(Game* game, std::istream& file) :
+Vehicle::Vehicle(SDLApplication* game, std::istream& file) :
 	Crosser(game, file)
 {
 	float posX, posY, speedX, textureType;
@@ -16,7 +16,7 @@ Vehicle::Vehicle(Game* game, std::istream& file) :
 	}
 	this->position = Vector2D<float>(posX, posY);
 	this->speed = Vector2D<float>(speedX, 0);
-	this->texture = game->getTexture(Game::TextureName(game->CAR1 + textureType - 1));
+	this->texture = game->getTexture(SDLApplication::TextureName(game->CAR1 + textureType - 1));
 }
 void Vehicle::Render() const {
 	SDL_FlipMode flip = (speed.GetX() > 0) ? SDL_FLIP_NONE : SDL_FLIP_VERTICAL;
