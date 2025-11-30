@@ -19,5 +19,8 @@ public:
 	void render() const;
 	void update();
 	void handleEvent(const SDL_Event&);
+
+	GameState(Game* g);
+	Game* getGame()const; 
 };
 

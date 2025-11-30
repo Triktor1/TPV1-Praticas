@@ -130,6 +130,9 @@ public:
 
 	//Crea una ventana de error
 	static void mostrarError(const GameError& e);
+
+	//Getter del renderer para el SDL_Render para los botones
+	SDL_Renderer* getRenderer() const { return renderer; }
 	};
 
 inline Texture*
