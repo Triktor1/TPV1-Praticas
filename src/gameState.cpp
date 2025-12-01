@@ -3,7 +3,6 @@
 #include "EventHandler.h"
 
 
-
 GameState::GameState(SDLApplication* game)
 	: game(game)
 {
@@ -35,4 +34,8 @@ void GameState::addEventListener(EventHandler* event) {
 
 void GameState::addObject(GameObject* object) {
 	gameObjects.push_back(object);
+}
+
+SDLApplication* GameState::getGame() const {
+	return game;
 }

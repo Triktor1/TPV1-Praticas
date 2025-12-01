@@ -9,9 +9,9 @@ GameStateMachine::~GameStateMachine()
 }
 
 void
-GameStateMachine::pushState(shared_ptr<GameState> state)
+GameStateMachine::pushState(shared_ptr<GameState> game)
 {
-	gameStates.push(std::move(state));
+	gameStates.push(std::move(game));
 }
 
 void
@@ -35,10 +35,10 @@ operator bool() const
 }
 
 void
-GameStateMachine::replaceState(shared_ptr<GameState> state)
+GameStateMachine::replaceState(shared_ptr<GameState> game)
 {
 	if (!gameStates.empty())
-		gameStates.top() = std::move(state);
+		gameStates.top() = std::move(game);
 }
 
 void

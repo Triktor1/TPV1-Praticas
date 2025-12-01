@@ -1,13 +1,13 @@
 #include "Wasp.h"
 
-Wasp::Wasp(Point2D<float> position, Vector2D<float> speed, Texture* texture, SDLApplication* game, float lifeTime) :
+Wasp::Wasp(Point2D<float> position, Vector2D<float> speed, Texture* texture, PlayState* game, float lifeTime) :
 	SceneObject(position, texture, game),
 	speed(speed),
 	lifeTime(lifeTime)
 {
 }
 
-Wasp::Wasp(SDLApplication* game, std::istream& file) :
+Wasp::Wasp(PlayState* game, std::istream& file) :
 	SceneObject(game, file)
 {
 	float posX, posY, speedX, speedY, time;

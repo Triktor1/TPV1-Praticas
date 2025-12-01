@@ -21,16 +21,16 @@ public:
 
 	// Apila un nuevo estado, que se convierte en el estado actual,
 	// manteniendo el anterior en la pila
-	void pushState(std::shared_ptr<GameState> state);
+	void pushState(std::shared_ptr<GameState> game);
 	// Reemplaza el estado actual por el nuevo estado
-	void replaceState(std::shared_ptr<GameState> state);
+	void replaceState(std::shared_ptr<GameState> game);
 	// Desapila el estado actual y pasa al siguiente en la pila
 	// (no hace nada si no la pila es vacía)
 	void popState();
 
 	// Sobrecargas que reciben un puntero normal
-	void pushState(GameState* state);
-	void replaceState(GameState* state);
+	void pushState(GameState* game);
+	void replaceState(GameState* game);
 
 	bool empty() const;
 	operator bool() const;
@@ -43,15 +43,15 @@ public:
 };
 
 inline void
-GameStateMachine::pushState(GameState* state)
+GameStateMachine::pushState(GameState* game)
 {
-	pushState(std::shared_ptr<GameState>(state));
+	pushState(std::shared_ptr<GameState>(game));
 }
 
 inline void
-GameStateMachine::replaceState(GameState* state)
+GameStateMachine::replaceState(GameState* game)
 {
-	replaceState(std::shared_ptr<GameState>(state));
+	replaceState(std::shared_ptr<GameState>(game));
 }
 
 #endif // GAME_STATE_MACHINE_H

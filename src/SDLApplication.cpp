@@ -1,11 +1,6 @@
-#include "SDLApplication.h"
-#include "Frog.h"
-#include "Wasp.h"
-#include "HomedFrog.h"
-#include "Vehicle.h"
-#include "Log.h"
-#include "TurtleGroup.h"
+#include "game.h"
 #include "GameError.h"
+#include "texture.h"
 
 #include <string>
 #include <SDL3_image/SDL_image.h>
@@ -14,19 +9,6 @@ using namespace std;
 // Constantes
 constexpr const char* const WINDOW_TITLE = "Frogger 1.0";
 constexpr const char* const MAP_FILE = "../assets/maps/trivial.txt";
-
-constexpr const int HOMEFROGNUM = 5;
-constexpr const float HOME_FIRST_X = 32;
-constexpr const float HOME_Y = 38;
-constexpr const float HOME_DISTANCE = 96;
-//Las posiciones de las casas, siendo la posición el pixel inferior derecho del cuadrado 2x2 que constituye el centro del sprite de casa.
-//Empieza en (32, 38) y se va sumando 96 en la posición horizontal con cada casa consecutiva, según la imagen dada
-const Point2D<float> homePositions[HOMEFROGNUM] = { Point2D<float>(HOME_FIRST_X, HOME_Y),
-													Point2D<float>(HOME_FIRST_X + HOME_DISTANCE, HOME_Y),
-													Point2D<float>(HOME_FIRST_X + HOME_DISTANCE * 2, HOME_Y),
-													Point2D<float>(HOME_FIRST_X + HOME_DISTANCE * 3, HOME_Y),
-													Point2D<float>(HOME_FIRST_X + HOME_DISTANCE * 4, HOME_Y) };
-
 
 //Configuración de botones
 const SDL_MessageBoxButtonData resetButtons[] = {
@@ -86,8 +68,14 @@ constexpr array<TextureSpec, SDLApplication::NUM_TEXTURES> textureList{
 
 
 SDLApplication::SDLApplication()
-	: frog(nullptr), exit(false)
+	:exit(false)
 {
+	// Carga las texturas al inicio
+	for (size_t i = 0; i < textures.size(); i++) {
+		auto [name, nrows, ncols] = textureList[i];
+		textures[i] = new Texture(renderer, (string(imgBase) + name).c_str(), nrows, ncols);
+	}
+
 	try {
 		// Carga SDL y sus bibliotecas auxiliares
 		if (!SDL_Init(SDL_INIT_VIDEO)) {
@@ -103,25 +91,9 @@ SDLApplication::SDLApplication()
 
 		if (!renderer)
 			throw SDLError();
-
-		// Carga las texturas al inicio
-		for (size_t i = 0; i < textures.size(); i++) {
-			auto [name, nrows, ncols] = textureList[i];
-			textures[i] = new Texture(renderer, (string(imgBase) + name).c_str(), nrows, ncols);
-		}
-
-		readFile(MAP_FILE);
-
-		buildHomes();
-
-		randomGenerator.seed(time(nullptr));
-		srand(SDL_GetTicks());
-		waspSpawnTime = getRandomRange(WASP_MIN_SPAWN, WASP_MAX_SPAWN) * 1000;
-		currentTime = 0;
 	}
 	catch (const GameError& e)
 	{
-		destroyAllElements();
 		SDL_Quit();
 		throw;
 	}
@@ -224,16 +196,6 @@ SDLApplication::handleEvents()
 	}
 }
 
-
-void
-SDLApplication::reset() {
-	destroySceneObjects();
-	readFile(MAP_FILE);
-	buildHomes();
-
-}
-
-
 void
 SDLApplication::buildHomes() {
 	for (int i = 0; i < HOMEFROGNUM; i++) {
@@ -288,68 +250,6 @@ SDLApplication::destroyAllElements() {
 	if (window) SDL_DestroyWindow(window);
 }
 
-Collision
-SDLApplication::checkCollision(const SDL_FRect& rect) const
-{
-	Collision collision;
-	collision.tipo = NONE; //Inicializamos en tipo NONE (sin colisión)
-
-	for (SceneObject* so : sceneObjects) {
-		Collision col = so->checkCollision(rect);
-		if (col.tipo != NONE) {
-			collision.tipo = col.tipo;
-			collision.speed = col.speed;
-			return collision;
-		}
-	}
-	return collision;
-}
-
-Point2D<float> SDLApplication::getFrogSpawn() const {
-	return frogSpawn;
-}
-
-void SDLApplication::setFrogSpawn(float x, float y) {
-	frogSpawn = Point2D<float>(x, y);
-}
-
-bool SDLApplication::tryReachHome(const SDL_FRect& hitbox) {
-	bool reached = true;
-	int i = 0;
-	while (reached && i < homedFrogs.size()) {
-		SDL_FRect homeRect = {
-			homePositions[i].GetX() - getTexture(FROG)->getFrameWidth() / 2.0f,
-			homePositions[i].GetY() - getTexture(FROG)->getFrameHeight() / 2.0f,
-			(float)getTexture(FROG)->getFrameWidth(),
-			(float)getTexture(FROG)->getFrameHeight()
-		};
-
-		if (SDL_HasRectIntersectionFloat(&hitbox, &homeRect)) {
-			if (!homedFrogs[i]->GetReached()) {
-				homedFrogs[i]->SetReached(true);
-				reachedHomes[i] = true;
-				reached = false;
-			}
-		}
-		i++;
-	}
-	return reached;
-}
-
-bool
-SDLApplication::allFrogsHome() const {
-	int count = 0;
-	for (int i = 0; i < HOMEFROGNUM; i++) {
-		if (homedFrogs[i]->GetReached())
-			count++;
-	}
-	return count == HOMEFROGNUM;
-}
-
-int SDLApplication::getRandomRange(int min, int max) {
-	return uniform_int_distribution<int>(min, max)(randomGenerator);
-}
-
 void SDLApplication::readFile(const char* fileRoute) {
 	//Lectura de archivo
 	fstream file(fileRoute);
@@ -390,10 +290,6 @@ void SDLApplication::readFile(const char* fileRoute) {
 		}
 	}
 	file.close();
-}
-
-void SDLApplication::deleteAfter(Anchor it) {
-	toDelete.push_back(it);
 }
 
 void SDLApplication::mostrarError(const GameError& e) {

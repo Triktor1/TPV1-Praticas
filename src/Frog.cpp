@@ -1,8 +1,9 @@
 #include "Frog.h"
 #include "GameError.h"
+#include "playState.h"
+#include "game.h"
 
-
-Frog::Frog(Vector2D<float> lastDir, Point2D<float> position, int health, Texture* texture, SDLApplication* game) :
+Frog::Frog(Vector2D<float> lastDir, Point2D<float> position, int health, Texture* texture, PlayState* game) :
 	SceneObject(position, texture, game),
 	lastDir(lastDir),
 	health(health),
@@ -11,23 +12,22 @@ Frog::Frog(Vector2D<float> lastDir, Point2D<float> position, int health, Texture
 {
 }
 
-Frog::Frog(SDLApplication* game, std::istream& file) :
+Frog::Frog(PlayState* game, std::istream& file) :
 	SceneObject(game, file),
 	anim(0),
 	angle(0.0)
 {
 	float pointX, pointY;
 	int health;
-	if (!(file >> pointX >> pointY >> health)) {
+	if (!(file >> pointX >> pointY >> health)) {	
 		throw GameError("Tipo incorrecto para Frog");
 	};
 	lastDir = Vector2D<float>(0, 0);
 	position = Vector2D<float>(pointX, pointY);
 	game->setFrogSpawn(pointX, pointY);
 	this->health = health;
-	texture = this->texture = game->getTexture(game->FROG);
+	texture = this->texture = game->getGame()->getTexture(game->getGame()->FROG);
 }
-
 
 void Frog::Render() const {
 	SDL_FRect frogDimensions = getBoundingBox();
@@ -44,7 +44,7 @@ void Frog::FrogMovementUpdateInstJump() {
 	if (lastDir.GetX() != 0 || lastDir.GetY() != 0) {
 		float newX = position.GetX() + lastDir.GetX() * step;
 		float newY = position.GetY() + lastDir.GetY() * step;
-		bool outD = newX > game->WINDOW_WIDTH - texture->getFrameWidth(),
+		bool outD = newX > game->getGame()->WINDOW_WIDTH - texture->getFrameWidth(),
 			outL = newX < 0,
 			outR = newY > game->getFrogSpawn().GetY();
 
@@ -52,7 +52,7 @@ void Frog::FrogMovementUpdateInstJump() {
 			position = Point2D<float>(0, position.GetY());
 		}
 		else if (outD) {
-			position = Point2D<float>(game->WINDOW_WIDTH - texture->getFrameWidth(), position.GetY());
+			position = Point2D<float>(game->getGame()->WINDOW_WIDTH - texture->getFrameWidth(), position.GetY());
 		}
 		else if (outR) {
 			position = Point2D<float>(position.GetX(), game->getFrogSpawn().GetY());
@@ -83,7 +83,7 @@ void Frog::FrogCollisionsUpdate() {
 	//Colisiones
 	SDL_FRect hitbox = { position.GetX() + FROG_HITBOX_OFFSET_X, position.GetY() + FROG_HITBOX_OFFSET_Y, FROG_HITBOX_WIDTH, FROG_HITBOX_HEIGHT }; //Calculado con los espacios de píxeles entre límite de textura y de rana
 	Collision col = game->checkCollision(hitbox);
-	if (position.GetX() > game->WINDOW_WIDTH || position.GetX() < -texture->getFrameWidth()) {
+	if (position.GetX() > game->getGame()->WINDOW_WIDTH || position.GetX() < -texture->getFrameWidth()) {
 		health--;
 		position = game->getFrogSpawn();
 		angle = 0;

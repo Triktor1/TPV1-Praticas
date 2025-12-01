@@ -26,7 +26,7 @@ TurtleGroup::TurtleGroup(SDLApplication* game, std::istream& file) :
 }
 
 int TurtleGroup::GetCurrentAnim() const {
-	int frames = submergible ? 7 : 2;
+	int frames = submergible ? 7 : 3;
 	int now = SDL_GetTicks(); 
 	int frame = ((now / SUBMERGETIME)) % frames;
 	return frame;

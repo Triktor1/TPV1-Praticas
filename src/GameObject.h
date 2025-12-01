@@ -1,8 +1,8 @@
 #pragma once
 #include <iostream>
 #include <fstream>
-#include "SDLApplication.h"
 
+class GameState;
 class GameObject
 {
 public:
@@ -10,14 +10,11 @@ public:
 	virtual void Update() = 0;
 
 protected:
-	SDLApplication* game;
-	GameObject(SDLApplication*);
-	GameObject(SDLApplication*, std::istream&);
+	GameObject(GameState*);
+	GameObject(GameState*, std::istream&);
 	virtual ~GameObject();
-	GameState* state;
+	GameState* game;
 
-//Es él quien ahora se encargar de devolver el 
 public: 
-	GameState* getState() const { return state; }
+	GameState* getState() const { return game; }
 };
-

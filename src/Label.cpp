@@ -1,8 +1,8 @@
 #include "Label.h"
 #include <SDL3/SDL.h>
 
-Label::Label(GameState* state, SDL_Texture* tex, float x, float y):
-    GameObject(state->getGame())
+Label::Label(GameState* game, SDL_Texture* tex, float x, float y)
+    : GameObject(game), texture(tex)
 {
     state = state; 
     texture = tex; 
@@ -16,5 +16,5 @@ Label::Label(GameState* state, SDL_Texture* tex, float x, float y):
 }
 
 void Label::Render() const {
-    SDL_RenderTexture(state->getGame()->getRenderer(), texture, nullptr, &position);
+    SDL_RenderTexture(game->getGame()->getRenderer(), texture, nullptr, &position);
 }

@@ -25,4 +25,5 @@ public:
 	GameState(SDLApplication* g);
 	void addEventListener(EventHandler*);
 	void addObject(GameObject*);
+	SDLApplication* getGame() const;
 };

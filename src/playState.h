@@ -1,7 +1,85 @@
 #pragma once
 #include "gameState.h"
-class PlayState :
-    public GameState
-{
-};
+#include "Vector2D.h"
+#include <random>
 
+class HomedFrog;
+class Frog;
+class SceneObject;
+struct Collision;
+
+class PlayState :
+	public GameState
+{
+public:
+	using Anchor = std::list<GameObject*>::iterator;
+protected:
+	std::vector<bool> reachedHomes;
+	std::list<SceneObject*> sceneObjects;
+	std::vector<Anchor> toDelete;
+	std::vector<HomedFrog*> homedFrogs;
+	Frog* frog;
+
+	//Rango de tiempo para spawn de avispas
+	static constexpr int WASP_MIN_SPAWN = 10;
+	static constexpr int WASP_MAX_SPAWN = 15;
+
+	//Rango de tiempo de vida de avispas
+	static constexpr int WASP_MIN_LIFE = 3;
+	static constexpr int WASP_MAX_LIFE = 10;
+
+	std::mt19937_64 randomGenerator;
+
+	int waspSpawnTime;
+	int currentTime;
+
+	Point2D<float> frogSpawn;
+
+private:
+	void render() const;
+	void update();
+	void handleEvents();
+	bool exit;
+
+public:
+	// Se actualiza el juego cada tantos milisegundos
+	static constexpr int FRAME_RATE = 30;
+	// Extremo inferior del río
+	static constexpr int RIVER_LOW = 210;
+
+	//Constructor
+	PlayState(SDLApplication* game);
+
+	// Comprueba si hay algún objeto colocado en ese rectángulo
+	Collision checkCollision(const SDL_FRect& rect) const;
+
+	//Devuelve la posición de spawn de la rana
+	Point2D<float> getFrogSpawn() const;
+
+	//Cambia la posición de spawn de la rana
+	void setFrogSpawn(float x, float y);
+
+	//Comprueba con qué nido se ha chocado la rana, y si no ha sido alcanzado antes, marca que ahora sí
+	//[IMPORTANTE] Este método sólo funciona porque se llama después de comprobar que ha habido una colisión de tipo HOME
+	bool tryReachHome(const SDL_FRect& hitbox);
+
+	//Comprueba que si todas las casas no cumplen el metodo GetReached(), devuelve false
+	//a no ser que sea lo contrario y así seria todo true.
+	bool allFrogsHome() const;
+
+	//Destroza los elementos visuales del juego
+	void destroySceneObjects();
+
+	//Devuelve un número aleatorio entre el rango
+	int getRandomRange(int min, int max);
+
+	//Destructor de TODO, simplificacion de un solo metodo
+	void destroyAllElements();
+
+	//Añade un iterador al vector toDelete que será destruido al final del Update
+	void deleteAfter(Anchor it);
+
+	//Inicializa lso recursos necesarios de nuevo para el juego
+	void buildHomes();
+
+};

@@ -4,6 +4,7 @@
 #include "Vector2D.h"
 #include "Collision.h"
 
+class PlayState;
 class SceneObject : public GameObject
 {
 protected:
@@ -11,9 +12,10 @@ protected:
 	float height, width;
 	Texture* texture;
 	SDL_FRect getBoundingBox() const;
+	PlayState* game;
 public:
-	SceneObject(Point2D<float>, Texture*, SDLApplication*);
-	SceneObject(SDLApplication*, std::istream&);
+	SceneObject(Point2D<float>, Texture*, PlayState*);
+	SceneObject(PlayState*, std::istream&);
 	virtual void Render() const override;
 	void Update() override;
 	virtual Collision checkCollision(const SDL_FRect&) const;

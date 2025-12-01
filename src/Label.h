@@ -8,7 +8,7 @@ protected:
 	SDL_FRect position;
 
  public:
-	Label(GameState* state, SDL_Texture* tex, float x, float y);
+	Label(GameState* game, SDL_Texture* tex, float x, float y);
 	virtual void Render() const override =0;
 
 };

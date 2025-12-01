@@ -1,7 +1,8 @@
 #include "SceneObject.h"
+#include "PlayState.h"
 
-SceneObject::SceneObject(Point2D<float> position, Texture* texture, SDLApplication* game) :
-	GameObject(game),
+SceneObject::SceneObject(Point2D<float> position, Texture* texture, PlayState* game) :
+	GameObject(static_cast<GameState*>(game)),
 	position(position),
 	texture(texture)
 {
@@ -9,9 +10,11 @@ SceneObject::SceneObject(Point2D<float> position, Texture* texture, SDLApplicati
 	width = texture->getFrameWidth();
 }
 
-SceneObject::SceneObject(SDLApplication* game, std::istream& file) :
-	GameObject(game, file)
+SceneObject::SceneObject(PlayState* game, std::istream& file) :
+	GameObject(static_cast<GameState*>(game), file)
 {
+	height = texture->getFrameHeight();
+	width = texture->getFrameWidth();
 }
 
 void SceneObject::Render() const {
