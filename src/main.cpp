@@ -2,7 +2,7 @@
 //Óscar Silva Urbina
 
 #include <iostream>
-
+#include "playState.h"
 #include <SDL3/SDL.h>
 #include <SDL3_image/SDL_image.h>
 #include "Vector2D.h"
@@ -22,6 +22,8 @@ int main(int argc, char* argv[])
 {
 	try {
 		SDLApplication game;
+		game.pushState(new PlayState(&game));
+
 		game.run();
 		
 	}

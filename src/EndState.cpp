@@ -1,9 +1,7 @@
 #include "EndState.h"
 #include "Button.h"
-#include "playState.h"
 #include "MainMenuState.h"
 #include "SDLApplication.h"
-#include <SDL3/SDL.h>
 
 EndState::EndState(SDLApplication* window, PlayState* previousState, bool victory) :
 	GameState(window), playState(previousState), victory(victory)
@@ -13,8 +11,8 @@ EndState::EndState(SDLApplication* window, PlayState* previousState, bool victor
 
 	
 	//boton menu
-	Texture* menubutton = window->getTexture(SDLApplication::VOLVERALMENU);
-	Button* goMenu = new Button(this, menubutton, 200, 350);
+	Texture* menuTex = window->getTexture(SDLApplication::VOLVERALMENU);
+	Button* goMenu = new Button(this, menuTex, 200, 350);
 	goMenu->connect([this]() {
 			//volver al menu
 		});
@@ -22,8 +20,8 @@ EndState::EndState(SDLApplication* window, PlayState* previousState, bool victor
 	addEventListener(goMenu);
 
 	//boton salir
-	Texture* exitbutton = window->getTexture(SDLApplication::SALIR);
-	Button* exitGame = new Button(this, exitbutton, 200, 450);
+	Texture* exitTex = window->getTexture(SDLApplication::SALIR);
+	Button* exitGame = new Button(this, exitTex, 200, 450);
 	exitGame->connect([this]() {
 			//salir del juego
 		});
@@ -43,7 +41,6 @@ void EndState::render() const
 		SDL_FRect cuerpo{ 200,100,400,150 };
 		resultTexture->render(cuerpo);
 	}
-
 	GameState::render(); //encargado del render de los botoness
 }
 
