@@ -97,7 +97,6 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Crosser.cpp" />
     <ClCompile Include="EndState.cpp" />
-    <ClCompile Include="EventHandler.cpp" />
     <ClCompile Include="Frog.cpp" />
     <ClCompile Include="SDLApplication.cpp" />
     <ClCompile Include="GameObject.cpp" />

@@ -111,7 +111,7 @@ void Frog::Update() {
 	FrogCollisionsUpdate();
 }
 
-void Frog::HandleEvent(const SDL_Event& event) {
+void Frog::handleEvent(const SDL_Event& event) {
 	if (event.type == SDL_EVENT_KEY_DOWN) {
 		switch (event.key.key) {
 		case SDLK_W: case SDLK_UP:

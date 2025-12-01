@@ -60,6 +60,8 @@ PauseState::PauseState(SDLApplication* window, PlayState* previousState, bool pa
 
 void PauseState::render() const {
 	SDL_Renderer* renderer = game->getRenderer();
+	SDL_RenderClear(renderer);
+
 
 	//fondo semitranslucido
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
@@ -67,6 +69,8 @@ void PauseState::render() const {
 	SDL_FRect overlay{ 0,0, SDLApplication::WINDOW_WIDTH, SDLApplication::WINDOW_HEIGHT };
 	SDL_RenderFillRect(renderer, &overlay);
 	GameState::render(); //render botones
+
+	SDL_RenderPresent(renderer);
 }
 
 void PauseState::handleEvent(const SDL_Event& e) {

@@ -91,22 +91,6 @@ SDLApplication::~SDLApplication()
 }
 
 void
-SDLApplication::render() const
-{
-	SDL_RenderClear(renderer);
-
-	//Llama al render del estado actual
-
-	SDL_RenderPresent(renderer);
-}
-
-void
-SDLApplication::update()
-{
-
-}
-
-void
 SDLApplication::run()
 {
 	while (!exit) {
@@ -114,19 +98,18 @@ SDLApplication::run()
 
 			update();
 			render();
-			handleEvents();
+
+			SDL_Event event;
+			while (SDL_PollEvent(&event)) {
+			handleEvent(event);
+			}
+
 			SDL_Delay(FRAME_RATE);
 		}
 		catch (exception e) {
 			cout << e.what() << endl;
 		}
 	}
-}
-
-void
-SDLApplication::handleEvents()
-{
-
 }
 
 void SDLApplication::mostrarError(const GameError& e) {

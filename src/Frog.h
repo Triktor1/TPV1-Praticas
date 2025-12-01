@@ -1,7 +1,8 @@
 #pragma once
 #include "SceneObject.h"
+#include "EventHandler.h"
 
-class Frog : public SceneObject
+class Frog : public SceneObject, public EventHandler
 {
 private:
 	// 448/14, osea 14 pasos (y además la altura de un tile en píxeles)
@@ -35,10 +36,10 @@ private:
 
 public:
 	
+	void handleEvent(const SDL_Event& e) override;
 	Frog(Vector2D<float>, Point2D<float>, int, Texture*, PlayState*);
 	Frog(PlayState*, std::istream&);
 	void Render() const;
 	void Update();
-	void HandleEvent(const SDL_Event&);
 	int getLives() const;
 };

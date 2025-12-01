@@ -55,12 +55,15 @@ MainMenuState::MainMenuState(SDLApplication* window, PlayState* previousState, T
 	}
 
 void MainMenuState::render() const {
+	SDL_Renderer* renderer = game->getRenderer();
+	SDL_RenderClear(renderer);
 	if (bg) bg->render();
 	if (selectMap) {
 		SDL_FRect cuerpo{ 200,100,400,150 };
 		selectMap->render(cuerpo);
 	}
 	GameState::render();
+	SDL_RenderPresent(renderer);
 }
 
 void MainMenuState::handleEvent(const SDL_Event& e) {

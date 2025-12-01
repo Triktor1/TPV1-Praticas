@@ -47,11 +47,14 @@ PlayState::PlayState(SDLApplication* game) :
 }
 
 void PlayState::render() const {
+	SDL_Renderer* renderer = game->getRenderer();
+	SDL_RenderClear(renderer);
 	game->getTexture(game->BACKGROUND)->render();
 
 	for (SceneObject* so : sceneObjects) {
 		so->Render();
 	}
+	SDL_RenderPresent(renderer);
 }
 
 void PlayState::update() {
@@ -77,7 +80,10 @@ void PlayState::update() {
 			rndHome = getRandomRange(0, HOMEFROGNUM - 1);
 		} while (reachedHomes[rndHome]);
 		Wasp* wasp = new Wasp{ homePositions[rndHome] - Point2D<float>(getGame()->getTexture(getGame()->WASP)->getFrameWidth() / 2, getGame()->getTexture(getGame()->WASP)->getFrameHeight() / 2), Vector2D<float>(0,0), getGame()->getTexture(getGame()->WASP), this, (float)(getRandomRange(WASP_MIN_LIFE, WASP_MAX_LIFE) * 1000.0) };
-		wasp->setAnchor(sceneObjects.insert(sceneObjects.begin(), wasp));
+		auto aPS = wasp->getAnchorPS();
+		wasp->setAnchorPS(sceneObjects.insert(sceneObjects.end(), wasp));
+		auto aGS = addObject(wasp);
+		wasp->setAnchorGS(aGS);
 	}
 
 	//Borrado en sceneObjects de los objetos cuyo iterador está en toDelete
@@ -95,14 +101,14 @@ void PlayState::handleEvents() {
 		if (event.type == SDL_EVENT_QUIT)
 			exit = true;
 
-		frog->HandleEvent(event);
+		frog->handleEvent(event);
 		if (event.type == SDL_EVENT_KEY_DOWN) {
 			bool key0 = (event.key.key == SDLK_0);
 			if (key0) {
 				int buttonID;
 				SDL_ShowMessageBox(&resetMessageData, &buttonID);
 				if (buttonID == 1) {
-					//Reset
+					getGame()->replaceState(new PlayState(getGame()));
 				}
 				return;
 			}
@@ -265,9 +271,12 @@ void PlayState::readFile(const char* fileRoute) {
 			case 'T':
 				sceneObjects.push_back(new TurtleGroup(this, file));
 				break;
-			case 'W':
-				sceneObjects.push_front(new Wasp(this, file));
+			case 'W': {
+				Wasp* wasp = new Wasp(this, file);
+				wasp->setAnchorGS(addObject(wasp));
+				wasp->setAnchorPS(sceneObjects.insert(sceneObjects.end(), wasp));
 				break;
+			}
 			default:
 				throw FileFormatError(fileRoute, line, "Tipo de objeto desconocido");
 			}

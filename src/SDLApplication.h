@@ -60,10 +60,6 @@ private:
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 
-	void render() const;
-	void update();
-	void handleEvents();
-
 	bool exit;
 
 public:

@@ -72,9 +72,6 @@
     <ClCompile Include="EndState.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="EventHandler.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
     <ClCompile Include="Label.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>

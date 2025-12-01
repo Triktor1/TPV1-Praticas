@@ -32,9 +32,9 @@ EndState::EndState(SDLApplication* window, PlayState* previousState, bool victor
 void EndState::render() const 
 {
 	SDL_Renderer* renderer = game->getRenderer();
+	SDL_RenderClear(renderer);
 	//fondo negro
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-	SDL_RenderClear(renderer);
 
 	//Mostrar si ganas o pierdes
 	if (resultTexture) {
@@ -43,6 +43,7 @@ void EndState::render() const
 	}
 
 	GameState::render(); //encargado del render de los botoness
+	SDL_RenderPresent(renderer);
 }
 
 void EndState::handleEvent(const SDL_Event& e) 

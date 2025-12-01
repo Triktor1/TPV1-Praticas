@@ -7,7 +7,8 @@ class Wasp : public SceneObject
 private:
 	Vector2D<float> speed;
 	int lifeTime;
-	PlayState::Anchor anchor;
+	GameState::Anchor anchorGS;
+	PlayState::Anchor anchorPS;
 
 public:
 	Wasp(Point2D<float>, Vector2D<float>, Texture*, PlayState*, float);
@@ -22,6 +23,8 @@ public:
 	int getLifeTime() const;
 
 	//getter y setter del Anchor
-	PlayState::Anchor getAnchor() const { return anchor; };
-	void setAnchor(const PlayState::Anchor& it) { anchor = it; };
+	PlayState::Anchor getAnchorPS() const { return anchorPS; };
+	GameState::Anchor getAnchorGS() const { return anchorGS; };
+	void setAnchorPS(const PlayState::Anchor& it) { anchorPS = it;};
+	void setAnchorGS(const GameState::Anchor& it) { anchorGS = it; };
 };
