@@ -41,6 +41,7 @@ void EndState::render() const
 		SDL_FRect cuerpo{ 200,100,400,150 };
 		resultTexture->render(cuerpo);
 	}
+
 	GameState::render(); //encargado del render de los botoness
 }
 

@@ -9,6 +9,7 @@
 #include "SDLApplication.h"
 #include <string>
 #include "GameError.h"
+#include "MainMenuState.h"
 
 using namespace std;
 
@@ -22,8 +23,10 @@ int main(int argc, char* argv[])
 {
 	try {
 		SDLApplication game;
-		game.pushState(new PlayState(&game));
+		Texture* background = game.getTexture(SDLApplication::MENUBACKGROUND);
+		Texture* selectMap = game.getTexture(SDLApplication::ELIGEUNMAPA);
 
+		game.pushState(new MainMenuState(&game,nullptr,background,selectMap));
 		game.run();
 		
 	}
