@@ -13,7 +13,7 @@ private:
     Texture* resultTexture;
 public: 
     EndState(SDLApplication* window, PlayState* previousState, bool victory);
-    virtual void render() const override; 
-    virtual void handleEvent(const SDL_Event& e) override; 
+    void render() const override; 
+    void handleEvent(const SDL_Event& e) override; 
 };
 

@@ -17,9 +17,9 @@ protected:
 	SDLApplication* game;
 public:
 	using Anchor = std::list<GameObject*>::iterator;
-	void render() const;
-	void update();
-	void handleEvent(const SDL_Event&);
+	virtual void render() const;
+	virtual void update();
+	virtual void handleEvent(const SDL_Event&);
 	SDLApplication* getGame() const;
 	Anchor addObject(GameObject*);
 	void removeObject(Anchor);

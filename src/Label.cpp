@@ -18,3 +18,7 @@ void Label::Render() const {
     if (texture)
         texture->render(position);
 }
+
+void Label::Update() {
+    //Hola update vacío
+}

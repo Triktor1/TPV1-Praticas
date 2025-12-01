@@ -12,9 +12,8 @@ public:
 protected:
 	GameObject(GameState*);
 	GameObject(GameState*, std::istream&);
-	virtual ~GameObject();
 	GameState* game;
-
 public: 
+	virtual ~GameObject();
 	GameState* getState() const { return game; }
 };

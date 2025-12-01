@@ -1,7 +1,7 @@
 #pragma once
 #include "SceneObject.h"
+#include "PlayState.h"
 
-class PlayState;
 class Wasp : public SceneObject
 {
 private:
