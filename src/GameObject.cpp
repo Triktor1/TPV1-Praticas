@@ -11,5 +11,3 @@ GameObject::GameObject(GameState* game, std::istream& file) :
 	game(game)
 {
 }
-
-GameObject::~GameObject() {}

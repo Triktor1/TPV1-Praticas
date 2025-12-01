@@ -7,8 +7,8 @@
 using namespace std;
 
 // Constantes
-constexpr const char* const WINDOW_TITLE = "Frogger 1.0";
-constexpr const char* const MAP_FILE = "../assets/maps/trivial.txt";
+constexpr const char* const WINDOW_TITLE = "Frogger 3.0";
+constexpr const char* const MAP_FILE = "../assets/maps/Original.txt";
 
 // Estructura para especificar las texturas que hay que
 // cargar y el tamaño de su matriz de frames
@@ -41,7 +41,7 @@ constexpr array<TextureSpec, SDLApplication::NUM_TEXTURES> textureList{
 	{"texts/left.png"},
 	{"texts/right.png"},
 	{"texts/Original.png"},
-	{"texts/Practica1.png"},
+	{"texts/Practica 1.png"},
 	{"texts/REINICIAR.png"},
 	{"texts/SALIR.png"},
 	{"texts/Trivial.png"},
@@ -54,12 +54,6 @@ constexpr const char* imgBase = "../assets/images/";
 SDLApplication::SDLApplication()
 	:exit(false)
 {
-	// Carga las texturas al inicio
-	for (size_t i = 0; i < textures.size(); i++) {
-		auto [name, nrows, ncols] = textureList[i];
-		textures[i] = new Texture(renderer, (string(imgBase) + name).c_str(), nrows, ncols);
-	}
-
 	try {
 		// Carga SDL y sus bibliotecas auxiliares
 		if (!SDL_Init(SDL_INIT_VIDEO)) {
@@ -75,6 +69,12 @@ SDLApplication::SDLApplication()
 
 		if (!renderer)
 			throw SDLError();
+
+		// Carga las texturas al inicio
+		for (size_t i = 0; i < textures.size(); i++) {
+			auto [name, nrows, ncols] = textureList[i];
+			textures[i] = new Texture(renderer, (string(imgBase) + name).c_str(), nrows, ncols);
+		}
 	}
 	catch (const GameError& e)
 	{
@@ -103,7 +103,7 @@ SDLApplication::render() const
 void
 SDLApplication::update()
 {
-	
+
 }
 
 void
