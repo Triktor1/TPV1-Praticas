@@ -2,8 +2,6 @@
 #define GAME_H
 
 #include <SDL3/SDL.h>
-#include <iostream>
-#include <fstream>
 #include <array>
 #include "gameStateMachine.h"
 
@@ -23,6 +21,8 @@ public:
 	using GameStateMachine::empty;
 	using GameStateMachine::replaceState;
 
+	// Se actualiza el juego cada tantos milisegundos
+	static constexpr int FRAME_RATE = 30;
 
 	enum TextureName
 	{
@@ -86,5 +86,10 @@ public:
 	SDL_Renderer* getRenderer() const { return renderer; }
 	};
 
+inline Texture*
+SDLApplication::getTexture(TextureName name) const
+{
+	return textures[name];
+}
 
 #endif // GAME_H

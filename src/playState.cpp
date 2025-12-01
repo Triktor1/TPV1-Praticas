@@ -1,11 +1,12 @@
 #include "PlayState.h"
+#include "SDLApplication.h"
 #include "Frog.h"
 #include "Wasp.h"
 #include "HomedFrog.h"
 #include "Vehicle.h"
 #include "Log.h"
 #include "TurtleGroup.h"
-
+#include "GameError.h"
 
 constexpr const int HOMEFROGNUM = 5;
 constexpr const float HOME_FIRST_X = 32;
@@ -19,6 +20,20 @@ const Point2D<float> homePositions[HOMEFROGNUM] = { Point2D<float>(HOME_FIRST_X,
 													Point2D<float>(HOME_FIRST_X + HOME_DISTANCE * 3, HOME_Y),
 													Point2D<float>(HOME_FIRST_X + HOME_DISTANCE * 4, HOME_Y) };
 
+//Configuración de botones
+const SDL_MessageBoxButtonData resetButtons[] = {
+		{ SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 0, "Volver" },
+		{ SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 1, "Reiniciar" },
+};
+
+const SDL_MessageBoxData resetMessageData = {
+		SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT, /* .flags */
+		NULL, /* .window */
+		"Reinicio de nivel", /* .title */
+		"¿Quieres reiniciar el nivel? Se perderá todo el progreso.", /* .message */
+		SDL_arraysize(resetButtons), /* .numbuttons */
+		resetButtons /* .buttons */
+};
 
 PlayState::PlayState(SDLApplication* game) :
 	GameState(game), frog(nullptr), exit(false)
@@ -32,7 +47,11 @@ PlayState::PlayState(SDLApplication* game) :
 }
 
 void PlayState::render() const {
+	game->getTexture(game->BACKGROUND)->render();
 
+	for (SceneObject* so : sceneObjects) {
+		so->Render();
+	}
 }
 
 void PlayState::update() {
@@ -57,7 +76,7 @@ void PlayState::update() {
 		do {
 			rndHome = getRandomRange(0, HOMEFROGNUM - 1);
 		} while (reachedHomes[rndHome]);
-		Wasp* wasp = new Wasp{ homePositions[rndHome] - Point2D<float>(getTexture(WASP)->getFrameWidth() / 2,getTexture(WASP)->getFrameHeight() / 2), Vector2D<float>(0,0), getTexture(WASP), this, (float)(getRandomRange(WASP_MIN_LIFE, WASP_MAX_LIFE) * 1000.0) };
+		Wasp* wasp = new Wasp{ homePositions[rndHome] - Point2D<float>(getGame()->getTexture(getGame()->WASP)->getFrameWidth() / 2, getGame()->getTexture(getGame()->WASP)->getFrameHeight() / 2), Vector2D<float>(0,0), getGame()->getTexture(getGame()->WASP), this, (float)(getRandomRange(WASP_MIN_LIFE, WASP_MAX_LIFE) * 1000.0) };
 		wasp->setAnchor(sceneObjects.insert(sceneObjects.begin(), wasp));
 	}
 
@@ -70,7 +89,25 @@ void PlayState::update() {
 }
 
 void PlayState::handleEvents() {
+	SDL_Event event;
 
+	while (SDL_PollEvent(&event)) {
+		if (event.type == SDL_EVENT_QUIT)
+			exit = true;
+
+		frog->HandleEvent(event);
+		if (event.type == SDL_EVENT_KEY_DOWN) {
+			bool key0 = (event.key.key == SDLK_0);
+			if (key0) {
+				int buttonID;
+				SDL_ShowMessageBox(&resetMessageData, &buttonID);
+				if (buttonID == 1) {
+					//Reset
+				}
+				return;
+			}
+		}
+	}
 }
 
 Collision
@@ -103,10 +140,10 @@ bool PlayState::tryReachHome(const SDL_FRect& hitbox) {
 	int i = 0;
 	while (reached && i < homedFrogs.size()) {
 		SDL_FRect homeRect = {
-			homePositions[i].GetX() - getTexture(FROG)->getFrameWidth() / 2.0f,
-			homePositions[i].GetY() - getTexture(FROG)->getFrameHeight() / 2.0f,
-			(float)getTexture(FROG)->getFrameWidth(),
-			(float)getTexture(FROG)->getFrameHeight()
+			homePositions[i].GetX() - getGame()->getTexture(getGame()->FROG)->getFrameWidth() / 2.0f,
+			homePositions[i].GetY() - getGame()->getTexture(getGame()->FROG)->getFrameHeight() / 2.0f,
+			(float)getGame()->getTexture(getGame()->FROG)->getFrameWidth(),
+			(float)getGame()->getTexture(getGame()->FROG)->getFrameHeight()
 		};
 
 		if (SDL_HasRectIntersectionFloat(&hitbox, &homeRect)) {
@@ -131,10 +168,113 @@ PlayState::allFrogsHome() const {
 	return count == HOMEFROGNUM;
 }
 
-int PlayState::getRandomRange(int min, int max) {
-	return uniform_int_distribution<int>(min, max)(randomGenerator);
+void PlayState::destroySceneObjects() {
+	frog = nullptr;
+
+	for (SceneObject* so : sceneObjects) {
+		delete so;
+	}
+	sceneObjects.clear();
+	homedFrogs.clear();
+	reachedHomes.clear();
+	toDelete.clear();
+
+
 }
+
+int PlayState::getRandomRange(int min, int max) {
+	return std::uniform_int_distribution<int>(min, max)(randomGenerator);
+}
+
+//Metodo que agrupa TODO a borrar para la excepcion
+void PlayState::destroyAllElements() {
+
+	frog = nullptr;
+	for (SceneObject* so : sceneObjects) {
+		delete so;
+		so = nullptr;
+	}
+	sceneObjects.clear();
+
+	reachedHomes.clear();
+
+	for (auto& t : game->textures) {
+		delete t;
+		t = nullptr;
+	}
+}
+
 
 void PlayState::deleteAfter(Anchor it) {
 	toDelete.push_back(it);
+}
+
+void
+PlayState::buildHomes() {
+	for (int i = 0; i < HOMEFROGNUM; i++) {
+		//sceneObjects.push_back(new HomedFrog{ Point2D<float>(homePositions[i] - Point2D<float>(getTexture(FROG)->getFrameWidth() / 2,getTexture(FROG)->getFrameHeight() / 2)), getTexture(FROG), this });
+		Point2D<float> homePos(
+			homePositions[i].GetX() - game->getTexture(game->FROG)->getFrameWidth() / 2.0f,
+			homePositions[i].GetY() - game->getTexture(game->FROG)->getFrameHeight() / 2.0f
+		);
+		//declarado asi, para facilidad de luego hacer pushback en scene y en homedfrogs
+		HomedFrog* hf = new HomedFrog(homePos, game->getTexture(game->FROG), this);
+		sceneObjects.push_back(hf);
+		homedFrogs.push_back(hf);
+
+		//wasp
+		reachedHomes.push_back(false);
+	}
+
+}
+
+PlayState::Anchor PlayState::addSceneObject(SceneObject* object) {
+	sceneObjects.push_back(object);
+	return --sceneObjects.end();
+}
+
+void PlayState::removeSceneObject(Anchor it) {
+	sceneObjects.erase(it);
+}
+
+void PlayState::readFile(const char* fileRoute) {
+	//Lectura de archivo
+	std::fstream file(fileRoute);
+	if (!file)
+		throw FileNotFoundError(fileRoute);
+	char objType;
+	int line = 0;
+	while (file >> objType) { //Asumo que el archivo tendrá el formato correcto
+		line++;
+		try
+		{
+			switch (objType) {
+			case '#':
+				file.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				break;
+			case 'F':
+				frog = new Frog(this, file);
+				sceneObjects.push_back(frog);
+				break;
+			case 'L':
+				sceneObjects.push_back(new Log(this, file));
+				break;
+			case 'V':
+				sceneObjects.push_back(new Vehicle(this, file));
+				break;
+			case 'T':
+				sceneObjects.push_back(new TurtleGroup(this, file));
+				break;
+			case 'W':
+				sceneObjects.push_front(new Wasp(this, file));
+				break;
+			default:
+				throw FileFormatError(fileRoute, line, "Tipo de objeto desconocido");
+			}
+		}
+		catch (const GameError& e) {
+			throw FileFormatError(fileRoute, line, e.what());
+		}
+	}
+	file.close();
 }

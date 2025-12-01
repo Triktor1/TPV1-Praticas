@@ -1,27 +1,29 @@
 #include "Crosser.h"
+#include "PlayState.h"
+#include "SDLApplication.h"
 
-Crosser::Crosser(Point2D<float> position, Vector2D<float> speed, Texture* texture, SDLApplication* game) :
+Crosser::Crosser(Point2D<float> position, Vector2D<float> speed, Texture* texture, PlayState* game) :
 	SceneObject(position, texture, game),
 	speed(speed),
 	backjump(150)
 {
 }
 
-Crosser::Crosser(SDLApplication* game, std::istream& file) :
+Crosser::Crosser(PlayState* game, std::istream& file) :
 	SceneObject(game, file),
 	backjump(150)
 {
 }
 
 void Crosser::Update() {
-	position = position + speed * (game->FRAME_RATE / 1000.0);
+	position = position + speed * (game->getGame()->FRAME_RATE / 1000.0);
 	if (speed.GetX() > 0) {
-		if (position.GetX() >= game->WINDOW_WIDTH + backjump - texture->getFrameWidth()) {
-			position = { position.GetX() - backjump * 2 - game->WINDOW_WIDTH, position.GetY() };
+		if (position.GetX() >= game->getGame()->WINDOW_WIDTH + backjump - texture->getFrameWidth()) {
+			position = { position.GetX() - backjump * 2 - game->getGame()->WINDOW_WIDTH, position.GetY() };
 		}
 	}
 	else if (position.GetX() < -backjump) {
-		position = { position.GetX() + backjump + game->WINDOW_WIDTH, position.GetY() };
+		position = { position.GetX() + backjump + game->getGame()->WINDOW_WIDTH, position.GetY() };
 	}
 }
 

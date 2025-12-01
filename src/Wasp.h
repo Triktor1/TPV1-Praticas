@@ -1,6 +1,7 @@
 #pragma once
 #include "SceneObject.h"
 
+class PlayState;
 class Wasp : public SceneObject
 {
 private:
@@ -24,4 +25,3 @@ public:
 	PlayState::Anchor getAnchor() const { return anchor; };
 	void setAnchor(const PlayState::Anchor& it) { anchor = it; };
 };
-

@@ -1,5 +1,6 @@
 #include "Label.h"
 #include <SDL3/SDL.h>
+#include "SDLApplication.h"
 
 Label::Label(GameState* game, Texture* tex, float x, float y)
     : GameObject(game), texture(tex)

@@ -1,7 +1,7 @@
 #include "Frog.h"
 #include "GameError.h"
 #include "playState.h"
-#include "game.h"
+#include "SDLApplication.h"
 
 Frog::Frog(Vector2D<float> lastDir, Point2D<float> position, int health, Texture* texture, PlayState* game) :
 	SceneObject(position, texture, game),
@@ -89,7 +89,7 @@ void Frog::FrogCollisionsUpdate() {
 		angle = 0;
 	}
 	else if (col.tipo == PLATFORM) {
-		position = position + col.speed * (game->FRAME_RATE / 1000.0);
+		position = position + col.speed * (game->getGame()->FRAME_RATE / 1000.0);
 	}
 	else if (col.tipo == HOME) {
 		if (game->tryReachHome(hitbox)) {

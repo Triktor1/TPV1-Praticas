@@ -16,14 +16,15 @@ private:
 protected:
 	SDLApplication* game;
 public:
+	using Anchor = std::list<GameObject*>::iterator;
 	void render() const;
 	void update();
 	void handleEvent(const SDL_Event&);
 	SDLApplication* getGame() const;
-	
+	Anchor addObject(GameObject*);
+	void removeObject(Anchor);
+	void runLater(DelayedCallback);
 
 	GameState(SDLApplication* g);
 	void addEventListener(EventHandler*);
-	void addObject(GameObject*);
-	SDLApplication* getGame() const;
 };

@@ -1,4 +1,6 @@
 #include "Wasp.h"
+#include "PlayState.h"
+#include "SDLApplication.h"
 
 Wasp::Wasp(Point2D<float> position, Vector2D<float> speed, Texture* texture, PlayState* game, float lifeTime) :
 	SceneObject(position, texture, game),
@@ -15,11 +17,11 @@ Wasp::Wasp(PlayState* game, std::istream& file) :
 	position = Vector2D<float>(posX, posY);
 	speed = Vector2D<float>(speedX, speedY);
 	lifeTime = time;
-	texture = this->texture = game->getTexture(game->WASP);
+	texture = this->texture = game->getGame()->getTexture(game->getGame()->WASP);
 }
 
 void Wasp::Update() {
-	lifeTime -= game->FRAME_RATE;
+	lifeTime -= game->getGame()->FRAME_RATE;
 	if (!isAlive()) game->deleteAfter(anchor);
 }
 

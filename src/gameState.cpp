@@ -1,6 +1,7 @@
 #include "gameState.h"
 #include "GameObject.h"
 #include "EventHandler.h"
+#include "SDLApplication.h"
 
 
 GameState::GameState(SDLApplication* game)
@@ -9,7 +10,7 @@ GameState::GameState(SDLApplication* game)
 }
 
 SDLApplication* GameState::getGame() const {
-	return game; 
+	return game;
 }
 
 void GameState::render() const {
@@ -18,8 +19,14 @@ void GameState::render() const {
 }
 
 void GameState::update() {
-	for (auto obj : gameObjects)
+	for (auto obj : gameObjects) {
 		obj->Update();
+	}
+
+	for (auto& callback : delayedCallbacks) {
+		callback();
+	}
+	delayedCallbacks.clear();
 }
 
 void GameState::handleEvent(const SDL_Event& e) {
@@ -32,10 +39,15 @@ void GameState::addEventListener(EventHandler* event) {
 	eventHandlers.push_back(event);
 }
 
-void GameState::addObject(GameObject* object) {
+GameState::Anchor GameState::addObject(GameObject* object) {
 	gameObjects.push_back(object);
+	return --gameObjects.end();
 }
 
-SDLApplication* GameState::getGame() const {
-	return game;
+void GameState::removeObject(Anchor it) {
+	gameObjects.erase(it);
+}
+
+void GameState::runLater(DelayedCallback callback) {
+	delayedCallbacks.push_back(callback);
 }

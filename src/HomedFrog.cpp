@@ -1,6 +1,6 @@
 #include "HomedFrog.h"
 
-HomedFrog::HomedFrog(Point2D<float> position, Texture* texture, SDLApplication* game) :
+HomedFrog::HomedFrog(Point2D<float> position, Texture* texture, PlayState* game) :
 	SceneObject(position, texture, game),
 	reached(false)
 {

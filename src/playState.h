@@ -2,17 +2,20 @@
 #include "gameState.h"
 #include "Vector2D.h"
 #include <random>
+#include <iostream>
+#include <fstream>
 
 class HomedFrog;
 class Frog;
 class SceneObject;
+class SDLApplication;
 struct Collision;
 
 class PlayState :
 	public GameState
 {
 public:
-	using Anchor = std::list<GameObject*>::iterator;
+	using Anchor = std::list<SceneObject*>::iterator;
 protected:
 	std::vector<bool> reachedHomes;
 	std::list<SceneObject*> sceneObjects;
@@ -42,8 +45,6 @@ private:
 	bool exit;
 
 public:
-	// Se actualiza el juego cada tantos milisegundos
-	static constexpr int FRAME_RATE = 30;
 	// Extremo inferior del río
 	static constexpr int RIVER_LOW = 210;
 
@@ -82,4 +83,12 @@ public:
 	//Inicializa lso recursos necesarios de nuevo para el juego
 	void buildHomes();
 
+	//Añade un SceneObject a la lista sceneObjects
+	Anchor addSceneObject(SceneObject*);
+
+	//Quita un SceneObject de la lista sceneObjects
+	void removeSceneObject(Anchor);
+
+	//Se llama en la constructora de Game y lee el archivo cuya ruta está en MAP_FILE
+	void readFile(const char* file);
 };
