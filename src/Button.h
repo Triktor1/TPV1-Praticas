@@ -7,13 +7,12 @@
 class Button : public Label, public EventHandler {
 public:
     using Callback = std::function<void()>;
-    Button(GameState* game, SDL_Texture* tex, float x, float y);
+    Button(GameState* game, Texture* tex, float x, float y);
 
     // Registrar una acción
     void connect(Callback cb);
 
-    virtual void handleEvent(const SDL_Event& e);
-
+    virtual void handleEvent(const SDL_Event& e) override;
     virtual void Render() const override;
 
 private:

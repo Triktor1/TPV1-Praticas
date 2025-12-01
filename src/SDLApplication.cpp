@@ -1,4 +1,4 @@
-#include "game.h"
+#include "SDLApplication.h"
 #include "GameError.h"
 #include "texture.h"
 
@@ -64,6 +64,20 @@ constexpr array<TextureSpec, SDLApplication::NUM_TEXTURES> textureList{
 	{"log2.png"},
 	{"turtle.png", 1, 7},
 	{"wasp.png"},
+	{"texts/Avispado.png"},
+	{"texts/CONTINUAR.png"},
+	{"texts/ELIGE UN MAPA.png"},
+	{"texts/GAME OVER.png"},
+	{"texts/HAS GANADO.png"},
+	{"texts/left.png"},
+	{"texts/right.png"},
+	{"texts/Original.png"},
+	{"texts/Practica1.png"},
+	{"texts/REINICIAR.png"},
+	{"texts/SALIR.png"},
+	{"texts/Trivial.png"},
+	{"texts/Veloz.png"},
+	{"texts/VOLVER AL MENU.png"},
 };
 
 

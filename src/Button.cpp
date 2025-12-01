@@ -2,8 +2,8 @@
 #include "GameState.h"
 #include <SDL3/SDL.h>
 
-Button::Button(GameState* game, SDL_Texture* tex, float x, float y)
-    : Label(game, tex, x, y)
+Button::Button(GameState* game, Texture* tex, float x, float y)
+    : Label(game,tex,x,y)
 {
 }
 
@@ -45,6 +45,7 @@ void Button::Render() const {
         bigger.w += 4;
         bigger.h += 4;
 
-        SDL_RenderTexture(game->getRenderer(), texture, nullptr, &bigger);
+        if (texture)
+            texture->render(bigger);
     }
 }

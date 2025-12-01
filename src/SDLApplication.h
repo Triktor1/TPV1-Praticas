@@ -32,6 +32,21 @@ public:
 		LOG1, LOG2,
 		TURTLE,
 		WASP,
+		MENUBACKGROUND,
+		AVISPADO,
+		CONTINUAR,
+		ELIGEUNMAPA,
+		GAMEOVER,
+		HASGANADO,
+		LEFT,
+		RIGHT,
+		ORIGINAL,
+		PRACTICA1,
+		REINICIAR,
+		SALIR,
+		TRIVIAL,
+		VELOZ,
+		VOLVERALMENU,
 		NUM_TEXTURES
 	};
 
@@ -67,14 +82,9 @@ public:
 	//Crea una ventana de error
 	static void mostrarError(const GameError& e);
 
-	//Getter del renderer para el SDL_Render para los botones
+	//obtiene ventana de SDL para render 
 	SDL_Renderer* getRenderer() const { return renderer; }
 	};
 
-inline Texture*
-SDLApplication::getTexture(TextureName name) const
-{
-	return textures[name];
-}
 
 #endif // GAME_H
