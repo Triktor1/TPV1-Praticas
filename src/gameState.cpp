@@ -9,6 +9,10 @@ GameState::GameState(SDLApplication* game)
 {
 }
 
+SDLApplication* GameState::getGame() const {
+	return game; 
+}
+
 void GameState::render() const {
 	for (auto obj : gameObjects)
 		obj->Render();

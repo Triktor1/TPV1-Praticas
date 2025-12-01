@@ -9,7 +9,7 @@ protected:
 
  public:
 	Label(GameState* state, SDL_Texture* tex, float x, float y);
-	virtual void Render() const override;
+	virtual void Render() const override =0;
 
 };
 

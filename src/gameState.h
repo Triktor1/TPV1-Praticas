@@ -19,6 +19,8 @@ public:
 	void render() const;
 	void update();
 	void handleEvent(const SDL_Event&);
+	SDLApplication* getGame() const;
+	
 
 	GameState(SDLApplication* g);
 	void addEventListener(EventHandler*);
