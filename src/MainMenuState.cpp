@@ -4,24 +4,32 @@
 #include "SDLApplication.h"
 #include "playState.h"
 
+
 MainMenuState::MainMenuState(SDLApplication* window, PlayState* previousState, Texture* bg, Texture* selectMap):
     GameState(window), playState(previousState), bg(bg), selectMap(selectMap)
 {
     // 5 botones en el mismo sitio
-	Button* bOriginal = new Button(this, window->getTexture(SDLApplication::ORIGINAL), 300, 300);
-	Button* bPractica1 = new Button(this, window->getTexture(SDLApplication::PRACTICA1), 300, 300);
-	Button* bTrivial = new Button(this, window->getTexture(SDLApplication::TRIVIAL), 300, 300);
-	Button* bVeloz = new Button(this, window->getTexture(SDLApplication::VELOZ), 300, 300);
-	Button* bAvispado = new Button(this, window->getTexture(SDLApplication::AVISPADO), 300, 300);
+	Button* bOriginal = new Button(this, window->getTexture(SDLApplication::ORIGINAL), 100, 250);
+	Button* bPractica1 = new Button(this, window->getTexture(SDLApplication::PRACTICA1), 100, 250);
+	Button* bTrivial = new Button(this, window->getTexture(SDLApplication::TRIVIAL), 100, 250);
+	Button* bVeloz = new Button(this, window->getTexture(SDLApplication::VELOZ), 100, 250);
+	Button* bAvispado = new Button(this, window->getTexture(SDLApplication::AVISPADO), 100, 250);
 
 	mapButtons = { bOriginal, bPractica1, bTrivial, bVeloz, bAvispado};
-	
+	mapFiles = {
+		"assets/maps/Original.txt",
+		"assets/maps/Practica1.txt",
+		"assets/maps/Trivial.txt",
+		"assets/maps/Veloz.txt",
+		"assets/maps/Avispado.txt"
+	};
+
 	for (int i = 0; i < mapButtons.size();i++) {
 		Button* b = mapButtons[i];
 		addObject(b);
 		addEventListener(b);
-		b->connect([this] {
-			game->pushState(new PlayState(game));
+		b->connect([this, i] {
+			game->pushState(new PlayState(game, mapFiles[i]));
 		});
 	}
 
@@ -59,7 +67,7 @@ void MainMenuState::render() const {
 	SDL_RenderClear(renderer);
 	if (bg) bg->render();
 	if (selectMap) {
-		SDL_FRect cuerpo{ 200,100,400,150 };
+		SDL_FRect cuerpo{ 100,190,250,30 };
 		selectMap->render(cuerpo);
 	}
 	GameState::render();

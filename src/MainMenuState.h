@@ -3,6 +3,7 @@
 #include "texture.h"
 #include "Button.h"
 #include <vector>
+#include <string>
 class PlayState;
 class MainMenuState :
     public GameState
@@ -15,6 +16,7 @@ private:
   //vector de botones de mapas
   int currentMap = 0; 
   std::vector<Button*> mapButtons;
+  std::vector<std::string> mapFiles;
 
 public:
     MainMenuState(SDLApplication* window, PlayState* previousState, Texture* bg, Texture* selectMap);
