@@ -99,7 +99,7 @@
     <ClCompile Include="EndState.cpp" />
     <ClCompile Include="EventHandler.cpp" />
     <ClCompile Include="Frog.cpp" />
-    <ClCompile Include="game.cpp" />
+    <ClCompile Include="SDLApplication.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="gameState.cpp" />
     <ClCompile Include="gameStateMachine.cpp" />
@@ -124,7 +124,7 @@
     <ClInclude Include="EndState.h" />
     <ClInclude Include="EventHandler.h" />
     <ClInclude Include="Frog.h" />
-    <ClInclude Include="game.h" />
+    <ClInclude Include="SDLApplication.h" />
     <ClInclude Include="GameError.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="gameState.h" />
