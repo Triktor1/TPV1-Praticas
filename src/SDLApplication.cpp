@@ -86,6 +86,10 @@ SDLApplication::SDLApplication()
 
 SDLApplication::~SDLApplication()
 {
+	while (!empty()) {
+		popState();
+	}
+
 	for (Texture* t : textures) {
 		delete t;
 	}
@@ -112,6 +116,8 @@ SDLApplication::run()
 			cout << e.what() << endl;
 		}
 	}
+	while(!empty())
+		popState();
 }
 
 void SDLApplication::mostrarError(const GameError& e) {

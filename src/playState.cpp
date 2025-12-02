@@ -68,13 +68,15 @@ void PlayState::update() {
 	if (frog->getLives() == 0) {
 		std::cout << "Has perdido" << std::endl;
 		
-		getGame()->replaceState(new EndState(game, false));
+		getGame()->replaceState(std::make_shared<EndState>(game, false));
+		return;
 	}
 
 	if (allFrogsHome()) {
 		std::cout << "Has ganado" << std::endl;
 		
-		getGame()->replaceState(new EndState(game, true));
+		getGame()->replaceState(std::make_shared<EndState>(game, true));
+		return;
 	}
 
 	if (currentTime >= waspSpawnTime) {
@@ -112,12 +114,12 @@ void PlayState::handleEvent(const SDL_Event& event) {
 			int buttonID;
 			SDL_ShowMessageBox(&resetMessageData, &buttonID);
 			if (buttonID == 1) {
-				getGame()->replaceState(new PlayState(getGame(), getFile()));
+				getGame()->replaceState(std::make_shared<PlayState>(getGame(), getFile()));
 			}
 			return;
 		}
 		if (keyEsc) {
-			getGame()->pushState(new PauseState(getGame(), this, true));
+			getGame()->pushState(std::make_shared<PauseState>(getGame(), this, true));
 			return;
 		}
 	}
@@ -126,6 +128,9 @@ PlayState::~PlayState() {
 	for (SceneObject* so : sceneObjects)
 		delete so;
 	sceneObjects.clear();
+	homedFrogs.clear();
+	reachedHomes.clear();
+	toDelete.clear();
 }
 
 Collision

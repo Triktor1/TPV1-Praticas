@@ -41,7 +41,7 @@ MainMenuState::MainMenuState(SDLApplication* window, Texture* bg, Texture* selec
 		addObject(b);
 		addEventListener(b);
 		b->connect([this, i] {
-			game->pushState(new PlayState(game, mapFiles[i]));
+			game->pushState(std::make_shared<PlayState>(game, mapFiles[i]));
 			});
 	}
 
@@ -82,8 +82,7 @@ MainMenuState::MainMenuState(SDLApplication* window, Texture* bg, Texture* selec
 
 MainMenuState::~MainMenuState() {
 	saveConfig();
-	std::cout << "prueba";
-	for (Button* b : buttons) {
+	for(Button* b : buttons) {
 		delete b;
 	}
 }
@@ -109,8 +108,6 @@ void MainMenuState::render() const {
 
 void MainMenuState::handleEvent(const SDL_Event& e) {
 	GameState::handleEvent(e);
-	if (!mapButtons.empty())
-		mapButtons[currentMap]->handleEvent(e);
 
 	if (e.type == SDL_EVENT_KEY_DOWN) {
 		switch (e.key.key) {
@@ -120,10 +117,9 @@ void MainMenuState::handleEvent(const SDL_Event& e) {
 		case SDLK_RIGHT:
 			nextMap();
 			break;
-		case SDLK_RETURN:
 		case SDLK_KP_ENTER:
 			if (!mapFiles.empty())
-				game->pushState(new PlayState(game, mapFiles[currentMap]));
+				game->pushState(std::make_shared<PlayState>(game, mapFiles[currentMap]));
 			break;
 		default:
 			break;

@@ -11,7 +11,7 @@ EndState::EndState(SDLApplication* window, bool victory) :
 
 	//boton menu
 	Texture* menuTex = window->getTexture(SDLApplication::VOLVERALMENU);
-	Button* goMenu = new Button(this, menuTex, 80, 300);
+	Button* goMenu = new Button(this, menuTex, game->WINDOW_WIDTH/2-game->getTexture(game->VOLVERALMENU)->getFrameWidth()/2, 200);
 	goMenu->connect([this]() {
 		game->popState();
 		});
@@ -20,7 +20,7 @@ EndState::EndState(SDLApplication* window, bool victory) :
 
 	//boton salir
 	Texture* exitTex = window->getTexture(SDLApplication::SALIR);
-	Button* exitGame = new Button(this, exitTex, 150, 400);
+	Button* exitGame = new Button(this, exitTex, game->WINDOW_WIDTH / 2 - game->getTexture(game->SALIR)->getFrameWidth() / 2, 300);
 	exitGame->connect([this]() {
 		game->setExit(true);
 		});
@@ -37,7 +37,7 @@ void EndState::render() const
 
 	//Mostrar si ganas o pierdes
 	if (resultTexture) {
-		SDL_FRect cuerpo{ 100,190,250,30 };
+		SDL_FRect cuerpo{ 100,100,250,30 };
 		resultTexture->render(cuerpo);
 	}
 

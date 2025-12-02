@@ -27,7 +27,10 @@ PauseState::PauseState(SDLApplication* window, PlayState* previousState, bool pa
 		//reinicio
 		playState->destroySceneObjects();
 		std::string mapFile = playState->getFile();
-		game->replaceState(new PlayState(game, mapFile));
+		game->popState();
+		game->popState();
+		game->pushState(std::make_shared<PlayState>(game, mapFile));
+		return;
 		});
 	addObject(restartButton);
 	addEventListener(restartButton);
@@ -40,7 +43,7 @@ PauseState::PauseState(SDLApplication* window, PlayState* previousState, bool pa
 		//volver al menu
 		game->popState();
 		game->popState();
-		game->pushState(new MainMenuState(game, game->getTexture(game->BACKGROUND), game->getTexture(game->ELIGEUNMAPA)));
+		//game->pushState(new MainMenuState(game, game->getTexture(game->BACKGROUND), game->getTexture(game->ELIGEUNMAPA)));
 		});
 	addObject(goMenu);
 	addEventListener(goMenu);

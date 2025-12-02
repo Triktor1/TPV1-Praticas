@@ -25,8 +25,7 @@ int main(int argc, char* argv[])
 		Texture* background = game.getTexture(SDLApplication::MENUBACKGROUND);
 		Texture* selectMap = game.getTexture(SDLApplication::ELIGEUNMAPA);
 
-		//game.pushState(new PlayState(&game, "../assets/maps/Avispado.txt"));
-		game.pushState(new MainMenuState(&game,background,selectMap));
+		game.pushState(std::make_shared<MainMenuState>(&game,background,selectMap));
 		game.run();
 		
 	}
