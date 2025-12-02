@@ -1,5 +1,5 @@
 #include "Crosser.h"
-#include "PlayState.h"
+#include "playState.h"
 #include "SDLApplication.h"
 
 Crosser::Crosser(Point2D<float> position, Vector2D<float> speed, Texture* texture, PlayState* game) :

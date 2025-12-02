@@ -2,7 +2,6 @@
 #include "GameError.h"
 #include "playState.h"
 #include "SDLApplication.h"
-#include <conio.h>
 
 Frog::Frog(Vector2D<float> lastDir, Point2D<float> position, int health, Texture* texture, PlayState* game) :
 	SceneObject(position, texture, game),

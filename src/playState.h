@@ -1,5 +1,5 @@
 #pragma once
-#include "GameState.h"
+#include "gameState.h"
 #include "Vector2D.h"
 #include <random>
 #include <iostream>
@@ -52,7 +52,6 @@ public:
 	//Constructor
 	PlayState(SDLApplication* game, std::string file);
 
-	bool isActive = true; 
 	//Destructor
 	~PlayState();
 

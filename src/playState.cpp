@@ -1,4 +1,4 @@
-#include "PlayState.h"
+#include "playState.h"
 #include "EndState.h"
 #include "PauseState.h"
 #include "SDLApplication.h"
@@ -60,7 +60,6 @@ void PlayState::render() const {
 }
 
 void PlayState::update() {
-	if (!isActive) return;
 	currentTime = SDL_GetTicks();
 	for (SceneObject* so : sceneObjects) {
 		so->Update();
@@ -68,13 +67,13 @@ void PlayState::update() {
 
 	if (frog->getLives() == 0) {
 		std::cout << "Has perdido" << std::endl;
-		isActive = false;
+		
 		getGame()->replaceState(new EndState(game, false));
 	}
 
 	if (allFrogsHome()) {
 		std::cout << "Has ganado" << std::endl;
-		isActive = false; 
+		
 		getGame()->replaceState(new EndState(game, true));
 	}
 

@@ -6,6 +6,19 @@
 #include "playState.h"
 #include "GameError.h"
 
+static constexpr int BUT_Y= 300;
+static constexpr int SALIRBUT_Y = 370;
+static constexpr int MAPBUT_X = 250;
+static constexpr int LEFTBUTX = 10;
+static constexpr int RIGHTBUTX = 420;
+static constexpr int BODYX =100;
+static constexpr int BODYY = 190;
+static constexpr int BODYZ = 250;
+static constexpr int BODYW = 30;
+
+
+
+
 
 MainMenuState::MainMenuState(SDLApplication* window, Texture* bg, Texture* selectMap) :
 	GameState(window), bg(bg), selectMap(selectMap)
@@ -22,7 +35,7 @@ MainMenuState::MainMenuState(SDLApplication* window, Texture* bg, Texture* selec
 	loadConfig();
 
 	for (size_t i = 0; i < mapFiles.size(); i++) {
-		Button* b = new Button(this, window->getTexture(SDLApplication::TextureName(window->AVISPADO + i)), game->WINDOW_WIDTH / 2 - game->getTexture(SDLApplication::TextureName(window->AVISPADO + i))->getFrameWidth() / 2, 300);
+		Button* b = new Button(this, window->getTexture(SDLApplication::TextureName(window->AVISPADO + i)), game->WINDOW_WIDTH / 2 - game->getTexture(SDLApplication::TextureName(window->AVISPADO + i))->getFrameWidth() / 2, BUT_Y);
 		mapButtons.push_back(b);
 		buttons.push_back(b);
 		addObject(b);
@@ -36,7 +49,7 @@ MainMenuState::MainMenuState(SDLApplication* window, Texture* bg, Texture* selec
 
 	//boton izquierda
 	Texture* izTex = window->getTexture(SDLApplication::LEFT);
-	Button* leftButton = new Button(this, izTex, 10, 300);
+	Button* leftButton = new Button(this, izTex, LEFTBUTX, BUT_Y);
 	leftButton->connect([this]() {
 		//mover izq
 		previousMap();
@@ -46,7 +59,7 @@ MainMenuState::MainMenuState(SDLApplication* window, Texture* bg, Texture* selec
 
 	//boton derecha
 	Texture* dchaTex = window->getTexture(SDLApplication::RIGHT);
-	Button* rightButton = new Button(this, dchaTex, 420, 300);
+	Button* rightButton = new Button(this, dchaTex, RIGHTBUTX, BUT_Y);
 	rightButton->connect([this]() {
 		//mover dcha
 		nextMap();
@@ -55,7 +68,7 @@ MainMenuState::MainMenuState(SDLApplication* window, Texture* bg, Texture* selec
 	addEventListener(rightButton);
 
 	Texture* exitTex = window->getTexture(SDLApplication::SALIR);
-	Button* exitButton = new Button(this, exitTex, game->WINDOW_WIDTH / 2 - game->getTexture(game->SALIR)->getFrameWidth() / 2, 360);
+	Button* exitButton = new Button(this, exitTex, game->WINDOW_WIDTH / 2 - game->getTexture(game->SALIR)->getFrameWidth() / 2, SALIRBUT_Y);
 	exitButton->connect([this]() {
 		game->setExit(true);
 		});
@@ -83,7 +96,7 @@ void MainMenuState::render() const {
 
 	if (bg) bg->render();
 	if (selectMap) {
-		SDL_FRect cuerpo{ 100,190,250,30 };
+		SDL_FRect cuerpo{BODYX,BODYY, BODYZ,BODYW };
 		selectMap->render(cuerpo);
 	}
 	if (!mapButtons.empty()) {

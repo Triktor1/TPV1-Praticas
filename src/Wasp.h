@@ -1,6 +1,6 @@
 #pragma once
 #include "SceneObject.h"
-#include "PlayState.h"
+#include "playState.h"
 
 class Wasp : public SceneObject
 {
