@@ -9,10 +9,9 @@ EndState::EndState(SDLApplication* window, bool victory) :
 	//obtencion de la textura del resultado segun bool victory
 	resultTexture = window->getTexture(victory ? SDLApplication::HASGANADO : SDLApplication::GAMEOVER);
 
-	
 	//boton menu
 	Texture* menuTex = window->getTexture(SDLApplication::VOLVERALMENU);
-	Button* goMenu = new Button(this, menuTex, 200, 350);
+	Button* goMenu = new Button(this, menuTex, 80, 300);
 	goMenu->connect([this]() {
 		game->popState();
 		});
@@ -21,7 +20,7 @@ EndState::EndState(SDLApplication* window, bool victory) :
 
 	//boton salir
 	Texture* exitTex = window->getTexture(SDLApplication::SALIR);
-	Button* exitGame = new Button(this, exitTex, 200, 450);
+	Button* exitGame = new Button(this, exitTex, 150, 400);
 	exitGame->connect([this]() {
 		game->setExit(true);
 		});
@@ -38,7 +37,7 @@ void EndState::render() const
 
 	//Mostrar si ganas o pierdes
 	if (resultTexture) {
-		SDL_FRect cuerpo{ 200,100,400,150 };
+		SDL_FRect cuerpo{ 100,190,250,30 };
 		resultTexture->render(cuerpo);
 	}
 

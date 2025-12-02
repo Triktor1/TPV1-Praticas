@@ -78,6 +78,9 @@ MainMenuState::~MainMenuState() {
 void MainMenuState::render() const {
 	SDL_Renderer* renderer = game->getRenderer();
 	SDL_RenderClear(renderer);
+	Texture* bg = game->getTexture(SDLApplication::MENUBACKGROUND);
+	Texture* selectMap = game->getTexture(SDLApplication::ELIGEUNMAPA);
+
 	if (bg) bg->render();
 	if (selectMap) {
 		SDL_FRect cuerpo{ 100,190,250,30 };
