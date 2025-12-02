@@ -1,6 +1,8 @@
 #pragma once
-#include "gameState.h"
+#include "GameState.h"
 #include "texture.h"
+#include <vector>
+#include "Button.h"
 
 class PlayState;
 class PauseState :
@@ -8,9 +10,10 @@ class PauseState :
 {
 private:
     PlayState* playState;
-    Texture* resultTexture;
+    std::vector<Button*> buttons;
 public:
     PauseState(SDLApplication* window, PlayState* previousState, bool paused);
+    ~PauseState();
      void render() const override;
      void handleEvent(const SDL_Event& e) override;
 };

@@ -1,5 +1,5 @@
 #include "SceneObject.h"
-#include "playState.h"
+#include "PlayState.h"
 
 SceneObject::SceneObject(Point2D<float> position, Texture* texture, PlayState* game) :
 	GameObject(static_cast<GameState*>(game)),

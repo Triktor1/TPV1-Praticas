@@ -1,4 +1,4 @@
-#include "playState.h"
+#include "PlayState.h"
 #include "EndState.h"
 #include "PauseState.h"
 #include "SDLApplication.h"

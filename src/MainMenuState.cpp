@@ -3,18 +3,18 @@
 #include <filesystem>
 #include "texture.h"
 #include "SDLApplication.h"
-#include "playState.h"
+#include "PlayState.h"
 #include "GameError.h"
 
-static constexpr int BUT_Y= 300;
-static constexpr int SALIRBUT_Y = 370;
-static constexpr int MAPBUT_X = 250;
-static constexpr int LEFTBUTX = 10;
-static constexpr int RIGHTBUTX = 420;
-static constexpr int BODYX =100;
-static constexpr int BODYY = 190;
-static constexpr int BODYZ = 250;
-static constexpr int BODYW = 30;
+constexpr int BUT_Y= 300;
+constexpr int SALIRBUT_Y = 370;
+constexpr int MAPBUT_X = 250;
+constexpr int LEFTBUTX = 10;
+constexpr int RIGHTBUTX = 420;
+constexpr int BODYX =100;
+constexpr int BODYY = 190;
+constexpr int BODYZ = 250;
+constexpr int BODYW = 30;
 
 
 
@@ -90,8 +90,6 @@ MainMenuState::~MainMenuState() {
 void MainMenuState::render() const {
 	SDL_Renderer* renderer = game->getRenderer();
 	SDL_RenderClear(renderer);
-	Texture* bg = game->getTexture(SDLApplication::MENUBACKGROUND);
-	Texture* selectMap = game->getTexture(SDLApplication::ELIGEUNMAPA);
 
 	if (bg) bg->render();
 	if (selectMap) {

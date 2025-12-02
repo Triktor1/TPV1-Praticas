@@ -17,6 +17,7 @@ EndState::EndState(SDLApplication* window, bool victory) :
 		});
 	addObject(goMenu);
 	addEventListener(goMenu);
+	buttons.push_back(goMenu);
 
 	//boton salir
 	Texture* exitTex = window->getTexture(SDLApplication::SALIR);
@@ -26,6 +27,13 @@ EndState::EndState(SDLApplication* window, bool victory) :
 		});
 	addObject(exitGame);
 	addEventListener(exitGame);
+	buttons.push_back(exitGame);
+}
+
+EndState::~EndState() {
+	for (Button* b : buttons) {
+		delete b;
+	}
 }
 
 void EndState::render() const 

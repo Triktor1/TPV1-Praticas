@@ -100,7 +100,7 @@
     <ClCompile Include="Frog.cpp" />
     <ClCompile Include="SDLApplication.cpp" />
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="gameState.cpp" />
+    <ClCompile Include="GameState.cpp" />
     <ClCompile Include="gameStateMachine.cpp" />
     <ClCompile Include="HomedFrog.cpp" />
     <ClCompile Include="Label.cpp" />

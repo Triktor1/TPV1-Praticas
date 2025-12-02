@@ -1,5 +1,5 @@
 #include "PauseState.h"
-#include "playState.h"
+#include "PlayState.h"
 #include "Button.h"
 #include "MainMenuState.h"
 #include "SDLApplication.h"
@@ -18,6 +18,7 @@ PauseState::PauseState(SDLApplication* window, PlayState* previousState, bool pa
 		});
 	addObject(continueButton);
 	addEventListener(continueButton);
+	buttons.push_back(continueButton);
 
 
 	//boton Reiniciar
@@ -34,6 +35,7 @@ PauseState::PauseState(SDLApplication* window, PlayState* previousState, bool pa
 		});
 	addObject(restartButton);
 	addEventListener(restartButton);
+	buttons.push_back(restartButton);
 
 
 	//boton menu
@@ -47,17 +49,13 @@ PauseState::PauseState(SDLApplication* window, PlayState* previousState, bool pa
 		});
 	addObject(goMenu);
 	addEventListener(goMenu);
+	buttons.push_back(goMenu);
+}
 
-
-	//boton Salir
-	Texture* exitTex = window->getTexture(SDLApplication::SALIR);
-	Button* exitButton = new Button(this, exitTex, 200, 650);
-	exitButton->connect([this]() {
-		//salir del juego
-		
-		});
-	addObject(exitButton);
-	addEventListener(exitButton);
+PauseState::~PauseState() {
+	for(Button* b : buttons) {
+		delete b;
+	}
 }
 
 

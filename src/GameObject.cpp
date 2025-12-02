@@ -1,5 +1,5 @@
 #include "GameObject.h"
-#include "gameState.h"
+#include "GameState.h"
 #include <SDL3_image/SDL_image.h>
 
 GameObject::GameObject(GameState* game) :

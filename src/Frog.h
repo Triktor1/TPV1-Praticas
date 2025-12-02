@@ -39,7 +39,7 @@ public:
 	void handleEvent(const SDL_Event& e) override;
 	Frog(Vector2D<float>, Point2D<float>, int, Texture*, PlayState*);
 	Frog(PlayState*, std::istream&);
-	void Render() const;
-	void Update();
+	void Render() const override;
+	void Update() override;
 	int getLives() const;
 };

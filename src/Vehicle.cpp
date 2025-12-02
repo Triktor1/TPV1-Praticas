@@ -1,6 +1,6 @@
 #include "Vehicle.h"
 #include "GameError.h"
-#include "playState.h"
+#include "PlayState.h"
 #include "SDLApplication.h"
 #include <string>
 

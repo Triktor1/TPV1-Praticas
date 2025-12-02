@@ -1,5 +1,5 @@
 #include "Button.h"
-#include "gameState.h"
+#include "GameState.h"
 #include <SDL3/SDL.h>
 
 Button::Button(GameState* game, Texture* tex, float x, float y)
