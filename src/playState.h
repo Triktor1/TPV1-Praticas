@@ -52,6 +52,10 @@ public:
 	//Constructor
 	PlayState(SDLApplication* game, std::string file);
 
+	bool isActive = true; 
+	//Destructor
+	~PlayState();
+
 	// Comprueba si hay algún objeto colocado en ese rectángulo
 	Collision checkCollision(const SDL_FRect& rect) const;
 

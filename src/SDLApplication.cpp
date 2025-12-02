@@ -86,6 +86,9 @@ SDLApplication::SDLApplication()
 
 SDLApplication::~SDLApplication()
 {
+	for (Texture* t : textures) {
+		delete t;
+	}
 	SDL_Quit();
 }
 

@@ -60,6 +60,7 @@ void PlayState::render() const {
 }
 
 void PlayState::update() {
+	if (!isActive) return;
 	currentTime = SDL_GetTicks();
 	for (SceneObject* so : sceneObjects) {
 		so->Update();
@@ -67,15 +68,14 @@ void PlayState::update() {
 
 	if (frog->getLives() == 0) {
 		std::cout << "Has perdido" << std::endl;
-		destroySceneObjects();
+		isActive = false;
 		getGame()->replaceState(new EndState(game, false));
 	}
 
 	if (allFrogsHome()) {
 		std::cout << "Has ganado" << std::endl;
-		destroySceneObjects();
+		isActive = false; 
 		getGame()->replaceState(new EndState(game, true));
-
 	}
 
 	if (currentTime >= waspSpawnTime) {
@@ -122,6 +122,11 @@ void PlayState::handleEvent(const SDL_Event& event) {
 			return;
 		}
 	}
+}
+PlayState::~PlayState() {
+	for (SceneObject* so : sceneObjects)
+		delete so;
+	sceneObjects.clear();
 }
 
 Collision
