@@ -12,7 +12,7 @@ private:
     bool victory; 
     Texture* resultTexture;
 public: 
-    EndState(SDLApplication* window, PlayState* previousState, bool victory);
+    EndState(SDLApplication* window, bool victory);
     void render() const override; 
     void handleEvent(const SDL_Event& e) override; 
 };

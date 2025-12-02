@@ -2,6 +2,7 @@
 #include "GameError.h"
 #include "playState.h"
 #include "SDLApplication.h"
+#include <conio.h>
 
 Frog::Frog(Vector2D<float> lastDir, Point2D<float> position, int health, Texture* texture, PlayState* game) :
 	SceneObject(position, texture, game),
@@ -29,6 +30,7 @@ Frog::Frog(PlayState* game, std::istream& file) :
 	game->setFrogSpawn(pointX, pointY);
 	this->health = health;
 	texture = this->texture = game->getGame()->getTexture(game->getGame()->FROG);
+	std::cout << "Vidas restantes: " << health << std::endl;
 }
 
 void Frog::Render() const {
@@ -87,6 +89,7 @@ void Frog::FrogCollisionsUpdate() {
 	Collision col = game->checkCollision(hitbox);
 	if (position.GetX() > game->getGame()->WINDOW_WIDTH || position.GetX() < -texture->getFrameWidth()) {
 		health--;
+		std::cout << "Vidas restantes: " << health << std::endl;
 		position = game->getFrogSpawn();
 		angle = 0;
 	}
@@ -96,11 +99,13 @@ void Frog::FrogCollisionsUpdate() {
 	else if (col.tipo == HOME) {
 		if (game->tryReachHome(hitbox)) {
 			health--;
+			std::cout << "Vidas restantes: " << health << std::endl;
 		}
 		position = game->getFrogSpawn();
 	}
 	else if (col.tipo == ENEMY || position.GetY() < game->RIVER_LOW) {
 		health--;
+		std::cout << "Vidas restantes: " << health << std::endl;
 		if (health > 0) {
 			position = game->getFrogSpawn();
 			angle = 0;

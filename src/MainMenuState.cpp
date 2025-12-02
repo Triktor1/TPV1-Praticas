@@ -12,7 +12,7 @@ MainMenuState::MainMenuState(SDLApplication* window, Texture* bg, Texture* selec
 {
 	for (auto& entry : std::filesystem::directory_iterator("../assets/maps")) {
 		if (entry.is_regular_file()) {
-			mapFiles.push_back(entry.path().stem().string());
+			mapFiles.push_back(entry.path().string());
 		}
 		else {
 			throw FileNotFoundError(entry.path().string());
@@ -22,8 +22,9 @@ MainMenuState::MainMenuState(SDLApplication* window, Texture* bg, Texture* selec
 	loadConfig();
 
 	for (size_t i = 0; i < mapFiles.size(); i++) {
-		Button* b = new Button(this, window->getTexture(SDLApplication::TextureName(window->AVISPADO + i)), 100, 250);
+		Button* b = new Button(this, window->getTexture(SDLApplication::TextureName(window->AVISPADO + i)), game->WINDOW_WIDTH / 2 - game->getTexture(SDLApplication::TextureName(window->AVISPADO + i))->getFrameWidth() / 2, 300);
 		mapButtons.push_back(b);
+		buttons.push_back(b);
 		addObject(b);
 		addEventListener(b);
 		b->connect([this, i] {
@@ -31,9 +32,11 @@ MainMenuState::MainMenuState(SDLApplication* window, Texture* bg, Texture* selec
 			});
 	}
 
+	updateButtons();
+
 	//boton izquierda
 	Texture* izTex = window->getTexture(SDLApplication::LEFT);
-	Button* leftButton = new Button(this, izTex, 200, 350);
+	Button* leftButton = new Button(this, izTex, 10, 300);
 	leftButton->connect([this]() {
 		//mover izq
 		previousMap();
@@ -43,7 +46,7 @@ MainMenuState::MainMenuState(SDLApplication* window, Texture* bg, Texture* selec
 
 	//boton derecha
 	Texture* dchaTex = window->getTexture(SDLApplication::RIGHT);
-	Button* rightButton = new Button(this, dchaTex, 200, 450);
+	Button* rightButton = new Button(this, dchaTex, 420, 300);
 	rightButton->connect([this]() {
 		//mover dcha
 		nextMap();
@@ -52,18 +55,22 @@ MainMenuState::MainMenuState(SDLApplication* window, Texture* bg, Texture* selec
 	addEventListener(rightButton);
 
 	Texture* exitTex = window->getTexture(SDLApplication::SALIR);
-	Button* exitButton = new Button(this, exitTex, 150, 150);
+	Button* exitButton = new Button(this, exitTex, game->WINDOW_WIDTH / 2 - game->getTexture(game->SALIR)->getFrameWidth() / 2, 360);
 	exitButton->connect([this]() {
-		game->popState();
+		game->setExit(true);
 		});
 	addObject(exitButton);
 	addEventListener(exitButton);
+
+	buttons.push_back(leftButton);
+	buttons.push_back(rightButton);
+	buttons.push_back(exitButton);
 }
 
 MainMenuState::~MainMenuState() {
 	saveConfig();
 	std::cout << "prueba";
-	for (Button* b : mapButtons) {
+	for (Button* b : buttons) {
 		delete b;
 	}
 }
@@ -111,13 +118,16 @@ void MainMenuState::handleEvent(const SDL_Event& e) {
 void MainMenuState::nextMap() {
 	currentMap++;
 	if (currentMap >= mapButtons.size()) currentMap = 0;
+	updateButtons();
 }
 
 void MainMenuState::previousMap() {
 	if (currentMap == 0) {
 		currentMap = mapButtons.size() - 1;
 	}
-	else currentMap--;
+	else
+		currentMap--;
+	updateButtons();
 }
 
 void MainMenuState::loadConfig() {
@@ -138,7 +148,7 @@ void MainMenuState::loadConfig() {
 
 void MainMenuState::updateButtons() {
 	for (size_t i = 0; i < mapButtons.size(); ++i) {
-		mapButtons[i]->setActive(i == currentMap); // comparación natural
+		mapButtons[i]->setActive(i == currentMap);
 	}
 }
 

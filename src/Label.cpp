@@ -8,9 +8,8 @@ Label::Label(GameState* game, Texture* tex, float x, float y)
     position.x = x;
     position.y = y;
 
-    int w = 0, h = 0;
-    position.w = (float)w;
-    position.h = (float)h;
+    position.w = tex->getFrameWidth();
+    position.h = tex->getFrameHeight();
 
 }
 

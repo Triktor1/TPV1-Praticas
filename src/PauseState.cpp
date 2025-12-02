@@ -11,7 +11,7 @@ PauseState::PauseState(SDLApplication* window, PlayState* previousState, bool pa
 
 	//boton continuar
 	Texture* continueTex = window->getTexture(SDLApplication::CONTINUAR);
-	Button* continueButton = new Button(this, continueTex, 200, 350);
+	Button* continueButton = new Button(this, continueTex, game->WINDOW_WIDTH/2-game->getTexture(game->CONTINUAR)->getFrameWidth()/2, 150);
 	continueButton->connect([this]() {
 		//continuar
 		game->popState();
@@ -22,7 +22,7 @@ PauseState::PauseState(SDLApplication* window, PlayState* previousState, bool pa
 
 	//boton Reiniciar
 	Texture* restartTex = window->getTexture(SDLApplication::REINICIAR);
-	Button* restartButton = new Button(this, restartTex, 200, 450);
+	Button* restartButton = new Button(this, restartTex, game->WINDOW_WIDTH / 2 - game->getTexture(game->REINICIAR)->getFrameWidth() / 2, 250);
 	restartButton->connect([this]() {
 		//reinicio
 		playState->destroySceneObjects();
@@ -35,7 +35,7 @@ PauseState::PauseState(SDLApplication* window, PlayState* previousState, bool pa
 
 	//boton menu
 	Texture* menuTex = window->getTexture(SDLApplication::VOLVERALMENU);
-	Button* goMenu = new Button(this, menuTex, 200, 550);
+	Button* goMenu = new Button(this, menuTex, game->WINDOW_WIDTH / 2 - game->getTexture(game->VOLVERALMENU)->getFrameWidth() / 2, 350);
 	goMenu->connect([this]() {
 		//volver al menu
 		game->popState();
@@ -62,8 +62,7 @@ void PauseState::render() const {
 	SDL_Renderer* renderer = game->getRenderer();
 	SDL_RenderClear(renderer);
 
-
-	//fondo semitranslucido
+	//No hemos conseguido hacer un fondo translúcido
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 150);
 	SDL_FRect overlay{ 0,0, SDLApplication::WINDOW_WIDTH, SDLApplication::WINDOW_HEIGHT };

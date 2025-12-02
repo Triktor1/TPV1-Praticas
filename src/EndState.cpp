@@ -3,8 +3,8 @@
 #include "MainMenuState.h"
 #include "SDLApplication.h"
 
-EndState::EndState(SDLApplication* window, PlayState* previousState, bool victory) :
-	GameState(window), playState(previousState), victory(victory)
+EndState::EndState(SDLApplication* window, bool victory) :
+	GameState(window), victory(victory)
 {
 	//obtencion de la textura del resultado segun bool victory
 	resultTexture = window->getTexture(victory ? SDLApplication::HASGANADO : SDLApplication::GAMEOVER);

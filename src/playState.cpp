@@ -1,4 +1,6 @@
 #include "PlayState.h"
+#include "EndState.h"
+#include "PauseState.h"
 #include "SDLApplication.h"
 #include "Frog.h"
 #include "Wasp.h"
@@ -65,12 +67,15 @@ void PlayState::update() {
 
 	if (frog->getLives() == 0) {
 		std::cout << "Has perdido" << std::endl;
-		exit = true;
+		destroySceneObjects();
+		getGame()->replaceState(new EndState(game, false));
 	}
 
 	if (allFrogsHome()) {
 		std::cout << "Has ganado" << std::endl;
-		exit = true;
+		destroySceneObjects();
+		getGame()->replaceState(new EndState(game, true));
+
 	}
 
 	if (currentTime >= waspSpawnTime) {
@@ -94,24 +99,27 @@ void PlayState::update() {
 	toDelete.clear();
 }
 
-void PlayState::handleEvents() {
-	SDL_Event event;
+void PlayState::handleEvent(const SDL_Event& event) {
 
-	while (SDL_PollEvent(&event)) {
-		if (event.type == SDL_EVENT_QUIT)
-			exit = true;
+	frog->handleEvent(event);
+	if (event.type == SDL_EVENT_QUIT)
+		exit = true;
 
-		frog->handleEvent(event);
-		if (event.type == SDL_EVENT_KEY_DOWN) {
-			bool key0 = (event.key.key == SDLK_0);
-			if (key0) {
-				int buttonID;
-				SDL_ShowMessageBox(&resetMessageData, &buttonID);
-				if (buttonID == 1) {
-					getGame()->replaceState(new PlayState(getGame(), getFile()));
-				}
-				return;
+
+	if (event.type == SDL_EVENT_KEY_DOWN) {
+		bool key0 = (event.key.key == SDLK_0);
+		bool keyEsc = (event.key.key == SDLK_ESCAPE);
+		if (key0) {
+			int buttonID;
+			SDL_ShowMessageBox(&resetMessageData, &buttonID);
+			if (buttonID == 1) {
+				getGame()->replaceState(new PlayState(getGame(), getFile()));
 			}
+			return;
+		}
+		if (keyEsc) {
+			getGame()->pushState(new PauseState(getGame(), this, true));
+			return;
 		}
 	}
 }
@@ -175,7 +183,6 @@ PlayState::allFrogsHome() const {
 }
 
 void PlayState::destroySceneObjects() {
-	frog = nullptr;
 
 	for (SceneObject* so : sceneObjects) {
 		delete so;
@@ -184,7 +191,6 @@ void PlayState::destroySceneObjects() {
 	homedFrogs.clear();
 	reachedHomes.clear();
 	toDelete.clear();
-
 
 }
 

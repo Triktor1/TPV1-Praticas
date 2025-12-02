@@ -41,7 +41,7 @@ protected:
 private:
 	void render() const;
 	void update();
-	void handleEvents();
+	void handleEvent(const SDL_Event&) override;
 	bool exit;
 	std::string mapFile;
 

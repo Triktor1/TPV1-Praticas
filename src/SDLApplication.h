@@ -77,7 +77,11 @@ public:
 
 	//obtiene ventana de SDL para render 
 	SDL_Renderer* getRenderer() const { return renderer; }
-	};
+
+	//Cambia el estado de salida del juego
+	void setExit(bool e) { exit = e; }
+};
+
 
 inline Texture*
 SDLApplication::getTexture(TextureName name) const

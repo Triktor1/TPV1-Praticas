@@ -19,6 +19,7 @@ private:
   //vector de botones de mapas
   int currentMap = 0; 
   std::vector<Button*> mapButtons;
+  std::vector<Button*> buttons;
   std::vector<std::string> mapFiles;
 
   const std::string configFile = "config.txt";
