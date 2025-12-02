@@ -33,19 +33,19 @@ public:
 		TURTLE,
 		WASP,
 		MENUBACKGROUND,
-		AVISPADO,
 		CONTINUAR,
 		ELIGEUNMAPA,
 		GAMEOVER,
 		HASGANADO,
 		LEFT,
 		RIGHT,
+		AVISPADO,
 		ORIGINAL,
 		PRACTICA1,
-		REINICIAR,
-		SALIR,
 		TRIVIAL,
 		VELOZ,
+		REINICIAR,
+		SALIR,
 		VOLVERALMENU,
 		NUM_TEXTURES
 	};
@@ -71,9 +71,6 @@ public:
 
 	// Ejecuta el bucle principal del juego
 	void run();
-
-	//Se llama en la constructora de Game y lee el archivo cuya ruta está en MAP_FILE
-	void readFile(const char* file);
 
 	//Crea una ventana de error
 	static void mostrarError(const GameError& e);

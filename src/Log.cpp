@@ -6,11 +6,13 @@
 Log::Log(Vector2D<float> sentido, Point2D<float> posicion, Texture* textura, PlayState* juego) :
 	Platform(posicion, sentido, textura, juego)
 {
+	this->game = game;
 }
 
 Log::Log(PlayState* game, std::istream& file) :
 	Platform(game, file)
 {
+	this->game = game;
 	float posX, posY, speedX, textureType;
 	if (!(file >> posX >> posY >> speedX >> textureType)) {
 		throw GameError("Formato invalido Log");

@@ -8,6 +8,7 @@ TurtleGroup::TurtleGroup(Point2D<float> position, Vector2D<float> speed, int num
 	numTurtles(numTurtles),
 	submergible(submergible)
 {
+	this->game = game;
 }
 
 constexpr const int SUBMERGETIME = 300;
@@ -15,6 +16,7 @@ constexpr const int SUBMERGETIME = 300;
 TurtleGroup::TurtleGroup(PlayState* game, std::istream& file) :
 	Platform(game, file)
 {
+	this->game = game;
 	float posX, posY, speedX;
 	int numTurtles, submergible;
 	if (!(file >> posX >> posY >> speedX >> numTurtles >> submergible)) {

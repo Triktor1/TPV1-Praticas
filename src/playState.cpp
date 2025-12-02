@@ -35,11 +35,11 @@ const SDL_MessageBoxData resetMessageData = {
 		resetButtons /* .buttons */
 };
 
-PlayState::PlayState(SDLApplication* game) :
-	GameState(game), frog(nullptr), exit(false)
+PlayState::PlayState(SDLApplication* game, std::string file) :
+	GameState(game), frog(nullptr), exit(false), mapFile(file)
 {
+	readFile(mapFile);
 	buildHomes();
-
 	randomGenerator.seed(time(nullptr));
 	srand(SDL_GetTicks());
 	waspSpawnTime = getRandomRange(WASP_MIN_SPAWN, WASP_MAX_SPAWN) * 1000;
@@ -108,7 +108,7 @@ void PlayState::handleEvents() {
 				int buttonID;
 				SDL_ShowMessageBox(&resetMessageData, &buttonID);
 				if (buttonID == 1) {
-					getGame()->replaceState(new PlayState(getGame()));
+					getGame()->replaceState(new PlayState(getGame(), getFile()));
 				}
 				return;
 			}
@@ -221,8 +221,7 @@ PlayState::buildHomes() {
 		//sceneObjects.push_back(new HomedFrog{ Point2D<float>(homePositions[i] - Point2D<float>(getTexture(FROG)->getFrameWidth() / 2,getTexture(FROG)->getFrameHeight() / 2)), getTexture(FROG), this });
 		Point2D<float> homePos(
 			homePositions[i].GetX() - game->getTexture(game->FROG)->getFrameWidth() / 2.0f,
-			homePositions[i].GetY() - game->getTexture(game->FROG)->getFrameHeight() / 2.0f
-		);
+			homePositions[i].GetY() - game->getTexture(game->FROG)->getFrameHeight() / 2.0f);
 		//declarado asi, para facilidad de luego hacer pushback en scene y en homedfrogs
 		HomedFrog* hf = new HomedFrog(homePos, game->getTexture(game->FROG), this);
 		sceneObjects.push_back(hf);
@@ -243,7 +242,7 @@ void PlayState::removeSceneObject(Anchor it) {
 	sceneObjects.erase(it);
 }
 
-void PlayState::readFile(const char* fileRoute) {
+void PlayState::readFile(std::string fileRoute) {
 	//Lectura de archivo
 	std::fstream file(fileRoute);
 	if (!file)
@@ -286,4 +285,8 @@ void PlayState::readFile(const char* fileRoute) {
 		}
 	}
 	file.close();
+}
+
+std::string PlayState::getFile() const {
+	return mapFile;
 }

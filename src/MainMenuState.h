@@ -4,6 +4,9 @@
 #include "Button.h"
 #include <vector>
 #include <string>
+#include <filesystem>
+#include <fstream>
+
 class PlayState;
 class MainMenuState :
     public GameState
@@ -18,8 +21,16 @@ private:
   std::vector<Button*> mapButtons;
   std::vector<std::string> mapFiles;
 
+  const std::string configFile = "config.txt";
+
+  void loadConfig();
+  void saveConfig();
+  void updateButtons();
+
 public:
-    MainMenuState(SDLApplication* window, PlayState* previousState, Texture* bg, Texture* selectMap);
+   MainMenuState(SDLApplication* window, Texture* bg, Texture* selectMap);
+   ~MainMenuState();
+
    void render() const override;
    void handleEvent(const SDL_Event& e) override;
 

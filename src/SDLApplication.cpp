@@ -8,7 +8,6 @@ using namespace std;
 
 // Constantes
 constexpr const char* const WINDOW_TITLE = "Frogger 3.0";
-constexpr const char* const MAP_FILE = "../assets/maps/Original.txt";
 
 // Estructura para especificar las texturas que hay que
 // cargar y el tamaño de su matriz de frames
@@ -33,19 +32,19 @@ constexpr array<TextureSpec, SDLApplication::NUM_TEXTURES> textureList{
 	{"turtle.png", 1, 7},
 	{"wasp.png"},
 	{"menuBackground.png"},
-	{"texts/Avispado.png"},
 	{"texts/CONTINUAR.png"},
 	{"texts/ELIGE UN MAPA.png"},
 	{"texts/GAME OVER.png"},
 	{"texts/HAS GANADO.png"},
 	{"texts/left.png"},
 	{"texts/right.png"},
+	{"texts/Avispado.png"},
 	{"texts/Original.png"},
 	{"texts/Practica 1.png"},
-	{"texts/REINICIAR.png"},
-	{"texts/SALIR.png"},
 	{"texts/Trivial.png"},
 	{"texts/Veloz.png"},
+	{"texts/REINICIAR.png"},
+	{"texts/SALIR.png"},
 	{"texts/VOLVER AL MENU.png"}
 };
 

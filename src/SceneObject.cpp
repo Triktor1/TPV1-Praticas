@@ -6,15 +6,11 @@ SceneObject::SceneObject(Point2D<float> position, Texture* texture, PlayState* g
 	position(position),
 	texture(texture)
 {
-	height = texture->getFrameHeight();
-	width = texture->getFrameWidth();
 }
 
 SceneObject::SceneObject(PlayState* game, std::istream& file) :
 	GameObject(static_cast<GameState*>(game), file)
 {
-	height = texture->getFrameHeight();
-	width = texture->getFrameWidth();
 }
 
 void SceneObject::Render() const {

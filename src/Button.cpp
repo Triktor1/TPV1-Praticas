@@ -17,6 +17,7 @@ bool Button::mouseInside(float x, float y) const {
 }
 
 void Button::handleEvent(const SDL_Event& e) {
+    if (!active) return;
     if (e.type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
         float mx = e.button.x;
         float my = e.button.y;
@@ -35,6 +36,7 @@ void Button::handleEvent(const SDL_Event& e) {
 }
 
 void Button::Render() const {
+    if (!active) return;
     if (!touched) {
         Label:: Render();
     }

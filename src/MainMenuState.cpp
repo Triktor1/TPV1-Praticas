@@ -1,36 +1,34 @@
 #include "MainMenuState.h"
 #include <SDL3/SDL.h>
+#include <filesystem>
 #include "texture.h"
 #include "SDLApplication.h"
 #include "playState.h"
+#include "GameError.h"
 
 
-MainMenuState::MainMenuState(SDLApplication* window, PlayState* previousState, Texture* bg, Texture* selectMap):
-    GameState(window), playState(previousState), bg(bg), selectMap(selectMap)
+MainMenuState::MainMenuState(SDLApplication* window, Texture* bg, Texture* selectMap) :
+	GameState(window), bg(bg), selectMap(selectMap)
 {
-    // 5 botones en el mismo sitio
-	Button* bOriginal = new Button(this, window->getTexture(SDLApplication::ORIGINAL), 100, 250);
-	Button* bPractica1 = new Button(this, window->getTexture(SDLApplication::PRACTICA1), 100, 250);
-	Button* bTrivial = new Button(this, window->getTexture(SDLApplication::TRIVIAL), 100, 250);
-	Button* bVeloz = new Button(this, window->getTexture(SDLApplication::VELOZ), 100, 250);
-	Button* bAvispado = new Button(this, window->getTexture(SDLApplication::AVISPADO), 100, 250);
+	for (auto& entry : std::filesystem::directory_iterator("../assets/maps")) {
+		if (entry.is_regular_file()) {
+			mapFiles.push_back(entry.path().stem().string());
+		}
+		else {
+			throw FileNotFoundError(entry.path().string());
+		}
+	}
 
-	mapButtons = { bOriginal, bPractica1, bTrivial, bVeloz, bAvispado};
-	mapFiles = {
-		"assets/maps/Original.txt",
-		"assets/maps/Practica1.txt",
-		"assets/maps/Trivial.txt",
-		"assets/maps/Veloz.txt",
-		"assets/maps/Avispado.txt"
-	};
+	loadConfig();
 
-	for (int i = 0; i < mapButtons.size();i++) {
-		Button* b = mapButtons[i];
+	for (size_t i = 0; i < mapFiles.size(); i++) {
+		Button* b = new Button(this, window->getTexture(SDLApplication::TextureName(window->AVISPADO + i)), 100, 250);
+		mapButtons.push_back(b);
 		addObject(b);
 		addEventListener(b);
 		b->connect([this, i] {
 			game->pushState(new PlayState(game, mapFiles[i]));
-		});
+			});
 	}
 
 	//boton izquierda
@@ -56,11 +54,19 @@ MainMenuState::MainMenuState(SDLApplication* window, PlayState* previousState, T
 	Texture* exitTex = window->getTexture(SDLApplication::SALIR);
 	Button* exitButton = new Button(this, exitTex, 150, 150);
 	exitButton->connect([this]() {
-		//salir
+		game->popState();
 		});
 	addObject(exitButton);
 	addEventListener(exitButton);
+}
+
+MainMenuState::~MainMenuState() {
+	saveConfig();
+	std::cout << "prueba";
+	for (Button* b : mapButtons) {
+		delete b;
 	}
+}
 
 void MainMenuState::render() const {
 	SDL_Renderer* renderer = game->getRenderer();
@@ -70,17 +76,41 @@ void MainMenuState::render() const {
 		SDL_FRect cuerpo{ 100,190,250,30 };
 		selectMap->render(cuerpo);
 	}
+	if (!mapButtons.empty()) {
+		mapButtons[currentMap]->Render();
+	}
+
 	GameState::render();
 	SDL_RenderPresent(renderer);
 }
 
 void MainMenuState::handleEvent(const SDL_Event& e) {
 	GameState::handleEvent(e);
+	if (!mapButtons.empty())
+		mapButtons[currentMap]->handleEvent(e);
+
+	if (e.type == SDL_EVENT_KEY_DOWN) {
+		switch (e.key.key) {
+		case SDLK_LEFT:
+			previousMap();
+			break;
+		case SDLK_RIGHT:
+			nextMap();
+			break;
+		case SDLK_RETURN:
+		case SDLK_KP_ENTER:
+			if (!mapFiles.empty())
+				game->pushState(new PlayState(game, mapFiles[currentMap]));
+			break;
+		default:
+			break;
+		}
+	}
 }
 
 void MainMenuState::nextMap() {
 	currentMap++;
-		if (currentMap >= mapButtons.size()) currentMap = 0; 
+	if (currentMap >= mapButtons.size()) currentMap = 0;
 }
 
 void MainMenuState::previousMap() {
@@ -88,5 +118,34 @@ void MainMenuState::previousMap() {
 		currentMap = mapButtons.size() - 1;
 	}
 	else currentMap--;
+}
+
+void MainMenuState::loadConfig() {
+	std::ifstream file(configFile);
+	if (!file.is_open()) return;
+
+	std::string lastMap;
+	file >> lastMap;
+	file.close();
+
+	for (size_t i = 0; i < mapFiles.size(); i++) {
+		if (mapFiles[i] == lastMap) {
+			currentMap = i;
+			break;
+		}
+	}
+}
+
+void MainMenuState::updateButtons() {
+	for (size_t i = 0; i < mapButtons.size(); ++i) {
+		mapButtons[i]->setActive(i == currentMap); // comparación natural
+	}
+}
+
+void MainMenuState::saveConfig() {
+	std::ofstream file(configFile);
+	if (!file.is_open()) return;
+	file << mapFiles[currentMap];
+	file.close();
 }
 

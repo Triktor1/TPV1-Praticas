@@ -26,8 +26,8 @@ PauseState::PauseState(SDLApplication* window, PlayState* previousState, bool pa
 	restartButton->connect([this]() {
 		//reinicio
 		playState->destroySceneObjects();
-		playState->readFile("../assets/maps/trivial.txt");
-		game->popState();
+		std::string mapFile = playState->getFile();
+		game->replaceState(new PlayState(game, mapFile));
 		});
 	addObject(restartButton);
 	addEventListener(restartButton);
@@ -40,7 +40,7 @@ PauseState::PauseState(SDLApplication* window, PlayState* previousState, bool pa
 		//volver al menu
 		game->popState();
 		game->popState();
-		//game->pushState(new MainMenuState(game));
+		game->pushState(new MainMenuState(game, game->getTexture(game->BACKGROUND), game->getTexture(game->ELIGEUNMAPA)));
 		});
 	addObject(goMenu);
 	addEventListener(goMenu);

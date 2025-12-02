@@ -43,13 +43,14 @@ private:
 	void update();
 	void handleEvents();
 	bool exit;
+	std::string mapFile;
 
 public:
 	// Extremo inferior del río
 	static constexpr int RIVER_LOW = 210;
 
 	//Constructor
-	PlayState(SDLApplication* game);
+	PlayState(SDLApplication* game, std::string file);
 
 	// Comprueba si hay algún objeto colocado en ese rectángulo
 	Collision checkCollision(const SDL_FRect& rect) const;
@@ -90,5 +91,7 @@ public:
 	void removeSceneObject(Anchor);
 
 	//Se llama en la constructora de Game y lee el archivo cuya ruta está en MAP_FILE
-	void readFile(const char* file);
+	void readFile(std::string file);
+
+	std::string getFile() const;
 };

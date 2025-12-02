@@ -10,6 +10,7 @@ Frog::Frog(Vector2D<float> lastDir, Point2D<float> position, int health, Texture
 	anim(0),
 	angle(0.0)
 {
+	this->game = game;
 }
 
 Frog::Frog(PlayState* game, std::istream& file) :
@@ -17,6 +18,7 @@ Frog::Frog(PlayState* game, std::istream& file) :
 	anim(0),
 	angle(0.0)
 {
+	this->game = game;
 	float pointX, pointY;
 	int health;
 	if (!(file >> pointX >> pointY >> health)) {	

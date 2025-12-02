@@ -2,7 +2,6 @@
 //Óscar Silva Urbina
 
 #include <iostream>
-#include "playState.h"
 #include <SDL3/SDL.h>
 #include <SDL3_image/SDL_image.h>
 #include "Vector2D.h"
@@ -26,7 +25,8 @@ int main(int argc, char* argv[])
 		Texture* background = game.getTexture(SDLApplication::MENUBACKGROUND);
 		Texture* selectMap = game.getTexture(SDLApplication::ELIGEUNMAPA);
 
-		game.pushState(new MainMenuState(&game,nullptr,background,selectMap));
+		//game.pushState(new PlayState(&game, "../assets/maps/Avispado.txt"));
+		game.pushState(new MainMenuState(&game,background,selectMap));
 		game.run();
 		
 	}

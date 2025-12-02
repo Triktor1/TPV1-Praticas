@@ -7,12 +7,14 @@ Crosser::Crosser(Point2D<float> position, Vector2D<float> speed, Texture* textur
 	speed(speed),
 	backjump(150)
 {
+	this->game = game;
 }
 
 Crosser::Crosser(PlayState* game, std::istream& file) :
 	SceneObject(game, file),
 	backjump(150)
 {
+	this->game = game;
 }
 
 void Crosser::Update() {

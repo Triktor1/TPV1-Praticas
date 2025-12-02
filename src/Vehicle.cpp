@@ -7,18 +7,20 @@
 Vehicle::Vehicle(Vector2D<float> sentido, Point2D<float> posicion, Texture* textura, PlayState* juego) :
 	Crosser(posicion, sentido, textura, juego)
 {
+	this->game = game;
 }
 
 Vehicle::Vehicle(PlayState* game, std::istream& file) :
 	Crosser(game, file)
 {
+	this->game = game;
 	float posX, posY, speedX, textureType;
 	if (!(file >> posX >> posY >> speedX >> textureType)) {
 		throw GameError("Formato Incorrrecto/incompleto de Vehicle");
 	}
+	this->texture = game->getGame()->getTexture(SDLApplication::TextureName(game->getGame()->CAR1 + textureType - 1));
 	this->position = Vector2D<float>(posX, posY);
 	this->speed = Vector2D<float>(speedX, 0);
-	this->texture = game->getGame()->getTexture(SDLApplication::TextureName(game->getGame()->CAR1 + textureType - 1));
 }
 void Vehicle::Render() const {
 	SDL_FlipMode flip = (speed.GetX() > 0) ? SDL_FLIP_NONE : SDL_FLIP_VERTICAL;

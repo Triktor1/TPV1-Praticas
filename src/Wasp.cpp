@@ -9,6 +9,7 @@ Wasp::Wasp(Point2D<float> position, Vector2D<float> speed, Texture* texture, Pla
 	anchorGS(),
 	anchorPS()
 {
+	this->game = game;
 }
 
 Wasp::Wasp(PlayState* game, std::istream& file) :
@@ -16,6 +17,7 @@ Wasp::Wasp(PlayState* game, std::istream& file) :
 	anchorGS(),
 	anchorPS()
 {
+	this->game = game;
 	float posX, posY, speedX, speedY, time;
 	file >> posX >> posY >> speedX >> speedY >> time;
 	position = Vector2D<float>(posX, posY);
@@ -25,6 +27,7 @@ Wasp::Wasp(PlayState* game, std::istream& file) :
 }
 
 void Wasp::Update() {
+	position = position + speed * (game->getGame()->FRAME_RATE / 1000.0f);
 	lifeTime -= game->getGame()->FRAME_RATE;
 	if (!isAlive()) {
 		game->runLater([this] {
