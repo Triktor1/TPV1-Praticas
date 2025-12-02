@@ -115,7 +115,7 @@ void MainMenuState::handleEvent(const SDL_Event& e) {
 		case SDLK_RIGHT:
 			nextMap();
 			break;
-		case SDLK_KP_ENTER:
+		case SDLK_RETURN:
 			if (!mapFiles.empty())
 				game->pushState(std::make_shared<PlayState>(game, mapFiles[currentMap]));
 			break;
