@@ -1,4 +1,4 @@
 Víctor Castro Álvarez
 Óscar Silva Urbina
 
-No hemos hecho ningún opcional de la práctica 3
+Hemos hecho el opcional 2: flechas en el menú principal que puedes usar para recorrer mapas
