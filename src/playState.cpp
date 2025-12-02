@@ -210,10 +210,10 @@ void PlayState::destroyAllElements() {
 
 	reachedHomes.clear();
 
-	for (auto& t : game->textures) {
-		delete t;
-		t = nullptr;
-	}
+	//for (auto& t : game->textures) {
+	//	delete t;
+	//	t = nullptr;
+	//}
 }
 
 

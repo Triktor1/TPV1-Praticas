@@ -1,4 +1,4 @@
-#include "gameState.h"
+#include "GameState.h"
 #include "GameObject.h"
 #include "EventHandler.h"
 #include "SDLApplication.h"

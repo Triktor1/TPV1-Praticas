@@ -1,5 +1,5 @@
 #pragma once
-#include "gameState.h"
+#include "GameState.h"
 #include "texture.h"
 #include "Button.h"
 #include <vector>

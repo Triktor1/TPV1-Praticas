@@ -50,13 +50,13 @@ public:
 		NUM_TEXTURES
 	};
 
-	std::array<Texture*, NUM_TEXTURES> textures;
 
 	// Tamaño real de la ventana
 	static constexpr int WINDOW_WIDTH = 448;
 	static constexpr int WINDOW_HEIGHT = 484;
 
 private:
+	std::array<Texture*, NUM_TEXTURES> textures;
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 

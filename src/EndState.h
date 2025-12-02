@@ -1,5 +1,5 @@
 #pragma once
-#include "gameState.h"
+#include "GameState.h"
 #include <SDL3/SDL.h>
 #include "texture.h"
 

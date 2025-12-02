@@ -86,7 +86,7 @@
     <ClInclude Include="texture.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="vector2D.h">
+    <ClInclude Include="Vector2D.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="SceneObject.h">
@@ -128,7 +128,7 @@
     <ClInclude Include="gameStateMachine.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="gameState.h">
+    <ClInclude Include="GameState.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="playState.h">

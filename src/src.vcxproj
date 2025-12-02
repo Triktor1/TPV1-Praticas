@@ -126,7 +126,7 @@
     <ClInclude Include="SDLApplication.h" />
     <ClInclude Include="GameError.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="gameState.h" />
+    <ClInclude Include="GameState.h" />
     <ClInclude Include="gameStateMachine.h" />
     <ClInclude Include="HomedFrog.h" />
     <ClInclude Include="Label.h" />
@@ -138,7 +138,7 @@
     <ClInclude Include="SceneObject.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="TurtleGroup.h" />
-    <ClInclude Include="vector2D.h" />
+    <ClInclude Include="Vector2D.h" />
     <ClInclude Include="Vehicle.h" />
     <ClInclude Include="Wasp.h" />
   </ItemGroup>

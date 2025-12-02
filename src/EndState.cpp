@@ -14,7 +14,7 @@ EndState::EndState(SDLApplication* window, bool victory) :
 	Texture* menuTex = window->getTexture(SDLApplication::VOLVERALMENU);
 	Button* goMenu = new Button(this, menuTex, 200, 350);
 	goMenu->connect([this]() {
-			//volver al menu
+		game->popState();
 		});
 	addObject(goMenu);
 	addEventListener(goMenu);
@@ -23,7 +23,7 @@ EndState::EndState(SDLApplication* window, bool victory) :
 	Texture* exitTex = window->getTexture(SDLApplication::SALIR);
 	Button* exitGame = new Button(this, exitTex, 200, 450);
 	exitGame->connect([this]() {
-			//salir del juego
+		game->setExit(true);
 		});
 	addObject(exitGame);
 	addEventListener(exitGame);
