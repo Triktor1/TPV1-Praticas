@@ -39,8 +39,8 @@ protected:
 	Point2D<float> frogSpawn;
 
 private:
-	void render() const;
-	void update();
+	void render() const override;
+	void update() override;
 	void handleEvent(const SDL_Event&) override;
 	bool exit;
 	std::string mapFile;

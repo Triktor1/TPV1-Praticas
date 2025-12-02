@@ -12,7 +12,6 @@ class MainMenuState :
     public GameState
 {
 private:
-  PlayState* playState;
   Texture* bg;
   Texture* selectMap;
 

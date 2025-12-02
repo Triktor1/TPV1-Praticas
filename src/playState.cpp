@@ -86,7 +86,6 @@ void PlayState::update() {
 			rndHome = getRandomRange(0, HOMEFROGNUM - 1);
 		} while (reachedHomes[rndHome]);
 		Wasp* wasp = new Wasp{ homePositions[rndHome] - Point2D<float>(getGame()->getTexture(getGame()->WASP)->getFrameWidth() / 2, getGame()->getTexture(getGame()->WASP)->getFrameHeight() / 2), Vector2D<float>(0,0), getGame()->getTexture(getGame()->WASP), this, (float)(getRandomRange(WASP_MIN_LIFE, WASP_MAX_LIFE) * 1000.0) };
-		auto aPS = wasp->getAnchorPS();
 		wasp->setAnchorPS(sceneObjects.insert(sceneObjects.end(), wasp));
 		auto aGS = addObject(wasp);
 		wasp->setAnchorGS(aGS);

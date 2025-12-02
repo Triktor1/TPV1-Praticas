@@ -75,12 +75,12 @@ void Frog::FrogMovementUpdateInstJump() {
 	}
 }
 
-void Frog::FrogMovementUpdateAnimJump() {
-	const float step = FROG_STEP;
-	float newX = position.GetX() + lastDir.GetX() * step;
-	float newY = position.GetY() + lastDir.GetY() * step;
-
-}
+//void Frog::FrogMovementUpdateAnimJump() {
+//	const float step = FROG_STEP;
+//	float newX = position.GetX() + lastDir.GetX() * step;
+//	float newY = position.GetY() + lastDir.GetY() * step;
+//
+//}
 
 void Frog::FrogCollisionsUpdate() {
 	//Colisiones
