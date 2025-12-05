@@ -1,5 +1,5 @@
 #pragma once
-#include "GameState.h"
+#include "gameState.h"
 #include "Vector2D.h"
 #include <random>
 #include <iostream>

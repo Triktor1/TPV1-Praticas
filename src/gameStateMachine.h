@@ -3,7 +3,7 @@
 #include <SDL3/SDL.h>
 #include <memory>
 #include <stack>
-#include "GameState.h"
+#include "gameState.h"
 
 /**
  * Máquina de estados del juego.

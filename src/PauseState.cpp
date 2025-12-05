@@ -1,5 +1,5 @@
 #include "PauseState.h"
-#include "PlayState.h"
+#include "playState.h"
 #include "Button.h"
 #include "MainMenuState.h"
 #include "SDLApplication.h"

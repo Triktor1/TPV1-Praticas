@@ -1,6 +1,6 @@
 #include "Log.h"
 #include "GameError.h"
-#include "PlayState.h"
+#include "playState.h"
 #include "SDLApplication.h"
 
 Log::Log(Vector2D<float> sentido, Point2D<float> posicion, Texture* textura, PlayState* juego) :

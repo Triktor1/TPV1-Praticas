@@ -1,5 +1,5 @@
 #include "Wasp.h"
-#include "PlayState.h"
+#include "playState.h"
 #include "SDLApplication.h"
 
 Wasp::Wasp(Point2D<float> position, Vector2D<float> speed, Texture* texture, PlayState* game, float lifeTime) :

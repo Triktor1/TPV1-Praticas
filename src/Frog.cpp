@@ -1,6 +1,6 @@
 #include "Frog.h"
 #include "GameError.h"
-#include "PlayState.h"
+#include "playState.h"
 #include "SDLApplication.h"
 
 Frog::Frog(Vector2D<float> lastDir, Point2D<float> position, int health, Texture* texture, PlayState* game) :

@@ -3,7 +3,7 @@
 #include <filesystem>
 #include "texture.h"
 #include "SDLApplication.h"
-#include "PlayState.h"
+#include "playState.h"
 #include "GameError.h"
 
 constexpr int BUT_Y= 300;
