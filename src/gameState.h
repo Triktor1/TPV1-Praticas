@@ -26,5 +26,6 @@ public:
 	void runLater(DelayedCallback);
 
 	GameState(SDLApplication* g);
+	virtual ~GameState() = 0;
 	void addEventListener(EventHandler*);
 };

@@ -13,7 +13,7 @@ private:
     std::vector<Button*> buttons;
 public:
     PauseState(SDLApplication* window, PlayState* previousState, bool paused);
-    ~PauseState();
+    ~PauseState() override;
      void render() const override;
      void handleEvent(const SDL_Event& e) override;
 };

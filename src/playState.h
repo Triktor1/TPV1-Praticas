@@ -53,7 +53,7 @@ public:
 	PlayState(SDLApplication* game, std::string file);
 
 	//Destructor
-	~PlayState();
+	~PlayState() override;
 
 	// Comprueba si hay algún objeto colocado en ese rectángulo
 	Collision checkCollision(const SDL_FRect& rect) const;

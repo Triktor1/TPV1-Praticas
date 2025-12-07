@@ -9,6 +9,8 @@ GameState::GameState(SDLApplication* game)
 {
 }
 
+GameState::~GameState() {};
+
 SDLApplication* GameState::getGame() const {
 	return game;
 }
