@@ -49,14 +49,11 @@ PlayState::PlayState(SDLApplication* game, std::string file) :
 }
 
 void PlayState::render() const {
-	SDL_Renderer* renderer = game->getRenderer();
-	SDL_RenderClear(renderer);
 	game->getTexture(game->BACKGROUND)->render();
 
 	for (SceneObject* so : sceneObjects) {
 		so->Render();
 	}
-	SDL_RenderPresent(renderer);
 }
 
 void PlayState::update() {

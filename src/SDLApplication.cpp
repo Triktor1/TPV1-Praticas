@@ -103,7 +103,10 @@ SDLApplication::run()
 		try {
 
 			update();
+
+			SDL_RenderClear(renderer);
 			render();
+			SDL_RenderPresent(renderer);
 
 			SDL_Event event;
 			while (SDL_PollEvent(&event)) {

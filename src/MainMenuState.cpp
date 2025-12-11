@@ -88,10 +88,8 @@ MainMenuState::~MainMenuState() {
 }
 
 void MainMenuState::render() const {
-	SDL_Renderer* renderer = game->getRenderer();
-	SDL_RenderClear(renderer);
 
-	if (bg) bg->render();
+	bg->render();
 	if (selectMap) {
 		SDL_FRect cuerpo{BODYX,BODYY, BODYZ,BODYW };
 		selectMap->render(cuerpo);
@@ -99,9 +97,7 @@ void MainMenuState::render() const {
 	if (!mapButtons.empty()) {
 		mapButtons[currentMap]->Render();
 	}
-
 	GameState::render();
-	SDL_RenderPresent(renderer);
 }
 
 void MainMenuState::handleEvent(const SDL_Event& e) {
