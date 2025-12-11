@@ -27,9 +27,6 @@ MainMenuState::MainMenuState(SDLApplication* window, Texture* bg, Texture* selec
 		if (entry.is_regular_file()) {
 			mapFiles.push_back(entry.path().string());
 		}
-		else {
-			throw FileNotFoundError(entry.path().string());
-		}
 	}
 
 	loadConfig();
